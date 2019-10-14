@@ -15,7 +15,7 @@ if (!function_exists("build_atlant_menu")) {
         if (!empty($array_menu)) {
             $_menu = '';
             foreach ($array_menu as $top_parent => $menu) {
-                $sub_url_location = $menu->turunan_dari == "sistem" ? "back_bone/" : "back_end/";
+                $sub_url_location = $menu->turunan_dari == "sistem" || $menu->turunan_dari == "system" ? "back_bone/" : "back_end/";
                 $menu_uri = $sub_url_location . $menu->nama_modul;
 
                 $active_class = "";
