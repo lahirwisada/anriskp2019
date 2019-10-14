@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //$config['base_url'] = '';
-$config['base_url'] = SERVER_LOCATION.'elink';
+$config['base_url'] = SERVER_LOCATION.'skparsiparis';
 
 /*
 |--------------------------------------------------------------------------
