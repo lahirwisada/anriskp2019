@@ -68,7 +68,7 @@ $config['backend_login_uri'] = 'back_bone/login';
 
 $config['application_upload_location'] = '_assets/uploads/';
 
-$config['application_active_layout'] = 'atlant';
+$config['application_active_layout'] = 'appui';
 
 /**
  * ini digunakan untuk memberikan nama schema
