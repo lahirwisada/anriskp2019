@@ -17,4 +17,8 @@ class Homepage extends Skparsiparis_main {
     public function index(){
         
     }
+    
+    public function login(){
+        $this->_layout = "appui_login";
+    }
 }

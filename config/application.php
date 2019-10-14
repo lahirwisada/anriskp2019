@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 /* custom setting */
 
-$config['appname'] = 'Elektronik Lingkungan';
+$config['appname'] = 'SKP Arsiparis';
 $config['maintenance'] = FALSE;
 $config['maintenance_url'] = 'http://' . $_SERVER['SERVER_NAME'];
 $config['copyright'] = 'Copyright Lahir Wisada Santoso &copy; 2019.';
@@ -19,11 +19,6 @@ $config['appkey'] = '1029384756';
 $config['appsalt'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 //$config['resource_api_link'] = 'http://localhost/2017apik/lws_api/';
-//$config['resource_api_link'] = 'https://lasik.tangerangselatankota.go.id/simpeg/api/';
-//$config['resource_api_link'] = 'http://simpeg.local.com/index.php/api/';
-
-//$config['simpeg_v2_url'] = 'https://lasik.tangerangselatankota.go.id/v2/';
-//$config['simpeg_v2_url'] = 'http://localhost/BKPP2018/simpeg/v2/';
 
 $config['lmanuser.usingbackendfrontend'] = FALSE;
 $config['user_id_column_name'] = "id_user";
