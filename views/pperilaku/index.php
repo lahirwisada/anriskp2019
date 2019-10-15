@@ -6,4 +6,3 @@
  * and open the template in the editor.
  */
 
-echo "Demo Pencarian Warga";
