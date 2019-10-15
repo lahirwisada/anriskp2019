@@ -94,6 +94,7 @@ $config["pdf_paper_orientation"] = 'L';
  * 
  */
 $config['using_insert_and_update_properties'] = TRUE;
+$config['record_active_positive_value'] = 1;
 
 $config['created_date'] = 'created_date';
 $config['modified_date'] = 'modified_date';
