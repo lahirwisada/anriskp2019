@@ -15,19 +15,19 @@ class Role extends Back_Bone {
         $this->model_backbone_role->change_offset_param("currpage_kelola_role");
         $records = $this->model_backbone_role->get_all();
         $paging_set = $this->get_paging($this->get_current_location(), $records->record_found, $this->default_limit_paging, "kelola_role");
-        
+
         $this->set("additional_js", "back_bone/role/" . $this->_layout . "/js/index_js");
-        
+
         $this->set('records', $records->record_set);
         $this->set("keyword", $records->keyword);
         $this->set('field_id', $this->model_backbone_role->primary_key);
         $this->set("paging_set", $paging_set);
         $this->set("header_title", "Role");
-        
+
         $this->set("bread_crumb", array(
             "#" => 'Daftar Role'
         ));
-        
+
         $this->set("next_list_number", $this->model_backbone_role->get_next_record_number_list());
     }
 
@@ -50,16 +50,15 @@ class Role extends Back_Bone {
                 /**
                  * collect all modul role
                  */
-                
                 $this->model_backbone_modul_role->save_permission($id);
                 redirect('back_bone/role');
             } else {
-                $this->attention_messages = $this->model_ref_role->errors->get_html_errors("<br />", "line-wrap");
+                $this->attention_messages = $this->model_backbone_modul_role->errors->get_html_errors("<br />", "line-wrap");
             }
         }
 
         $detail = $this->model_backbone_role->show_detail($id);
-        
+
         /**
          * get all modul combined with access by this role
          * $id int id role
@@ -69,12 +68,12 @@ class Role extends Back_Bone {
         $this->set("detail", $detail);
         $this->set("modul_role_access", $modul_role_access);
 //        $this->add_jsfiles(array("avant/plugins/form-jasnyupload/fileinput.min.js"));
-        
+
         $this->set("bread_crumb", array(
             "back_bone/role" => 'Daftar Role',
             "#" => 'Pendaftaran Role'
         ));
-        
+
         $this->set("additional_js", "back_bone/role/" . $this->_layout . "/js/detail_js");
     }
 
