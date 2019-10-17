@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Skarsiparis_cmain extends Lwpustaka_data {
+class Skarsiparis_cmain extends Lwpustaka_Data {
 
     protected $backend_controller_location = "/";
     protected $myid = 0;
@@ -21,7 +21,7 @@ class Skarsiparis_cmain extends Lwpustaka_data {
         parent::__construct($cmodul_name, $header_title);
         $this->init_cmain();
 
-//        $this->check_called_class_before_execute(TRUE);
+        $this->check_called_class_before_execute(TRUE);
     }
 
     protected function after_detail($id = FALSE) {

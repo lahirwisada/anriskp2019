@@ -20,18 +20,18 @@ $config['appsalt'] = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 
 //$config['resource_api_link'] = 'http://localhost/2017apik/lws_api/';
 
-$config['lmanuser.usingbackendfrontend'] = FALSE;
+$config['lmanuser.usingbackendfrontend'] = TRUE;
 $config['user_id_column_name'] = "id_user";
 $config['profil_id_column_name'] = "id_profil";
 
 /**
  * tabel profil lain yang digunakan selain backbone_profil
  */
-$config['another_profil_tablename'] = "sc_master.master_pegawai";
+$config['another_profil_tablename'] = "master_pegawai";
 $config['another_profil_properties']['partial_form_view'] = "back_bone/member/atlant/tr_pegawai_profil";
 $config['another_profil_properties']['form_config'] = array(
     "using_select2" => TRUE,
-    "input_name" => "pegawai_id",
+    "input_name" => "id_pegawai",
     "input_type" => "select",
     "additional_js" => array(
         "back_bone/member/atlant/js/tr_pegawai_profil_js",
@@ -43,15 +43,15 @@ $config['another_profil_properties']['form_config'] = array(
     ),
 );
 
-$config['another_profil_properties']['foreign_key'] = "id_profil";
-$config['another_profil_properties']['foreign_key_to_another_profile'] = "pegawai_id";
+$config['another_profil_properties']['foreign_key'] = "id_user";
+$config['another_profil_properties']['foreign_key_to_another_profile'] = "id_pegawai";
 $config['another_profil_properties']['insert_new_data'] = TRUE;
 
 $config['another_profil_properties']['columns'] = array(
-    "sc_master.master_pegawai.pegawai_id",
-    "sc_master.master_pegawai.pegawai_nip",
-    "sc_master.master_pegawai.pegawai_nama",
-    "sc_master.master_pegawai.id_organisasi"
+    "master_pegawai.id_pegawai",
+    "master_pegawai.pegawai_nip",
+    "master_pegawai.pegawai_nama",
+//    "master_pegawai.id_organisasi"
 );
 //$config['another_profil_properties']['related_tables'] = array(
 //    "sc_akrifwz.master_jabatan" => array(
