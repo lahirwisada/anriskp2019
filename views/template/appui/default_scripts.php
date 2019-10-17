@@ -6,3 +6,4 @@
 <script src="<?php echo assets(); ?>js/appui/core/jquery.placeholder.min.js"></script>
 <script src="<?php echo assets(); ?>js/appui/app.js"></script>
 <script src="<?php echo assets(); ?>js/appui/app-custom.js"></script>
+<script src="<?php echo assets(); ?>js/appui/helper.js"></script>

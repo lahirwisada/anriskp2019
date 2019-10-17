@@ -48,18 +48,18 @@ $current_base_url = isset($current_base_url) ? $current_base_url : '#';
 
         <!-- Google fonts -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,900%7CRoboto+Slab:300,400%7CRoboto+Mono:400" />
-        
+
         <?php echo load_partial('template/appui/default_style'); ?>
         <?php /**
-         <!-- Page JS Plugins CSS -->
-        <link rel="stylesheet" href="<?php echo assets(); ?>css/plugins/slick/slick.min.css" />
-        <link rel="stylesheet" href="<?php echo assets(); ?>css/plugins/slick/slick-theme.min.css" />
-        <link rel="stylesheet" id="css-app-custom" href="<?php echo css(); ?>appui/app-custom.css" />
+          <!-- Page JS Plugins CSS -->
+          <link rel="stylesheet" href="<?php echo assets(); ?>css/plugins/slick/slick.min.css" />
+          <link rel="stylesheet" href="<?php echo assets(); ?>css/plugins/slick/slick-theme.min.css" />
+          <link rel="stylesheet" id="css-app-custom" href="<?php echo css(); ?>appui/app-custom.css" />
          * 
          */
         ?>
         <!-- End Stylesheets -->
-        
+
         <?php echo isset($css) ? $css : ''; ?>
     </head>
 
@@ -78,10 +78,10 @@ $current_base_url = isset($current_base_url) ? $current_base_url : '#';
                         </div>
                         <?php echo load_partial('template/appui/menu'); ?>
                         <?php /**
-                        <div class="drawer-footer">
-                            <p class="copyright">AppUI Template &copy;</p>
-                            <a href="https://shapebootstrap.net/item/1525731-appui-admin-frontend-template/?ref=rustheme" target="_blank" rel="nofollow">Purchase a license</a>
-                        </div>
+                          <div class="drawer-footer">
+                          <p class="copyright">AppUI Template &copy;</p>
+                          <a href="https://shapebootstrap.net/item/1525731-appui-admin-frontend-template/?ref=rustheme" target="_blank" rel="nofollow">Purchase a license</a>
+                          </div>
                          * 
                          */
                         ?>
@@ -177,23 +177,70 @@ $current_base_url = isset($current_base_url) ? $current_base_url : '#';
         <!-- End Apps Modal -->
 
         <div class="app-ui-mask-modal"></div>
+        <?php
+        /**
+          <!-- MESSAGE BOX-->
+          <div class="modal" data-sound="alert" id="mb-signout">
+          <div class="mb-container">
+          <div class="mb-middle">
+          <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+          <div class="mb-content">
+          <p>Anda yakin melakukan log out?</p>
+          <p>Tekan Tidak untuk batal log out. Tekan Ya untuk menutup sesi saat ini.</p>
+          </div>
+          <div class="mb-footer">
+          <div class="pull-right">
+          <a href="<?php echo base_url('back_bone/member/logout'); ?>" class="btn btn-success btn-lg">Ya</a>
+          <button class="btn btn-default btn-lg mb-control-close">Tidak</button>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+         */
+        ?>
+        <div class="modal" data-sound="alert" id="mb-success">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">\
+                    <div class="card-header bg-green bg-inverse">
+                        <h4><span class="fa fa-check"></span> Input data sukses...!</h4>
+                        <ul class="card-actions"><li><button data-dismiss="modal" type="button"><i class="ion-close"></i></button></li></ul>
+                    </div>
+                    <div class="card-block">
+                        <p>Data yang Anda masukkan sudah tersimpan di database.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Tutup</button>
+                        <button class="btn btn-sm btn-app" type="button" data-dismiss="modal"><i class="ion-checkmark"></i> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MESSAGE BOX-->
 
+        <div id="whateverelement"></div>
+        <div id="whateverformelement" style="display: none;"></div>
+        
+        <!-- START PRELOADS -->
+        <audio id="audio-alert" src="<?php echo assets(); ?>audio/alert.mp3" preload="auto"></audio>
+        <audio id="audio-fail" src="<?php echo assets(); ?>audio/fail.mp3" preload="auto"></audio>
+        <!-- END PRELOADS --> 
 
 
         <!-- START SCRIPTS -->
         <?php echo load_partial('template/appui/default_scripts'); ?>
 
 
-<?php /**
-        <script src="<?php echo assets(); ?>js/plugins/slick/slick.min.js"></script>
-        <script src="<?php echo assets(); ?>js/appui/plugins/chartjs/Chart.min.js"></script>
-        <script src="<?php echo assets(); ?>js/appui/plugins/flot/jquery.flot.min.js"></script>
-        <script src="<?php echo assets(); ?>js/appui/plugins/flot/jquery.flot.pie.min.js"></script>
-        <script src="<?php echo assets(); ?>js/appui/plugins/flot/jquery.flot.stack.min.js"></script>
-        <script src="<?php echo assets(); ?>js/appui/plugins/flot/jquery.flot.resize.min.js"></script>
- * 
- */
-?>
+        <?php /**
+          <script src="<?php echo assets(); ?>js/plugins/slick/slick.min.js"></script>
+          <script src="<?php echo assets(); ?>js/appui/plugins/chartjs/Chart.min.js"></script>
+          <script src="<?php echo assets(); ?>js/appui/plugins/flot/jquery.flot.min.js"></script>
+          <script src="<?php echo assets(); ?>js/appui/plugins/flot/jquery.flot.pie.min.js"></script>
+          <script src="<?php echo assets(); ?>js/appui/plugins/flot/jquery.flot.stack.min.js"></script>
+          <script src="<?php echo assets(); ?>js/appui/plugins/flot/jquery.flot.resize.min.js"></script>
+         * 
+         */
+        ?>
 
 
         <script type="text/javascript" src="<?php echo assets(); ?>js/helper/general_helper.js?v=070820181992"></script>
