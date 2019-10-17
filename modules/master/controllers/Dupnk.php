@@ -9,12 +9,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Dupnk extends Skparsiparis_main {
 
-    protected $auto_load_model = FALSE;
+    protected $auto_load_model = TRUE;
+    public $model = 'model_dupnk';
 
     public function __construct() {
         parent::__construct("wel", "Dashboard");
         $this->set('current_base_url', base_url('dupnk'));
-        $this->load->model('model_dupnk');
+//        $this->load->model('model_dupnk');
     }
 
     public function index() {
@@ -36,6 +37,17 @@ class Dupnk extends Skparsiparis_main {
         ));
         
         $this->set("next_list_number", $this->model_dupnk->get_next_record_number_list());
+    }
+    
+    public function detail($id = FALSE, $posted_data = array()) {
+        parent::detail($id, $posted_data);
+        $this->set('enum_jabatan', $this->model_dupnk->enum_jabatan);
+    }
+    
+    public function get_like() {
+        $keyword = $this->input->post("keyword");
+        $kelompok_found = $this->model_dupnk->get_like($keyword);
+        $this->to_json($kelompok_found);
     }
 
 }
