@@ -202,5 +202,3 @@ class Member extends Back_Bone {
     }
 
 }
-
-?>
