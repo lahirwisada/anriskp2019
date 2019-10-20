@@ -62,8 +62,8 @@ $cur_uri = 'master/dupnk';
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group btn-group-sm">
-                                                <a class="btn btn-default" href="<?php echo base_url($cur_uri) . "/detail/" . $record->id_modul; ?>">Ubah</a>
-                                                <a class="btn btn-default btn-hapus-modul" href="javascript:void(0);" rel="<?php echo base_url("back_bone/modul/delete") . "/" . $record->id_modul; ?>">Hapus</a>
+                                                <a class="btn btn-default" href="<?php echo base_url($cur_uri) . "/detail/" . $record->id_dupnk; ?>">Ubah</a>
+                                                <a class="btn btn-default btn-hapus-modul" href="javascript:void(0);" rel="<?php echo base_url("back_bone/modul/delete") . "/" . $record->id_dupnk; ?>">Hapus</a>
                                             </div>
                                         </td>
                                     </tr>
