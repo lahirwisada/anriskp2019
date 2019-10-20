@@ -3,8 +3,8 @@ $header_title = isset($header_title) ? $header_title : '';
 $active_modul = isset($active_modul) ? $active_modul : 'none';
 $detail = isset($detail) ? $detail : FALSE;
 $enum_jabatan = isset($enum_jabatan) ? $enum_jabatan : array(
-                                'mahir'=>'Mahir','muda'=>'Muda','penyelia'=>"Penyelia",'pertama'=>'Pertama','terampil'=>'Terampil'
-                            );
+    'mahir' => 'Mahir', 'muda' => 'Muda', 'penyelia' => "Penyelia", 'pertama' => 'Pertama', 'terampil' => 'Terampil'
+);
 ?>
 
 <div class="row">
@@ -66,12 +66,12 @@ $enum_jabatan = isset($enum_jabatan) ? $enum_jabatan : array(
                             </span>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="panel-footer">
                     <button type="submit" class="btn-primary btn pull-right">Simpan</button>
                     <!--<a href="<?php echo base_url("back_end/" . $active_modul . "/index"); ?>" class="btn-default btn">Batal / Kembali</a>-->
-                    <a href="<?php echo base_url($referer); ?>" class="btn-default btn">Batal / Kembali</a>
+                    <a href="<?php echo base_url('master/dupnk'); ?>" class="btn-default btn">Batal / Kembali</a>
                 </div>
             </div>
         </form>
