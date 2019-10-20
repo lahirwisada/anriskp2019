@@ -13,7 +13,8 @@ class MY_Model extends LWS_Model {
         }
         parent::__construct($table_name);
         $this->user_detail = $this->lmanuser->get("user_detail", $this->my_side);
-        $this->master_schema = $this->config->item('application_db_schema_name');
+//        $this->master_schema = $this->config->item('application_db_schema_name');
+        $this->master_schema = "";
     }
 
     public function set_user_detail($user_detail) {
