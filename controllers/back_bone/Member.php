@@ -200,5 +200,9 @@ class Member extends Back_Bone {
         $this->_layout = $this->_layout."_login";
         parent::login();
     }
+    
+    protected function redirect_after_logout(){
+        redirect("login");
+    }
 
 }
