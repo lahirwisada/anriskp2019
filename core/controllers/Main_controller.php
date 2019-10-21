@@ -15,6 +15,7 @@ class Main_controller extends LWS_Controller {
     public function __construct() {
         parent::__construct();
         $this->is_front_end = FALSE;
+        $this->get_jab_fungsional_current_user();
 //        $this->grab_another_session();
     }
 
@@ -148,7 +149,6 @@ class Main_controller extends LWS_Controller {
     }
 
 //    protected function after_check_is_authenticated($is_auth) {
-        
 ////        $called_class = get_called_class();
 //        var_dump(base_url('login'));exit;
 //        if (!$is_auth && !$this->check_is_cron()) {
@@ -181,36 +181,36 @@ class Main_controller extends LWS_Controller {
 //                $this->lmanuser->set_user_detail('atasan_atasan', (array) $this->user_profil->atasan[1]);
 //            }
         //}
-        
+
         /**
-        if (!empty($this->user_profil->bawahan1)) {
-            $bawahan1 = array();
-            foreach ($this->user_profil->bawahan1 as $bawahan) {
-                $bawahan1[] = (array) $bawahan;
-            }
-            $this->lmanuser->set_user_detail('bawahan1', $bawahan1);
-        }
-        if (!empty($this->user_profil->bawahan2)) {
-            $bawahan2 = array();
-            foreach ($this->user_profil->bawahan2 as $bawahan) {
-                $bawahan2[] = (array) $bawahan;
-            }
-            $this->lmanuser->set_user_detail('bawahan2', $bawahan2);
-        }
-        if (!empty($this->user_profil->bawahan1_plt)) {
-            $bawahan2 = array();
-            foreach ($this->user_profil->bawahan1_plt as $bawahan) {
-                $bawahan2[] = (array) $bawahan;
-            }
-            $this->lmanuser->set_user_detail('bawahan1_plt', $bawahan2);
-        }
-        if (!empty($this->user_profil->bawahan2_plt)) {
-            $bawahan2 = array();
-            foreach ($this->user_profil->bawahan2_plt as $bawahan) {
-                $bawahan2[] = (array) $bawahan;
-            }
-            $this->lmanuser->set_user_detail('bawahan2_plt', $bawahan2);
-        }
+          if (!empty($this->user_profil->bawahan1)) {
+          $bawahan1 = array();
+          foreach ($this->user_profil->bawahan1 as $bawahan) {
+          $bawahan1[] = (array) $bawahan;
+          }
+          $this->lmanuser->set_user_detail('bawahan1', $bawahan1);
+          }
+          if (!empty($this->user_profil->bawahan2)) {
+          $bawahan2 = array();
+          foreach ($this->user_profil->bawahan2 as $bawahan) {
+          $bawahan2[] = (array) $bawahan;
+          }
+          $this->lmanuser->set_user_detail('bawahan2', $bawahan2);
+          }
+          if (!empty($this->user_profil->bawahan1_plt)) {
+          $bawahan2 = array();
+          foreach ($this->user_profil->bawahan1_plt as $bawahan) {
+          $bawahan2[] = (array) $bawahan;
+          }
+          $this->lmanuser->set_user_detail('bawahan1_plt', $bawahan2);
+          }
+          if (!empty($this->user_profil->bawahan2_plt)) {
+          $bawahan2 = array();
+          foreach ($this->user_profil->bawahan2_plt as $bawahan) {
+          $bawahan2[] = (array) $bawahan;
+          }
+          $this->lmanuser->set_user_detail('bawahan2_plt', $bawahan2);
+          }
          * 
          */
         if ($replace_redirect && trim($replace_redirect) != "") {
@@ -226,10 +226,18 @@ class Main_controller extends LWS_Controller {
                         'data' => base64_encode(json_encode(['session' => md5(json_encode($_SESSION))]))
             ]);
         } else {
-            $url = SERVER_LOCATION ;
+            $url = SERVER_LOCATION;
         }
         header('Location: ' . $url);
         exit;
+    }
+    
+    protected function get_jab_fungsional_current_user(){
+        if($this->is_authenticated() && array_key_exists("jabfungsional", $this->user_detail)){
+            $this->set("current_jab_fungsional", $this->user_detail["jabfungsional"]);
+            return $this->user_detail["jabfungsional"];
+        }
+        return FALSE;
     }
 
     protected function __registering_login($login, $username, $password, $auto_login = FALSE) {
