@@ -5,7 +5,7 @@ if (!defined("BASEPATH")) {
 }
 
 class Model_User extends LWS_Model {
-    
+
     public $auto_login = FALSE;
 
     public function __construct() {
@@ -301,14 +301,14 @@ class Model_User extends LWS_Model {
 
             $this->join_to_another_profile_table();
 
-			$str_1 = $this->get_schema_name('backbone_user', TRUE) . ".username = '" . $username . "'" . $where_record_active;
-			$str_2 = $this->get_schema_name('backbone_user', TRUE) . ".id_user, " . $this->get_schema_name('backbone_user', TRUE) . ".username, " .
-				$this->get_schema_name('backbone_user', TRUE) . ".password, " . $this->get_schema_name('backbone_user', TRUE) . "." . $this->record_active_column_name . ", " .
-				$this->get_schema_name('backbone_profil', TRUE) . ".id_profil, " . $this->get_schema_name('backbone_profil', TRUE) . ".nama_profil, " .
-				$this->get_schema_name('backbone_profil', TRUE) . ".email_profil";
-            
-			$record = $this->get_detail( $str_1, $str_2 );
-			
+            $str_1 = $this->get_schema_name('backbone_user', TRUE) . ".username = '" . $username . "'" . $where_record_active;
+            $str_2 = $this->get_schema_name('backbone_user', TRUE) . ".id_user, " . $this->get_schema_name('backbone_user', TRUE) . ".username, " .
+                    $this->get_schema_name('backbone_user', TRUE) . ".password, " . $this->get_schema_name('backbone_user', TRUE) . "." . $this->record_active_column_name . ", " .
+                    $this->get_schema_name('backbone_profil', TRUE) . ".id_profil, " . $this->get_schema_name('backbone_profil', TRUE) . ".nama_profil, " .
+                    $this->get_schema_name('backbone_profil', TRUE) . ".email_profil";
+
+            $record = $this->get_detail($str_1, $str_2);
+
             $this->set_table_name();
             if ($record) {
                 $record->roles = $this->get_user_role_by_username($username, TRUE);
@@ -328,10 +328,10 @@ class Model_User extends LWS_Model {
     }
 
     public function login($side_end_login = "FRONT_END") {
-        
+
         if ($this->is_valid() || $this->auto_login) {
             $record = $this->get_user_detail_username($this->username, FALSE, TRUE);
-            
+
             $login_ok = TRUE;
             if ($this->using_backend_front_end) {
                 $login_ok = FALSE;
