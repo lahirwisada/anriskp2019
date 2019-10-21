@@ -54,9 +54,10 @@ class Dupnk extends Skparsiparis_main {
         redirect('master/' . $this->_name);
     }
 
-    public function get_like() {
+    public function get_like_jab() {
         $keyword = $this->input->post("keyword");
-        $kelompok_found = $this->model_dupnk->get_like($keyword);
+        $jabatanfungsional = $this->input->post("jabfung");
+        $kelompok_found = $this->model_dupnk->get_like($keyword, $jabatanfungsional);
         $this->to_json($kelompok_found);
     }
 
