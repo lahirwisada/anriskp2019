@@ -6,17 +6,17 @@ $current_user_roles = isset($current_user_roles) ? $current_user_roles : "penggu
 
 <div class="collapse navbar-collapse" id="header-navbar-collapse">
     <?php /**
-    <!-- Header search form -->
-    <form class="navbar-form navbar-left app-search-form" role="search">
-        <div class="form-group">
-            <div class="input-group">
-                <input class="form-control" type="search" id="search-input" placeholder="Search..." />
-                <span class="input-group-btn">
-                    <button class="btn" type="button"><i class="ion-ios-search-strong"></i></button>
-                </span>
-            </div>
-        </div>
-    </form>
+      <!-- Header search form -->
+      <form class="navbar-form navbar-left app-search-form" role="search">
+      <div class="form-group">
+      <div class="input-group">
+      <input class="form-control" type="search" id="search-input" placeholder="Search..." />
+      <span class="input-group-btn">
+      <button class="btn" type="button"><i class="ion-ios-search-strong"></i></button>
+      </span>
+      </div>
+      </div>
+      </form>
      * 
      */
     ?>
@@ -80,25 +80,8 @@ $current_user_roles = isset($current_user_roles) ? $current_user_roles : "penggu
          */
         ?>
         <?php if ($is_authenticated): ?>
-            <li class="dropdown dropdown-profile">
-                <a href="javascript:void(0)" data-toggle="dropdown">
-                    <span class="m-r-sm">John Doe <span class="caret"></span></span>
-                    <img class="img-avatar img-avatar-48" src="assets/img/avatars/avatar3.jpg" alt="User profile pic" />
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="dropdown-header">
-                        Pages
-                    </li>
-                    <li>
-                        <a href="base_pages_profile.html">Profile</a>
-                    </li>
-                    <li>
-                        <a href="base_pages_profile.html"><span class="badge badge-success pull-right">3</span> Blog</a>
-                    </li>
-                    <li>
-                        <a href="frontend_login_signup.html">Logout</a>
-                    </li>
-                </ul>
+            <li>
+                <a href="<?php echo base_url('logout'); ?>"><span class="fa fa-sign-in"></span> Logout</a>
             </li>
         <?php else: ?>
             <li>
