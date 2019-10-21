@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'homepage';
 $route['back_bone/user'] = "back_bone/member";
 $route['login'] = "back_bone/member/login";
-$route['logout'] = "back_end/anggota/logout";
+$route['logout'] = "back_bone/member/logout";
 $route['back_bone/user/(.*)'] = "back_bone/member/$1";
 $route['(\w{2})/(.*)'] = '$2';
 $route['(\w{2})'] = $route['default_controller'];
