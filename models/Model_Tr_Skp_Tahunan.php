@@ -33,7 +33,7 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         if ($tahun !== FALSE) {
             $conditions[] = $this->table_name . ".skpt_tahun = '" . $tahun . "'";
         }
-        return parent::get_all(array("skpt_kegiatan"), $conditions, TRUE, TRUE, 1, TRUE, $force_limit, $force_offset);
+        return parent::get_all(array("deskripsi_dupnk"), $conditions, TRUE, TRUE, 1, TRUE, $force_limit, $force_offset);
     }
 
     public function get_persetujuan($id_bawahan = array(), $tahun = FALSE, $force_limit = FALSE, $force_offset = FALSE) {
