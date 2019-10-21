@@ -42,9 +42,12 @@ class Skp extends Skarsiparis_cmain {
             "back_end/" . $this->_name => $this->_header_title,
             "#" => 'Formulir ' . $this->_header_title
         ));
+        
+        $this->set("additional_js", "skp/js/detail_js");
+        
         $this->add_cssfiles(array("plugins/select2/select2.min.css"));
         $this->add_jsfiles(array("plugins/select2/select2.full.min.js"));
-        $this->add_jsfiles(array("plugins/smartwizard/jquery.smartWizard-2.0.min.js"));
+//        $this->add_jsfiles(array("plugins/smartwizard/jquery.smartWizard-2.0.min.js"));
         $this->add_jsfiles(array("plugins/jquery-validation/jquery.validate.js"));
     }
 
