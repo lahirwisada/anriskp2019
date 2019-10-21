@@ -11,12 +11,27 @@ if (!defined('BASEPATH'))
 class Main_controller extends LWS_Controller {
 
     protected $user_profil = NULL;
+    protected $id_pegawai = FALSE;
 
     public function __construct() {
         parent::__construct();
         $this->is_front_end = FALSE;
-        $this->get_jab_fungsional_current_user();
+        $this->init_skparsiparis_main_controller();
 //        $this->grab_another_session();
+    }
+
+    public function init_skparsiparis_main_controller() {
+        $this->get_jab_fungsional_current_user();
+        $this->get_id_pegawai_from_session();
+    }
+
+    public function get_id_pegawai_from_session() {
+        if ($this->is_authenticated() && is_array($this->user_detail) && array_key_exists("id_pegawai", $this->user_detail)) {
+            $this->id_pegawai = id_pegawai;
+            $this->set("current_id_pegawai", $this->user_detail["id_pegawai"]);
+            return $this->user_detail["id_pegawai"];
+        }
+        return FALSE;
     }
 
     public function index() {
@@ -231,9 +246,9 @@ class Main_controller extends LWS_Controller {
         header('Location: ' . $url);
         exit;
     }
-    
-    protected function get_jab_fungsional_current_user(){
-        if($this->is_authenticated() && is_array($this->user_detail) && array_key_exists("jabfungsional", $this->user_detail)){
+
+    protected function get_jab_fungsional_current_user() {
+        if ($this->is_authenticated() && is_array($this->user_detail) && array_key_exists("jabfungsional", $this->user_detail)) {
             $this->set("current_jab_fungsional", $this->user_detail["jabfungsional"]);
             return $this->user_detail["jabfungsional"];
         }
