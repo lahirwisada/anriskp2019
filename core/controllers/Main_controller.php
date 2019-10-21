@@ -233,7 +233,7 @@ class Main_controller extends LWS_Controller {
     }
     
     protected function get_jab_fungsional_current_user(){
-        if($this->is_authenticated() && array_key_exists("jabfungsional", $this->user_detail)){
+        if($this->is_authenticated() && is_array($this->user_detail) && array_key_exists("jabfungsional", $this->user_detail)){
             $this->set("current_jab_fungsional", $this->user_detail["jabfungsional"]);
             return $this->user_detail["jabfungsional"];
         }
