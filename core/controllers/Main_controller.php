@@ -160,30 +160,6 @@ class Main_controller extends LWS_Controller {
 //        return $is_auth;
 //    }
 
-    public function logout() {
-        $this->lmanuser->logout($this->my_side);
-
-        $replace_redirect = array_key_exists('r', $_POST) ? (string) $_POST['r'] : (array_key_exists('r', $_GET) ? (string) $_GET['r'] : FALSE);
-        if ($replace_redirect && trim($replace_redirect) != "") {
-            $params_cb = "";
-            if (stripos($replace_redirect, '?') !== FALSE) {
-                $replace_redirect = explode('?', $replace_redirect, 2);
-                $params_cb = ( isset($replace_redirect[1]) && trim($replace_redirect[1]) != "" ? trim($replace_redirect[1]) . '&' : "" );
-                $replace_redirect = $replace_redirect[0];
-            }
-            $url = $replace_redirect . '?' . $params_cb . http_build_query([
-                        'ref' => 'apik',
-                        'msg' => 'Logout APIK Sukses!',
-                        'data' => base64_encode(json_encode(['session' => md5(json_encode($_SESSION))]))
-            ]);
-        } else {
-            $login_location = $this->config->item('simpeg_v2_url');
-            $url = $login_location . "/logout/";
-        }
-
-        redirect($url);
-    }
-
     protected function after_login_success($replace_redirect = "") {
 //        if (@file_get_contents($this->user_profil->foto_url, 0, NULL, 0, 1)) {
 //            $this->lmanuser->set_user_detail('user_foto', $this->user_profil->foto_url);
