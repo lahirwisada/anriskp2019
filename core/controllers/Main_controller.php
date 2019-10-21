@@ -27,7 +27,7 @@ class Main_controller extends LWS_Controller {
 
     public function get_id_pegawai_from_session() {
         if ($this->is_authenticated() && is_array($this->user_detail) && array_key_exists("id_pegawai", $this->user_detail)) {
-            $this->id_pegawai = id_pegawai;
+            $this->id_pegawai = $this->user_detail["id_pegawai"];
             $this->set("current_id_pegawai", $this->user_detail["id_pegawai"]);
             return $this->user_detail["id_pegawai"];
         }
