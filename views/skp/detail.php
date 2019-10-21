@@ -9,14 +9,17 @@ $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
 
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <form role="form" method="POST" class="form-horizontal" id="wizard-validation">
+            <div class="panel panel-default">
 
-            <div class="panel-heading">
-                <h3 class="panel-title">Formulir <strong><?php echo $header_title; ?></strong></h3>
-            </div>
-            <div class="panel-body">
-                <?php echo load_partial("back_end/shared/attention_message"); ?>
-                <form role="form" method="POST" class="form-horizontal" id="wizard-validation">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Formulir <strong><?php echo $header_title; ?></strong></h3>
+                </div>
+                <div class="panel-body">
+                    <p><?php echo load_partial("back_end/shared/attention_message"); ?></p>
+                </div>
+                <div class="panel-body">
+
                     <div class="form-group">
                         <label class="col-md-3 col-xs-12 control-label">Periode Tahun *</label>
                         <div class="col-md-6 col-xs-12">
@@ -27,16 +30,13 @@ $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
                             <span class="help-block">Pilih periode tahun.</span>
                         </div>
                     </div>
-                    <?php echo form_hidden('pegawai_id', $pegawai_id); ?>
+                    <?php echo form_hidden('id_pegawai', $pegawai_id); ?>
                     <div class="form-group">
                         <label class="col-md-3 col-xs-12 control-label">Nama Kegiatan *</label>
-                        <div class="col-md-6 col-xs-12">                                            
-                            <?php // echo form_input('skpt_kegiatan', set_value('skpt_kegiatan', $detail ? $detail->skpt_kegiatan : ''), 'class="form-control"'); ?>
-                            
+                        <div class="col-md-6 col-xs-12">
                             <?php
                             echo form_dropdown('id_dupnk', array(), set_value('id_dupnk', $detail ? $detail->id_dupnk : ''), 'id="id_dupnk" class="form-control select2-basic" ');
                             ?>
-                            
                             <span class="help-block">Isikan dengan nama kegiatan yang akan dilakukan.</span>
                         </div>
                     </div>
@@ -73,8 +73,13 @@ $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
                             <span class="help-block">Isikan dengan biaya yang akan dikeluarkan jika ada. Atau isi dengan "0" jika tidak ada.</span>
                         </div>
                     </div>
-                </form>
+
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn-primary btn pull-right">Simpan</button>
+                    <a href="<?php echo base_url('skp'); ?>" class="btn-default btn">Batal / Kembali</a>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
