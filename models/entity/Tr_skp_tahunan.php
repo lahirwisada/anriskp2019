@@ -4,19 +4,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Tr_skp_tahunan extends MY_Model {
 
-    public $sort_by = 'skpt_id';
+    public $sort_by = 'id_skpt';
     public $sort_mode = 'asc';
 //    public $master_schema = "sc_master";
 
     public function __construct() {
         parent::__construct("tr_skp_tahunan");
-        $this->primary_key = "skpt_id";
+        $this->primary_key = "id_skpt";
         $this->attribute_labels = array_merge_recursive($this->_continuously_attribute_label, $this->attribute_labels);
         $this->rules = array_merge_recursive($this->_continuously_rules, $this->rules);
     }
 
     protected $attribute_labels = array(
-        "skpt_id" => array("skpt_id", "ID SKP Tahunan"),
+        "id_skpt" => array("id_skpt", "ID SKP Tahunan"),
         "id_pegawai" => array("id_pegawai", "ID Pegawai"),
         "id_dupnk" => array("id_dupnk", "Nama Kegiatan"),
         "skpt_tahun" => array("skpt_tahun", "Periode Tahun"),
@@ -48,7 +48,15 @@ class Tr_skp_tahunan extends MY_Model {
                 "pegawai_nip"
             ),
             "referenced" => "LEFT"
-        )
+        ),
+        "master_dupnk" => array(
+            "fkey" => "id_dupnk",
+            "columns" => array(
+                "deskripsi_dupnk",
+                "kode_nomor"
+            ),
+            "referenced" => "LEFT"
+        ),
     );
     protected $attribute_types = array();
 
