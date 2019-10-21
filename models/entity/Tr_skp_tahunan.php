@@ -17,8 +17,8 @@ class Tr_skp_tahunan extends MY_Model {
 
     protected $attribute_labels = array(
         "skpt_id" => array("skpt_id", "ID SKP Tahunan"),
-        "pegawai_id" => array("pegawai_id", "ID Pegawai"),
-        "skpt_kegiatan" => array("skpt_kegiatan", "Nama Kegiatan"),
+        "id_pegawai" => array("id_pegawai", "ID Pegawai"),
+        "id_dupnk" => array("id_dupnk", "Nama Kegiatan"),
         "skpt_tahun" => array("skpt_tahun", "Periode Tahun"),
         "skpt_waktu" => array("skpt_waktu", "Lama Kegiatan"),
         "skpt_kuantitas" => array("skpt_kuantitas", "Kuantitas Output"),
@@ -29,8 +29,8 @@ class Tr_skp_tahunan extends MY_Model {
         "skpt_status" => array("skpt_status", "Status Kegiatan")
     );
     protected $rules = array(
-        array("pegawai_id", "required|integer"),
-        array("skpt_kegiatan", "required|min[10]|max[200]"),
+        array("id_pegawai", "required|integer"),
+        array("id_dupnk", "required|min[10]|max[200]"),
         array("skpt_tahun", "required|integer"),
         array("skpt_waktu", "required|integer"),
         array("skpt_kuantitas", "required|integer"),
@@ -42,7 +42,7 @@ class Tr_skp_tahunan extends MY_Model {
     );
     protected $related_tables = array(
         "master_pegawai" => array(
-            "fkey" => "pegawai_id",
+            "fkey" => "id_pegawai",
             "columns" => array(
                 "pegawai_nama",
                 "pegawai_nip"
