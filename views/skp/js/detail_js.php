@@ -1,5 +1,6 @@
 <?php
 $detail = isset($detail) ? $detail : FALSE;
+$current_jab_fungsional = isset($current_jab_fungsional) && $current_jab_fungsional ? $current_jab_fungsional : 0;
 ?>
 <script>
 
@@ -15,7 +16,7 @@ $detail = isset($detail) ? $detail : FALSE;
             data: function (params) {
                 return {
                     keyword: params.term, // search term
-                    jabfung: 'pertama', // search term
+                    jabfung: '<?php echo $current_jab_fungsional; ?>', // search term
                     page: params.page
                 };
             },
