@@ -66,7 +66,7 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                                                     <?php if ($record->skpt_status == 0): ?>
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/detail") . "/" . $record->id_skpt; ?>">Ubah</a>
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/ajukan") . "/" . $record->id_skpt; ?>">Ajukan</a>
-                                                        <a class="btn btn-sm btn-default btn-hapus-row" href="javascript:void(0);" rel="<?php echo base_url($active_modul . "/delete") . "/" . $record->skpt_id; ?>">Hapus</a>
+                                                        <a class="btn btn-sm btn-default btn-hapus-row" href="javascript:void(0);" rel="<?php echo base_url($active_modul . "/delete") . "/" . $record->id_skpt; ?>">Hapus</a>
                                                     <?php /* else: ?>
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/read") . "/" . $record->id_skpt; ?>">Lihat</a>
                                                      * 
