@@ -124,6 +124,7 @@ $config['keyword_key_param'] = 'keyword';
  *       "read" => array("index", "get_like", "history"),
  *   );
  */
+
 $config['modul_action_configuration'] = array(
 //    ga perlu didaftarkan jika cuma ini saja di controller
 //    "default" => array(
@@ -135,49 +136,11 @@ $config['modul_action_configuration'] = array(
     "home" => array(
         "read" => array("lihataktifitas", "landingpage2", "test"),
     ),
-    "msusulan" => array(
-        "update" => array("validasi"),
+    "skp" => array(
+        "update" => array("ajukan"),
     ),
-    "aktifitasharian" => array(
-		/*** FIX: BAMBANG SUGIARTO -- 11/07/2018 18:11 ***/
-        "read" => array("get_waktu", "rkbulanan", "test", "calendareventslibur", "download_rk_bulanan")
-    ),
-    "aktifitasbawahan" => array(
-        "read" => array("lihataktifitas", "test")
-    ),
-    "validasiaktifitas" => array(
-        "read" => array("test"),
-        "update" => array("validasi", "reject"),
-    ),
-    "msapi" => array(
-        "read" => array("like_nip"),
-    ),
-    "tpaktifitas" => array(
-        "insert" => array("pilihaktifitas", "tambahaktifitas", "getaktifitas"),
-    ),
-    "setkegiatan" => array(
-        "insert" => array("pilihpegawai", "tambahpegawai", "getkegiatan", "pilihkegiatan", "tambahkegiatan"),
-    ),
-    "setaktifitas" => array(
-        "insert" => array("getaktifitas", "pilihaktifitas", "tambahaktifitas", "pilihkegiatan", "tambahkegiatan"),
-    ),
-    "inputaktifitas" => array(
-        "insert" => array("laporan"),
-    ),
-    "trpenilaian" => array(
-        "insert" => array("aktifitas", "perilaku", "capaian"),
-    ),
-    "rekaptpp" => array(
-        "read" => array("test", "rkbulanan", "download_admin_keuangan", "index_test"),
-        "insert" => array("download")
-    ),
-    "kelolaaktivitas" => array(
-        "read" => array("reset_umpeg", "hapus_umpeg"),
-        "insert" => array("reset"),
-        "delete" => array("hapus")
-    ),
-    "validasiaktifitas_cli" => array(
-        "read" => array("revoke_presence_when_zero_activity")
+    "vskp" => array(
+        "read" => array("accept", "reject"),
     ),
 );
 

@@ -8,8 +8,8 @@ $paging_set = isset($paging_set) ? $paging_set : FALSE;
 $active_modul = isset($active_modul) ? $active_modul : 'none';
 $next_list_number = isset($next_list_number) ? $next_list_number : 1;
 $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
-$status = array('Draft', 'Pengajuan', 'Realisasi', 'Selesai', 'Ditolak');
-$label = array('label-warning', 'label-default', 'label-info', 'label-success', 'label-danger');
+$status = array('Draft', 'Verifikasi', 'Penilaian', 'Selesai', 'Ditolak', 'Tidak Sesuai');
+$label = array('label-warning', 'label-default', 'label-info', 'label-success', 'label-danger', 'label-warning');
 //var_dump($access_rules);
 ?>
 <div class="row">
@@ -63,7 +63,7 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                                             <td class="text-center"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
                                             <td class="text-center">
                                                 <div class="btn-group btn-group-sm">
-                                                    <?php if ($record->skpt_status == 0): ?>
+                                                    <?php if ($record->skpt_status == 0 || $record->skpt_status == 5): ?>
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/detail") . "/" . $record->id_skpt; ?>">Ubah</a>
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/ajukan") . "/" . $record->id_skpt; ?>">Ajukan</a>
                                                         <a class="btn btn-sm btn-default btn-hapus-row" href="javascript:void(0);" rel="<?php echo base_url($active_modul . "/delete") . "/" . $record->id_skpt; ?>">Hapus</a>

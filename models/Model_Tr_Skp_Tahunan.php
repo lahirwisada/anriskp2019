@@ -35,11 +35,15 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         }
         return parent::get_all(array("deskripsi_dupnk"), $conditions, TRUE, TRUE, 1, TRUE, $force_limit, $force_offset);
     }
+    
+    protected function after__get_all($records) {
+        return $records;
+    }
 
     public function get_persetujuan($id_bawahan = array(), $tahun = FALSE, $force_limit = FALSE, $force_offset = FALSE) {
         $conditions[] = $this->table_name . ".skpt_status > 0";
         if ($id_bawahan) {
-            $bawahan = implode(',', $id_bawahan);
+            $bawahan = is_array($id_bawahan) ? implode(',', $id_bawahan) : $id_bawahan;
             $conditions[] = $this->table_name . ".id_pegawai in (" . $bawahan . ")";
         } else {
             $conditions[] = $this->table_name . ".id_pegawai = 0";
@@ -47,7 +51,7 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         if ($tahun) {
             $conditions[] = $this->table_name . ".skpt_tahun = '" . $tahun . "'";
         }
-        return parent::get_all(array("skpt_kegiatan", "pegawai_nama", "pegawai_nip"), $conditions, TRUE, FALSE, 1, TRUE, $force_limit, $force_offset);
+        return parent::get_all(array("deskripsi_dupnk", "pegawai_nama", "pegawai_nip"), $conditions, TRUE, FALSE, 1, TRUE, $force_limit, $force_offset);
     }
 
     public function get_realisasi_tahunan($id_pegawai = FALSE, $tahun = FALSE, $force_limit = FALSE, $force_offset = FALSE) {

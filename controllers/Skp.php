@@ -70,7 +70,7 @@ class Skp extends Skarsiparis_cmain {
         } else {
             $this->set_attention_message('Pengajuan gagal dilakukan...');
         }
-        redirect('back_end/skp');
+        redirect('skp');
     }
 
     public function read($id = FALSE) {

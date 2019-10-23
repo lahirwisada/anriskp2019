@@ -3,18 +3,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of Home
+ * Description of Pegawai
  *
  * @author lahir
  */
-class Dupnk extends Skparsiparis_main {
-
+class Pegawai extends Skparsiparis_main {
     protected $auto_load_model = TRUE;
-    public $model = 'model_dupnk';
+    public $model = 'model_master_pegawai';
 
     public function __construct() {
-        parent::__construct("dupnk", "DUPNK");
-        $this->set('current_base_url', base_url('dupnk'));
+        parent::__construct("masterpegawai", "Master Pegawai");
+        $this->set('current_base_url', base_url('pegawai'));
 //        $this->load->model('model_dupnk');
     }
 
@@ -60,5 +59,4 @@ class Dupnk extends Skparsiparis_main {
         $kelompok_found = $this->model_dupnk->get_like($keyword, $jabatanfungsional);
         $this->to_json($kelompok_found);
     }
-
 }

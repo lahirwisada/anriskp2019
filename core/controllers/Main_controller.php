@@ -108,15 +108,15 @@ class Main_controller extends LWS_Controller {
         $this->load->model("model_master_pegawai");
         $query_condition = "";
         if (!$action_can_write || !$this->can_write($action_can_write)) {
-            $query_condition = "id_organisasi = '" . $this->user_detail['id_organisasi'] . "' ";
+//            $query_condition = "id_organisasi = '" . $this->user_detail['id_organisasi'] . "' ";
         }
         return $this->model_master_pegawai->combobox(array(
-                    "key" => "pegawai_id",
+                    "key" => "id_pegawai",
                     "value" => "value_pegawai",
                     "cb_using_default_value" => TRUE,
                     "record_active_only" => TRUE,
-                    "where" => $query_condition,
-                    "custom_select" => "pegawai_id, pegawai_nip||' - '||pegawai_nama as value_pegawai"
+//                    "where" => $query_condition,
+                    "custom_select" => "id_pegawai, concat(pegawai_nip,' - ',pegawai_nama) as value_pegawai"
                         )
         );
     }
