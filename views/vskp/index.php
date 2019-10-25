@@ -103,7 +103,7 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                                                 <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($record->skpt_biaya, 0, ',', '.') ?></td>
                                                 <td class="text-center"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
                                                 <td class="text-center">
-                                                    <?php if($record->skpt_status < 1): ?>
+                                                    <?php if($record->skpt_status <= 1): ?>
                                                     <div class="btn-group btn-group-sm">
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/accept") . "/" . $record->id_skpt; ?>">Terima</a>
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/reject") . "/" . $record->id_skpt; ?>">Kembalikan</a>
