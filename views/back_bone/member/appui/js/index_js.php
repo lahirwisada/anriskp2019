@@ -2,12 +2,13 @@
     $(document).ready(function () {
 
         $(".resetusername").click(function () {
+            var uid = $(this).attr("id");
             modalConfirm({
                 id: 'message-box-confirm',
                 title: 'Mohon Perhatian',
                 msg: 'Password akan dikembalikan menjadi default yaitu : 12345.\nAnda yakin?',
                 onOk: function () {
-                    fnResetPassword($(this).attr("id"));
+                    fnResetPassword(uid);
                 }
             });
         });
