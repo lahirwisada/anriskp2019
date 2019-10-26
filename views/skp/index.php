@@ -62,17 +62,14 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                                             <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($record->skpt_biaya, 0, ',', '.') ?></td>
                                             <td class="text-center"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
                                             <td class="text-center">
+                                                <?php if ($record->skpt_status == 0 || $record->skpt_status == 5): ?>
+                                                <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/upload_bukti_kerja") . "/" . $record->id_skpt; ?>">Upload Bukti Kerja</a>
                                                 <div class="btn-group btn-group-sm">
-                                                    <?php if ($record->skpt_status == 0 || $record->skpt_status == 5): ?>
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/detail") . "/" . $record->id_skpt; ?>">Ubah</a>
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/ajukan") . "/" . $record->id_skpt; ?>">Ajukan</a>
                                                         <a class="btn btn-sm btn-default btn-hapus-row" href="javascript:void(0);" rel="<?php echo base_url($active_modul . "/delete") . "/" . $record->id_skpt; ?>">Hapus</a>
-                                                    <?php /* else: ?>
-                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/read") . "/" . $record->id_skpt; ?>">Lihat</a>
-                                                     * 
-                                                     */ ?>
-                                                    <?php endif; ?>
                                                 </div>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
