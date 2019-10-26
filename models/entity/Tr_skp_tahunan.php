@@ -26,7 +26,8 @@ class Tr_skp_tahunan extends MY_Model {
         "skpt_kualitas" => array("skpt_kualitas", "Kualitas Output"),
         "skpt_kredit" => array("skpt_kredit", "Kredit Kegiatan"),
         "skpt_biaya" => array("skpt_biaya", "Biaya Kegiatan"),
-        "skpt_status" => array("skpt_status", "Status Kegiatan")
+        "skpt_status" => array("skpt_status", "Status Kegiatan"),
+        "bukti_kerja" => array("bukti_kerja", "Bukti Kerja")
     );
     protected $rules = array(
         array("id_pegawai", "required|integer"),
@@ -38,7 +39,8 @@ class Tr_skp_tahunan extends MY_Model {
         array("skpt_kualitas", "required|integer"),
         array("skpt_kredit", "integer"),
         array("skpt_biaya", "required|integer"),
-        array("skpt_status", "integer")
+        array("skpt_status", "integer"),
+        array("bukti_kerja", ""),
     );
     protected $related_tables = array(
         "master_pegawai" => array(
