@@ -137,7 +137,7 @@ $config['modul_action_configuration'] = array(
         "read" => array("lihataktifitas", "landingpage2", "test"),
     ),
     "skp" => array(
-        "update" => array("ajukan"),
+        "update" => array("ajukan", "upload_bukti_kerja"),
     ),
     "vskp" => array(
         "read" => array("accept", "reject"),
