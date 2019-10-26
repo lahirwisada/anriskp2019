@@ -62,6 +62,20 @@ class Skp extends Skarsiparis_cmain {
 //        $this->add_jsfiles(array("plugins/smartwizard/jquery.smartWizard-2.0.min.js"));
         $this->add_jsfiles(array("plugins/jquery-validation/jquery.validate.js"));
     }
+    
+    public function upload_bukti_kerja($id = false, $posted_data = [], $parent_id = false) {
+        parent::detail($id, array(
+            "bukti_kerja",
+        ));
+        
+
+        $this->set("bread_crumb", array(
+            "back_end/" . $this->_name => $this->_header_title,
+            "#" => 'Formulir ' . $this->_header_title
+        ));
+
+        $this->set("additional_js", "skp/js/upload_bukti_kerja_js");
+    }
 
     public function ajukan($id = FALSE) {
         $this->set('referer', $this->session->userdata('referer'));
