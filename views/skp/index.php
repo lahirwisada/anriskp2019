@@ -40,14 +40,14 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                         <table class="table table-striped table-borderless table-vcenter">
                             <thead>
                                 <tr role="row">
-                                    <th>No</th>
-                                    <th class="text-center" style="width: 100px;">Nama Kegiatan</th>
-                                    <th>Kuantitas</th>
-                                    <th>Kualitas</th>
-                                    <th>Waktu</th>
+                                    <th width="5%">No</th>
+                                    <th class="text-center">Nama Kegiatan</th>
+                                    <th width="5%">Kuantitas</th>
+                                    <th width="5%">Kualitas</th>
+                                    <th width="5%">Waktu</th>
                                     <th>Biaya</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
+                                    <th width="5%">Status</th>
+                                    <th width="5%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,7 +63,6 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                                             <td class="text-center"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
                                             <td class="text-center">
                                                 <?php if ($record->skpt_status == 0 || $record->skpt_status == 5): ?>
-                                                <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/upload_bukti_kerja") . "/" . $record->id_skpt; ?>">Upload Bukti Kerja</a>
                                                 <div class="btn-group btn-group-sm">
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/detail") . "/" . $record->id_skpt; ?>">Ubah</a>
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/ajukan") . "/" . $record->id_skpt; ?>">Ajukan</a>
