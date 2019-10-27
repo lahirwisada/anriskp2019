@@ -27,6 +27,10 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
     protected function after_detail($id = FALSE) {
         return;
     }
+    
+    protected function after_show_detail($detail = FALSE){
+        return $detail;
+    }
 
     protected function detail($id = FALSE, $posted_data = array(), $parent_id = FALSE) {
         $this->set('referer', $this->session->userdata('referer'));
@@ -71,7 +75,7 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
             }
         }
 
-        $detail = $this->{$this->model}->show_detail($id);
+        $detail = $this->after_show_detail($this->{$this->model}->show_detail($id));
         $this->set("detail", $detail);
     }
 
