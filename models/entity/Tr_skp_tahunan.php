@@ -6,6 +6,7 @@ class Tr_skp_tahunan extends MY_Model {
 
     public $sort_by = 'id_skpt';
     public $sort_mode = 'asc';
+
 //    public $master_schema = "sc_master";
 
     public function __construct() {
@@ -27,8 +28,14 @@ class Tr_skp_tahunan extends MY_Model {
         "skpt_kredit" => array("skpt_kredit", "Kredit Kegiatan"),
         "skpt_biaya" => array("skpt_biaya", "Biaya Kegiatan"),
         "skpt_status" => array("skpt_status", "Status Kegiatan"),
-        "bukti_kerja" => array("bukti_kerja", "Bukti Kerja")
+        "bukti_kerja" => array("bukti_kerja", "Bukti Kerja"),
+        "skpt_real_kuantitas" => array("skpt_real_kuantitas", "skpt_real_kuantitas"),
+        "skpt_real_output" => array("skpt_real_output", "skpt_real_output"),
+        "skpt_real_kualitas" => array("skpt_real_kualitas", "skpt_real_kualitas"),
+        "skpt_real_waktu" => array("skpt_real_waktu", "skpt_real_waktu"),
+        "upload_random_id" => array("upload_random_id", "upload_random_id"),
     );
+    
     protected $rules = array(
         array("id_pegawai", "required|integer"),
         array("id_dupnk", "required|min[10]|max[200]"),
@@ -40,7 +47,12 @@ class Tr_skp_tahunan extends MY_Model {
         array("skpt_kredit", "integer"),
         array("skpt_biaya", "required|integer"),
         array("skpt_status", "integer"),
-        array("bukti_kerja", ""),
+        array("bukti_kerja", "max[200]"),
+        array("skpt_real_kuantitas", "integer"),
+        array("skpt_real_output", "integer"),
+        array("skpt_real_kualitas", "integer"),
+        array("skpt_real_waktu", "integer"),
+        array("upload_random_id", "max[200]"),
     );
     protected $related_tables = array(
         "master_pegawai" => array(
