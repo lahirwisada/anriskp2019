@@ -4,6 +4,7 @@ $header_title = isset($header_title) ? $header_title : '';
 $active_modul = isset($active_modul) ? $active_modul : 'none';
 $detail = isset($detail) ? $detail : FALSE;
 $skpb = isset($skpb) ? $skpb : FALSE;
+$uploaded_files = isset($uploaded_files) ? $uploaded_files : FALSE;
 $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
 ?>
 
@@ -113,7 +114,7 @@ $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
                     <div class="form-group">
                         <label class="col-md-3 col-xs-12 control-label">File Bukti Kerja</label>
                         <div class="col-md-6 col-xs-12">
-                            <input type="hidden" id="upload_random_id" name="upload_random_id" value="<?php echo $detail->upload_random_id; ?>"/>
+                            <input type="hidden" id="random_id" name="upload_random_id" value="<?php echo $detail->upload_random_id; ?>"/>
                             <input type="file" id="bukti_kerja" name="bukti_kerja" class="inputFile" required data-allowed-file-extensions='["png","jpg","jpeg","bmp","pdf"]' multiple>
                         </div>
                     </div>
@@ -126,7 +127,25 @@ $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
                                 </tr>
                             </thead>
                             <tbody>
-
+                                <?php
+                                if ($uploaded_files):
+                                    foreach ($uploaded_files as $files):
+                                        ?>
+                                        <tr fname="<?php echo $files; ?>">
+                                            <td class="td-nama-file">
+                                                <?php echo $files; ?>
+                                                <input name="uploadedFiles[]" type="hidden" value="<?php echo $files; ?>">
+                                            </td>
+                                            <td class="td-aksi">
+                                                <a href="#" class="remove-button">
+                                                    <span class="fa fa-trash text-danger"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    endforeach;
+                                endif;
+                                ?>
                             </tbody>
                         </table>
                     </div>
