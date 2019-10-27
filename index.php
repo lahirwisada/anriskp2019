@@ -1,6 +1,6 @@
 <?php 
 
-define('ASSET_UPLOAD', dirname(__FILE__));
+define('ASSET_UPLOAD', dirname(__FILE__).DIRECTORY_SEPARATOR.'_assets'.DIRECTORY_SEPARATOR.'uploads');
 
 /**
  * set value TRUE, FALSE (boolean)
