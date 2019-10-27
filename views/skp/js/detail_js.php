@@ -1,6 +1,7 @@
 <?php
 $detail = isset($detail) ? $detail : FALSE;
 $current_jab_fungsional = isset($current_jab_fungsional) && $current_jab_fungsional ? $current_jab_fungsional : 0;
+$uploaded_files = isset($uploaded_files) ? $uploaded_files : FALSE;
 ?>
 <script>
 
@@ -55,8 +56,8 @@ $current_jab_fungsional = isset($current_jab_fungsional) && $current_jab_fungsio
 <?php if ($detail && $detail->id_dupnk != ""): ?>
             $("#id_dupnk").val(<?php echo $detail->id_dupnk ?>).trigger("change");
 <?php endif; ?>
-    
-        $("#simpan").click(function(){
+
+        $("#simpan").click(function () {
             var cL = modalLoading({
                 title: "Mohon Tunggu ...",
                 titleIcon: 'fa fa-times',
@@ -76,7 +77,7 @@ $current_jab_fungsional = isset($current_jab_fungsional) && $current_jab_fungsio
 
             if (isDefined(rowUpload)) {
 //                var tableRef = document.getElementById('tableListFileUpload').getElementsByTagName('tbody')[0];
-                var tr = "<tr class=\"tr-upload-file\"><td>" + rowUpload[1] + "</td><td>" + rowUpload[2] + "</td></tr>"
+                var tr = "<tr class=\"tr-upload-file\" fname=\"" + rowUpload[0] + "\"><td>" + rowUpload[1] + "</td><td>" + rowUpload[2] + "</td></tr>"
 
                 var td1 = $("<td class=\"td-nama-file\"></td>")
                         .append(document.createTextNode(rowUpload[0]))
@@ -87,6 +88,7 @@ $current_jab_fungsional = isset($current_jab_fungsional) && $current_jab_fungsio
                 var td3 = $("<td class=\"td-aksi\"></td>").append(rowUpload[2]);
 
                 var tr = $("<tr></tr>");
+                $(tr).attr("fname", rowUpload[0]);
                 $(tr).append(td1);
 //                $(tr).append(td2);
                 $(tr).append(td3);
@@ -107,7 +109,33 @@ $current_jab_fungsional = isset($current_jab_fungsional) && $current_jab_fungsio
             $(progressBarcell).append(removeButton);
 
             $(removeButton).click(function () {
-                $(progressBarcell).parent().remove();
+
+
+                var self_button = $(this);
+
+                modalConfirm({
+                    id: 'message-box-confirm',
+                    title: 'Mohon Perhatian',
+                    msg: 'Anda yakin akan menghapus file ini?',
+                    onOk: function () {
+//                        $(self_button).parent().parent().remove();
+
+                        $(progressBarcell).parent().remove();
+
+                        $.ajax({
+                            url: "<?php echo base_url('skp/remove_file'); ?>",
+                            type: "POST",
+                            data: {
+                                fname: $(self_button).parent().parent().attr("fname"),
+                                file_id: $("#random_id").val(),
+                            },
+                            success: function (resp) {
+                                console.log(resp);
+                            }
+                        });
+                    }
+                });
+
             });
         },
         afterUpload: function (status, xhr, progressBarcell) {
@@ -135,13 +163,13 @@ $current_jab_fungsional = isset($current_jab_fungsional) && $current_jab_fungsio
                 hiddenFileList,
             ]);
 
-/**
-            $(radioBtn).click(function () {
-                uploadInput.resetAllRemoveButton();
-                var tr = $(this).parent().parent();
-                var lastTd = $(tr).children(":nth-last-child(1)");
-                $(lastTd).find("a.remove-button").remove();
-            });*/
+            /**
+             $(radioBtn).click(function () {
+             uploadInput.resetAllRemoveButton();
+             var tr = $(this).parent().parent();
+             var lastTd = $(tr).children(":nth-last-child(1)");
+             $(lastTd).find("a.remove-button").remove();
+             });*/
 
             return UploadFile(file, "<?php echo base_url("skp/temp_upload"); ?>", divProgressbar, undefined, self.afterUpload, "file_bukti_kerja");
         },
@@ -166,6 +194,9 @@ $current_jab_fungsional = isset($current_jab_fungsional) && $current_jab_fungsio
 
     $(document).ready(function () {
         uploadInput.init();
+<?php if ($uploaded_files): ?>
+            uploadInput.resetAllRemoveButton();
+<?php endif; ?>
     });
 
 </script>
