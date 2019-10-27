@@ -7,6 +7,9 @@ class Skp extends Skarsiparis_cmain {
 
     public $model = 'model_tr_skp_tahunan';
     protected $auto_load_model = TRUE;
+    
+    const DIR_TEMP_UPLOAD = ASSET_UPLOAD.'/';
+    const DIR_IMP_UPLOAD = ASSET_UPLOAD.'/final/';
 
     public function __construct() {
         parent::__construct('kelola_skp', 'Sasaran Kerja Pegawai');
@@ -36,13 +39,18 @@ class Skp extends Skarsiparis_cmain {
 
     public function detail($id = false, $posted_data = [], $parent_id = false) {
         parent::detail($id, array(
+            "upload_random_id",
             "id_pegawai",
             "skpt_tahun",
             "id_dupnk",
             "skpt_waktu",
+            "skpt_real_waktu",
             "skpt_kuantitas",
             "skpt_output",
+            "skpt_real_kuantitas",
+            "skpt_real_output",
             "skpt_kualitas",
+            "skpt_real_kualitas",
             "skpt_biaya"
         ));
         
@@ -63,18 +71,82 @@ class Skp extends Skarsiparis_cmain {
         $this->add_jsfiles(array("plugins/jquery-validation/jquery.validate.js"));
     }
     
-    public function upload_bukti_kerja($id = false, $posted_data = [], $parent_id = false) {
-        parent::detail($id, array(
-            "bukti_kerja",
-        ));
-        
+    protected function after_show_detail($detail = FALSE){
+        $uploaded_files = FALSE;
+        if($detail && property_exists($detail, "upload_random_id") && is_null($detail->upload_random_id)){
+            $detail->upload_random_id = generate_random_id();
+        }else{
+            $dir = self::DIR_TEMP_UPLOAD . $detail->upload_random_id."/";
+            $uploaded_files = array_diff(scandir($dir), array('..', '.'));
+        }
+        $this->set('uploaded_files', $uploaded_files);
+        return $detail;
+    }
+    
+    public function temp_upload(){
+//        $postdata = file_get_contents("php://input");
+        $file_id = $this->input->post('file_id');
+        if (!empty($_POST) && !empty($_FILES) && array_key_exists("file_bukti_kerja", $_FILES) && $file_id) {
 
-        $this->set("bread_crumb", array(
-            "back_end/" . $this->_name => $this->_header_title,
-            "#" => 'Formulir ' . $this->_header_title
-        ));
+            $file_received = @$_FILES['file_bukti_kerja'];
 
-        $this->set("additional_js", "skp/js/upload_bukti_kerja_js");
+            $extension = strtolower(@substr($file_received['name'], -4));
+
+            $dir = self::DIR_TEMP_UPLOAD . "$file_id/";
+            
+            if (is_dir($dir) === FALSE) {
+                mkdir($dir);
+            }
+
+            $allowedFileType = [
+                "application/vnd.ms-excel",
+                "application/vnd.ms-excel.sheet.macroEnabled.12",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "text/xml",
+                "application/msword",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                "application/pdf",
+                "application/x-zip-compressed",
+                "text/plain",
+                "image/jpeg",
+                "image/png",
+                "image/bmp",
+                "image/gif",
+            ];
+
+            if ($file_received['error'] == 0) {
+                $extension = strtolower(@substr($file_received['name'], -4));
+                if (in_array($file_received['type'], $allowedFileType) && $file_received['size'] != '') {
+                    $c = save_file($file_received['tmp_name'], $file_received['name'], $file_received['size'], $dir, 0, 0, FALSE, FALSE, TRUE);
+                    if (is_array($c) && $c['error'] == 1) {
+                        header($_SERVER['SERVER_PROTOCOL'] . ' 415 Unsupported Media Type', true, 415);
+                        exit;
+                    }
+                    header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK', true, 200);
+                    exit;
+                } else {
+                    header($_SERVER['SERVER_PROTOCOL'] . ' 415 Unsupported Media Type', true, 415);
+                    exit;
+                }
+            }
+        }
+        header($_SERVER['SERVER_PROTOCOL'] . ' 204 No Content', true, 204);
+        exit;
+    }
+    
+    public function remove_file(){
+        $file_id = $this->input->get_post('file_id');
+        if (!empty($_POST) && $file_id) {
+            $filename = $this->input->get_post('fname');
+            
+            $filepath = self::DIR_TEMP_UPLOAD . "$file_id/".$filename;
+            
+            if(file_exists ($filepath) ){
+                echo unlink($filepath) ? 1 : 0;
+                exit;
+            }
+        }
+        exit;
     }
 
     public function ajukan($id = FALSE) {
