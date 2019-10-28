@@ -147,6 +147,9 @@ $config['modul_action_configuration'] = array(
     "vskp" => array(
         "read" => array("accept", "reject", "get_like_pegawai_audien"),
     ),
+    "pskp" => array(
+        "insert" => array("lembar_penilaian", "penilaian"),
+    ),
 );
 
 /**
