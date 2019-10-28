@@ -41,7 +41,8 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
     }
 
     public function get_persetujuan($id_bawahan = array(), $tahun = FALSE, $force_limit = FALSE, $force_offset = FALSE) {
-        $conditions[] = $this->table_name . ".skpt_status > 0";
+//        $conditions[] = $this->table_name . ".skpt_status > 0";
+        $conditions[] = $this->table_name . ".skpt_status = 1";
         if ($id_bawahan) {
             $bawahan = is_array($id_bawahan) ? implode(',', $id_bawahan) : $id_bawahan;
             $conditions[] = $this->table_name . ".id_pegawai in (" . $bawahan . ")";
