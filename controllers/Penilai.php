@@ -42,6 +42,17 @@ class Penilai extends Skarsiparis_cmain {
         
         $penilai_detail = $this->model_master_pegawai->get_pegawai_by_id($id_user);
         
+        $records = (object) array(
+                    "record_set" => FALSE,
+                    "record_found" => 0,
+                    "keyword" => ''
+        );
+        if ($penilai_detail) {
+            $records = $this->model_master_pegawai->all(FALSE, FALSE, "id_penilai = '".$id_user."'");
+        }
+        
+        $this->set('records', $records->record_set);
+        $this->set('total_record', $records->record_found);
         $this->set('id_user', $crypt_id_user);
         $this->set('pegawai', $this->get_rs_combobox_pegawai("reset"));
         $this->set('penilai_detail', $penilai_detail);
