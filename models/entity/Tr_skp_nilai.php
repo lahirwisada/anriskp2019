@@ -18,15 +18,16 @@ class Tr_skp_nilai extends MY_Model {
 
     protected $attribute_labels = array(
         "id_skp_nilai" => array("id_skp_nilai", "id_skp_nilai"),
-        "id_turunan_dari" => array("id_turunan_dari", "id_turunan_dari"),
-        "id_skpt" => array("id_skpt", "id_skpt"),
-        "tahun" => array("tahun", "tahun"),
-        "real_nilai_kualitas" => array("real_nilai_kualitas", "real_nilai_kualitas"),
-        "real_nilai_kuantitas" => array("real_nilai_kuantitas", "real_nilai_kuantitas"),
-        "reject_by_pegawai" => array("reject_by_pegawai", "reject_by_pegawai"),
-        "penilai_message" => array("penilai_message", "penilai_message"),
-        "pegawai_message" => array("pegawai_message", "pegawai_message"),
-        "current_active" => array("current_active", "current_active"),
+        "id_turunan_dari" => array("id_turunan_dari", "Lanjutan Dari Penilaian"),
+        "id_skpt" => array("id_skpt", "ID SKPT"),
+        "tahun" => array("tahun", "Tahun"),
+        "real_nilai_kualitas" => array("real_nilai_kualitas", "Real Kualitas"),
+        "real_nilai_kuantitas" => array("real_nilai_kuantitas", "Real Kuantitas"),
+        "real_output" => array("real_output", "Real Output"),
+        "reject_by_pegawai" => array("reject_by_pegawai", "Pegawai Menolak"),
+        "penilai_message" => array("penilai_message", "Catatan Penilai"),
+        "pegawai_message" => array("pegawai_message", "Catatan Pegawai"),
+        "current_active" => array("current_active", "Aktiv saat ini"),
     );
     protected $rules = array(
         array("id_turunan_dari", ""),
@@ -34,6 +35,7 @@ class Tr_skp_nilai extends MY_Model {
         array("tahun", "required|integer"),
         array("real_nilai_kualitas", ""),
         array("real_nilai_kuantitas", ""),
+        array("real_output", ""),
         array("reject_by_pegawai", ""),
         array("penilai_message", ""),
         array("pegawai_message", ""),
