@@ -32,5 +32,24 @@ class Penilai extends Skarsiparis_cmain {
             "#" => $this->_header_title
         ));
     }
+    
+    public function daftar_audien($crypt_id_user = FALSE){
+        if(!$crypt_id_user){
+            redirect('penilai');
+        }
+        
+        $id_user = extract_id_with_salt($crypt_id_user);
+        
+        $penilai_detail = $this->model_master_pegawai->get_pegawai_by_id($id_user);
+        
+        $this->set('id_user', $crypt_id_user);
+        $this->set('pegawai', $this->get_rs_combobox_pegawai("reset"));
+        $this->set('penilai_detail', $penilai_detail);
+        
+        $this->set("additional_js", "penilai/js/daftar_audien_js");
+        
+        $this->add_cssfiles(array("plugins/select2/select2.min.css"));
+        $this->add_jsfiles(array("plugins/select2/select2.full.min.js"));
+    }
 
 }
