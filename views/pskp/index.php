@@ -104,7 +104,7 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                                                 <td class="text-center" rowspan="2"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
                                                 <td class="text-center" rowspan="2">
                                                     <div class="btn-group btn-group-sm">
-                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/lembar_penilaian") . "/" . add_salt_to_string($record->id_skpt); ?>">Beri Nilai</a>
+                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/lembar_penilaian") . "/" . add_salt_to_string($record->id_skpt); ?>">Detail</a>
                                                     </div>
                                                 </td>
                                             </tr>
