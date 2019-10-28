@@ -43,9 +43,9 @@ class Model_Master_Pegawai  extends Master_Pegawai {
         $data = FALSE;
         if ($id_pegawai) {
             $where = $this->table_name . ".id_pegawai = '" . $id_pegawai . "'";
-            if ($id_opd) {
-                $where .= " AND " . $this->table_name . ".id_organisasi = '" . $id_opd . "'";
-            }
+//            if ($id_opd) {
+//                $where .= " AND " . $this->table_name . ".id_organisasi = '" . $id_opd . "'";
+//            }
             $data = $this->get_detail($where);
         }
         return $data;
@@ -82,6 +82,21 @@ class Model_Master_Pegawai  extends Master_Pegawai {
         if ($keyword) {
             $this->db->order_by("pegawai_nama", "asc");
             $this->db->where(" lower(" . $this->table_name . ".pegawai_nip) LIKE lower('%" . $keyword . "%') OR lower(" . $this->table_name . ".pegawai_nama) LIKE lower('%" . $keyword . "%')", NULL, FALSE);
+            $result = $this->get_where();
+        }
+        return $result;
+    }
+    
+    public function get_like_audien($keyword = FALSE, $is_not_this_id = FALSE) {
+        $result = FALSE;
+        if ($keyword) {
+            $this->db->order_by("pegawai_nama", "asc");
+            $condition = " (lower(" . $this->table_name . ".pegawai_nip) LIKE lower('%" . $keyword . "%') OR lower(" . $this->table_name . ".pegawai_nama) LIKE lower('%" . $keyword . "%'))";
+            $condition .= " AND ". $this->table_name .".id_penilai IS NULL ";
+            if($is_not_this_id){
+                $condition .= " AND  ". $this->table_name .".id_user <> '".$is_not_this_id."'";
+            }
+            $this->db->where($condition, NULL, FALSE);
             $result = $this->get_where();
         }
         return $result;
