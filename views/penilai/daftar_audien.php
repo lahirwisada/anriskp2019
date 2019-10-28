@@ -2,6 +2,7 @@
 $header_title = isset($header_title) ? $header_title : '';
 $message_error = isset($message_error) ? $message_error : '';
 $records = isset($records) ? $records : FALSE;
+$next_list_number = isset($next_list_number) ? $next_list_number : 1;
 $penilai_detail = isset($penilai_detail) ? $penilai_detail : FALSE;
 ?>
 <div class="row">
@@ -89,7 +90,7 @@ $penilai_detail = isset($penilai_detail) ? $penilai_detail : FALSE;
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="btn-group btn-group-sm">
-                                                        <a class="btn btn-default" href="<?php echo base_url('penilai/daftar_audien') . "/" . add_salt_to_string($record->id_user); ?>">Daftar Audiens</a>
+                                                        <a class="btn btn-default" href="<?php echo base_url('penilai/remove_audien') . "/" . add_salt_to_string($record->id_user); ?>">Hapus</a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -103,6 +104,9 @@ $penilai_detail = isset($penilai_detail) ? $penilai_detail : FALSE;
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="<?php echo base_url('penilai'); ?>" class="btn-default btn">Kembali</a>  
                     </div>
                 </div>
             </div>
