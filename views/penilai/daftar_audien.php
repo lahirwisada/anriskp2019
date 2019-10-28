@@ -90,7 +90,7 @@ $penilai_detail = isset($penilai_detail) ? $penilai_detail : FALSE;
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="btn-group btn-group-sm">
-                                                        <a class="btn btn-default" href="<?php echo base_url('penilai/remove_audien') . "/" . add_salt_to_string($record->id_user); ?>">Hapus</a>
+                                                        <a class="btn btn-default rem-audien" rel="<?php echo base_url('penilai/remove_audien') . "/" . add_salt_to_string($record->id_user).'?pid='. $id_user; ?>">Hapus</a>
                                                     </div>
                                                 </td>
                                             </tr>
