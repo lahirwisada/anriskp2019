@@ -141,6 +141,8 @@ $config['modul_action_configuration'] = array(
     ),
     "penilai" => array(
         "read" => array("daftar_audien", "get_like_pegawai_audien"),
+        "insert" => array("add_audien"),
+        "update" => array("remove_audien"),
     ),
     "vskp" => array(
         "read" => array("accept", "reject", "get_like_pegawai_audien"),
