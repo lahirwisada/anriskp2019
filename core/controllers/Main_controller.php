@@ -104,7 +104,7 @@ class Main_controller extends LWS_Controller {
         return array($bln, $thn);
     }
 
-    protected function get_rs_combobox_pegawai_current_opd($action_can_write = FALSE) {
+    protected function get_rs_combobox_pegawai($action_can_write = FALSE) {
         $this->load->model("model_master_pegawai");
         $query_condition = "";
         if (!$action_can_write || !$this->can_write($action_can_write)) {
@@ -119,6 +119,15 @@ class Main_controller extends LWS_Controller {
                     "custom_select" => "id_pegawai, concat(pegawai_nip,' - ',pegawai_nama) as value_pegawai"
                         )
         );
+    }
+    
+    public function get_like_pegawai_audien() {
+        $this->load->model("model_master_pegawai");
+        $keyword = $this->input->post("keyword");
+        $id_user = extract_id_with_salt($this->input->post("pid"));
+        
+        $data_found = $this->model_master_pegawai->get_like_audien($keyword, $id_user);
+        $this->to_json($data_found);
     }
 
     protected function get_post_nip($inip = FALSE) {
