@@ -1,12 +1,157 @@
 <?php
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 class Pskp extends Skarsiparis_cmain {
-    
+
+    public $model = 'model_tr_skp_nilai';
+    protected $auto_load_model = TRUE;
+
     public function __construct() {
-        parent::__construct('kelola_penilai', 'Penilai');
+        parent::__construct('kelola_penilai', 'Penilaian SKP');
+        $this->load->model('model_tr_vskp');
     }
-    
-    public function index(){}
-    
+
+    public function index() {
+        $tahun_skp = $this->input->get_post('tahun_skp', TRUE);
+        $id_pegawai = trim($this->get_post_nip(0));
+
+        $pegawai = FALSE;
+//        $id_organisasi = $this->user_detail['id_organisasi'];
+//        $action_hapus = "kelolaaktivitas/hapus_umpeg/";
+//        $action_reset = "kelolaaktivitas/reset_umpeg/";
+//        if ($this->can_write("reset")) {
+//            $id_organisasi = FALSE;
+//            $action_hapus = "kelolaaktivitas/hapus/";
+//            $action_reset = "kelolaaktivitas/reset/";
+//        }
+
+        $this->load->model(array('model_master_pegawai'));
+
+        if ($id_pegawai != '') {
+            $pegawai = $this->model_master_pegawai->get_pegawai_by_id($id_pegawai);
+            if ($pegawai) {
+                $nip = $pegawai->pegawai_nip;
+            }
+        }
+
+        $pegawai_id = 0;
+        $pegawai_nama = FALSE;
+        if ($pegawai) {
+            $pegawai_id = $pegawai->id_pegawai;
+            $pegawai_nama = $pegawai->pegawai_nama;
+        }
+
+        $show_date = date('d-m-Y');
+        if (!$tahun_skp) {
+            $tahun_skp = date('Y');
+        }
+
+        $records = (object) array(
+                    "record_set" => FALSE,
+                    "record_found" => 0,
+                    "keyword" => ''
+        );
+        if ($pegawai) {
+            $records = $this->model_tr_vskp->get_persetujuan($pegawai_id, $tahun_skp, 2);
+        }
+
+        $this->get_attention_message_from_session();
+
+        $this->set("additional_js", $this->_name . "/js/index_js");
+        $this->set("bread_crumb", array(
+            "#" => $this->_header_title
+        ));
+
+        $this->set('records', $records->record_set);
+        $this->set('id_user', add_salt_to_string($this->user_detail["id_user"]));
+        $this->set('total_record', $records->record_found);
+//        $this->set('action_hapus', $action_hapus);
+//        $this->set('action_reset', $action_reset);
+        $this->set('tgl_aktivitas', $show_date);
+        $this->set('nip', $nip);
+        $this->set('tahun_skp', $tahun_skp);
+        $this->set('detail_pegawai', $pegawai);
+        $this->set('pegawai', $this->get_like_penilaian_audien());
+
+        $this->set("additional_js", "pskp/js/index_js");
+
+        $this->add_cssfiles(array("plugins/select2/select2.min.css"));
+        $this->add_jsfiles(array("plugins/select2/select2.full.min.js"));
+    }
+
+    public function lembar_penilaian($crypt_id_skpt = FALSE) {
+        if (!$crypt_id_skpt) {
+            redirect('pskp');
+        }
+
+        $id_skpt = extract_id_with_salt($crypt_id_skpt);
+
+        $detail_skpt = $this->model_tr_vskp->show_detail($id_skpt);
+        $records = $this->model_tr_skp_nilai->all($id_skpt);
+
+        $this->set('records', $records->record_set);
+        $this->set('total_record', $records->record_found);
+        $this->set('detail_skpt', $detail_skpt);
+        $this->set('crypt_id_skpt', $crypt_id_skpt);
+        $this->set("additional_js", "pskp/js/lembar_penilaian_js");
+    }
+
+    protected function after_detail($id = FALSE) {
+        $request_by_ajax = $this->input->get_post('ajxon');
+
+        if ($request_by_ajax) {
+            echo toJsonString((object)array(
+                "success" => '1',
+                "res_id" => $id
+            ));
+            exit;
+        }
+
+        return;
+    }
+
+    public function penilaian($id_skp_nilai = FALSE, $posted_data = array()) {
+        parent::detail($id_skp_nilai, array(
+            "id_skpt",
+            "tahun",
+            "id_turunan_dari",
+            "real_nilai_kualitas",
+            "real_nilai_kuantitas",
+            "penilai_message",
+            "real_output",
+        ));
+        
+        $request_by_ajax = $this->input->get_post('ajxon');
+
+        if ($request_by_ajax) {
+            echo toJsonString((object) array(
+                "success" => '0',
+                "res_id" => FALSE
+            ));
+            exit;
+        }
+
+/**
+
+//        $this->set('pegawai_id', $this->pegawai_id);
+        $this->set('pegawai_id', $this->user_detail["id_pegawai"]);
+//        $this->set('skpb', $this->model_tr_skp_bulanan->get_data_setahun($id));
+        $this->set('skpb', FALSE);
+        $this->set("bread_crumb", array(
+            "back_end/" . $this->_name => $this->_header_title,
+            "#" => 'Formulir ' . $this->_header_title
+        ));
+
+        $this->set("additional_js", "skp/js/detail_js");
+
+        $this->add_cssfiles(array("plugins/select2/select2.min.css"));
+        $this->add_jsfiles(array("plugins/select2/select2.full.min.js"));
+//        $this->add_jsfiles(array("plugins/smartwizard/jquery.smartWizard-2.0.min.js"));
+        $this->add_jsfiles(array("plugins/jquery-validation/jquery.validate.js"));
+ * 
+ */
+    }
+
 }

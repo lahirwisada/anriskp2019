@@ -2,6 +2,7 @@
 $detail_pegawai = isset($detail_pegawai) ? $detail_pegawai : FALSE;
 $detail_skpt = isset($detail_skpt) ? $detail_skpt : FALSE;
 $records = isset($records) ? $records : FALSE;
+$next_list_number = isset($next_list_number) ? $next_list_number : 1;
 
 $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
 $status = array('Draft', 'Verifikasi', 'Penilaian', 'Selesai', 'Ditolak', 'Tidak Sesuai');
@@ -49,6 +50,19 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                                 <div class="col-md-9">
                                                     <div class="input-group" >
                                                         <?php echo $detail_skpt->deskripsi_dupnk; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Tahun</label>
+                                                <div class="col-md-9">
+                                                    <div class="input-group" >
+                                                        <?php echo $detail_skpt->skpt_tahun; ?>
+                                                        <input type="hidden" id="skpt_tahun" value="<?php echo $detail_skpt->skpt_tahun; ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -141,7 +155,7 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                                         <label class="col-md-5 control-label">Nilai Kualitas</label>
                                                         <div class="col-md-7">
                                                             <div class="input-group" >
-                                                                <?php echo form_input('real_nilai_kualitas', set_value('real_nilai_kualitas', '0'), 'class="form-control"'); ?>
+                                                                <?php echo form_input('real_nilai_kualitas', set_value('real_nilai_kualitas', '0'), 'id="real_nilai_kualitas" class="form-control"'); ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -153,7 +167,7 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                                         <label class="col-md-5 control-label">Nilai Kuantitas</label>
                                                         <div class="col-md-7">
                                                             <div class="input-group" >
-                                                                <?php echo form_input('real_nilai_kualitas', set_value('real_nilai_kualitas', '0'), 'class="form-control"'); ?>
+                                                                <?php echo form_input('real_nilai_kuantitas', set_value('real_nilai_kuantitas', '0'), 'id="real_nilai_kuantitas" class="form-control"'); ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -165,7 +179,7 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                                         <label class="col-md-5 control-label">Output</label>
                                                         <div class="col-md-7">
                                                             <div class="input-group" >
-                                                                <?php echo form_dropdown('real_output', $skpt_ouput, set_value('real_output', '0'), 'class="form-control select"'); ?>
+                                                                <?php echo form_dropdown('real_output', $skpt_ouput, set_value('real_output', '0'), 'id="real_output" class="form-control select"'); ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -191,7 +205,8 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                     </div>
                                 </div>
                             </div>
-                            <a class="btn btn-app-blue" href="<?php echo base_url($active_modul . "/penilaian") . "/" . $crypt_id_skpt; ?>">Beri Nilai</a>
+                            <a href="<?php echo base_url('pskp'); ?>" class="btn-default btn">Batal / Kembali</a>
+                            <a class="btn btn-app-blue pull-right" id="btnscore" urlloc="<?php echo base_url($active_modul . "/penilaian") . "/" . $crypt_id_skpt; ?>">Beri Nilai</a>
                         </div>
                     </div>
                     <br />
@@ -203,27 +218,33 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                 <thead>
                                     <tr role="row">
                                         <th>No</th>
-                                        <th>Nilai Kualitas</th>
-                                        <th>Nilai Kuantitas</th>
+                                        <th width="10%">Nilai Kualitas</th>
+                                        <th width="10%">Nilai Kuantitas</th>
+                                        <th width="10%">Banding</th>
                                         <th>Catatan Penilai</th>
                                         <th>Catatan Audien</th>
-                                        <th>Aksi</th>
+                                        <?php /* <th>Aksi</th> */ ?>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php if ($records != FALSE): ?>
                                         <?php foreach ($records as $key => $record): ?>
                                             <tr>
-                                                <td class="text-right" rowspan="3"><?php echo $next_list_number++ ?></td>
-                                                <td rowspan="2"><?php echo beautify_str($record->deskripsi_dupnk) ?></td>
-                                                <td><?php echo $record->skpt_kuantitas . " " . $skpt_ouput[$record->skpt_output] ?></td>
-                                                <td class="text-right"><?php echo $record->skpt_kualitas ?></td>
-                                                <td class="text-right"><?php echo $record->skpt_waktu ?></td>
-                                                <td class="text-center" rowspan="2">
+                                                <td class="text-right"><?php echo $next_list_number++ ?></td>
+                                                <td><?php echo $record->real_nilai_kualitas ?></td>
+                                                <td><?php echo $record->real_nilai_kuantitas . " " . $skpt_ouput[$record->real_output] ?></td>
+                                                <td><?php echo $record->reject_by_pegawai == 0 ? "<span class=\"label label-success\"><i class=\"ion-checkmark m-r-xs\"></i> Clear</span>" : "<span class=\"label label-danger\"><i class=\"ion-checkmark m-r-xs\"></i> Yes</span>" ; ?></td>
+                                                <td class="text-left"><?php echo beautify_text($record->penilai_message) ?></td>
+                                                <td class="text-left"><?php echo beautify_text($record->pegawai_message) ?></td>
+                                                <?php /**
+                                                <td class="text-center">
                                                     <div class="btn-group btn-group-sm">
                                                         <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/lembar_penilaian") . "/" . add_salt_to_string($record->id_skpt); ?>">Beri Nilai</a>
                                                     </div>
                                                 </td>
+                                                 * 
+                                                 */
+                                                ?>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
