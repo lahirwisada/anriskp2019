@@ -7,9 +7,9 @@ class Skp extends Skarsiparis_cmain {
 
     public $model = 'model_tr_skp_tahunan';
     protected $auto_load_model = TRUE;
-    
-    const DIR_TEMP_UPLOAD = ASSET_UPLOAD.'/';
-    const DIR_IMP_UPLOAD = ASSET_UPLOAD.'/final/';
+
+    const DIR_TEMP_UPLOAD = ASSET_UPLOAD . '/';
+    const DIR_IMP_UPLOAD = ASSET_UPLOAD . '/final/';
 
     public function __construct() {
         parent::__construct('kelola_skp', 'Sasaran Kerja Pegawai');
@@ -53,7 +53,7 @@ class Skp extends Skarsiparis_cmain {
             "skpt_real_kualitas",
             "skpt_biaya"
         ));
-        
+
 //        $this->set('pegawai_id', $this->pegawai_id);
         $this->set('pegawai_id', $this->user_detail["id_pegawai"]);
 //        $this->set('skpb', $this->model_tr_skp_bulanan->get_data_setahun($id));
@@ -70,20 +70,22 @@ class Skp extends Skarsiparis_cmain {
 //        $this->add_jsfiles(array("plugins/smartwizard/jquery.smartWizard-2.0.min.js"));
         $this->add_jsfiles(array("plugins/jquery-validation/jquery.validate.js"));
     }
-    
-    protected function after_show_detail($detail = FALSE){
+
+    protected function after_show_detail($detail = FALSE) {
         $uploaded_files = FALSE;
-        if($detail && property_exists($detail, "upload_random_id") && is_null($detail->upload_random_id)){
+        if ($detail && property_exists($detail, "upload_random_id") && is_null($detail->upload_random_id)) {
             $detail->upload_random_id = generate_random_id();
-        }else{
-            $dir = self::DIR_TEMP_UPLOAD . $detail->upload_random_id."/";
-            $uploaded_files = array_diff(scandir($dir), array('..', '.'));
+        } else {
+            $dir = self::DIR_TEMP_UPLOAD . $detail->upload_random_id . "/";
+            if (is_dir($dir)) {
+                $uploaded_files = array_diff(scandir($dir), array('..', '.'));
+            }
         }
         $this->set('uploaded_files', $uploaded_files);
         return $detail;
     }
-    
-    public function temp_upload(){
+
+    public function temp_upload() {
 //        $postdata = file_get_contents("php://input");
         $file_id = $this->input->post('file_id');
         if (!empty($_POST) && !empty($_FILES) && array_key_exists("file_bukti_kerja", $_FILES) && $file_id) {
@@ -93,7 +95,7 @@ class Skp extends Skarsiparis_cmain {
             $extension = strtolower(@substr($file_received['name'], -4));
 
             $dir = self::DIR_TEMP_UPLOAD . "$file_id/";
-            
+
             if (is_dir($dir) === FALSE) {
                 mkdir($dir);
             }
@@ -133,15 +135,15 @@ class Skp extends Skarsiparis_cmain {
         header($_SERVER['SERVER_PROTOCOL'] . ' 204 No Content', true, 204);
         exit;
     }
-    
-    public function remove_file(){
+
+    public function remove_file() {
         $file_id = $this->input->get_post('file_id');
         if (!empty($_POST) && $file_id) {
             $filename = $this->input->get_post('fname');
-            
-            $filepath = self::DIR_TEMP_UPLOAD . "$file_id/".$filename;
-            
-            if(file_exists ($filepath) ){
+
+            $filepath = self::DIR_TEMP_UPLOAD . "$file_id/" . $filename;
+
+            if (file_exists($filepath)) {
                 echo unlink($filepath) ? 1 : 0;
                 exit;
             }
