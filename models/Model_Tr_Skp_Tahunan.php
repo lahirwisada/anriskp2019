@@ -37,6 +37,17 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
     }
     
     protected function after__get_all($records) {
+        if($records){
+            foreach($records as $key => $record){
+                $records[$key]->uploaded_files = FALSE;
+                if(!is_null($record->upload_random_id)){
+                    $dir = ASSET_UPLOAD . '/'.$record->upload_random_id;
+                    if(is_dir($dir)){
+                        $records[$key]->uploaded_files = array_diff(scandir($dir), array('..', '.'));
+                    }
+                }
+            }
+        }
         return $records;
     }
 
