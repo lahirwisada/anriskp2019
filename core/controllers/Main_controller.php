@@ -120,12 +120,26 @@ class Main_controller extends LWS_Controller {
                         )
         );
     }
-    
+
+    public function get_like_penilaian_audien() {
+        $this->load->model("model_master_pegawai");
+        $query_condition = "id_penilai = '".$this->user_detail["id_user"]."'";
+        return $this->model_master_pegawai->combobox(array(
+                    "key" => "id_pegawai",
+                    "value" => "value_pegawai",
+                    "cb_using_default_value" => TRUE,
+                    "record_active_only" => TRUE,
+                    "where" => $query_condition,
+                    "custom_select" => "id_pegawai, concat(pegawai_nip,' - ',pegawai_nama) as value_pegawai"
+                        )
+        );
+    }
+
     public function get_like_pegawai_audien() {
         $this->load->model("model_master_pegawai");
         $keyword = $this->input->post("keyword");
         $id_user = extract_id_with_salt($this->input->post("pid"));
-        
+
         $data_found = $this->model_master_pegawai->get_like_audien($keyword, $id_user);
         $this->to_json($data_found);
     }
