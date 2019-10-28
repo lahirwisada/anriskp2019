@@ -11,8 +11,8 @@
  *
  * @author lahir
  */
-class Model_Master_Pegawai  extends Master_Pegawai {
-    
+class Model_Master_Pegawai extends Master_Pegawai {
+
     const ID_ROLE_PENILAI = 3;
 
     public function __construct() {
@@ -60,9 +60,9 @@ class Model_Master_Pegawai  extends Master_Pegawai {
         $data = $this->get_detail($where);
         return $data;
     }
-    
+
     public function get_pegawai_by_role_penilai($force_limit = FALSE, $force_offset = FALSE, $condition = FALSE) {
-        $this->db->join("backbone_user_role bur", $this->table_name.".id_user = bur.id_user and bur.id_role = '".self::ID_ROLE_PENILAI."'");
+        $this->db->join("backbone_user_role bur", $this->table_name . ".id_user = bur.id_user and bur.id_role = '" . self::ID_ROLE_PENILAI . "'");
         return parent::get_all(array(
                     "pegawai_nip", "pegawai_nama"
                         ), $condition, TRUE, FALSE, 1, TRUE, $force_limit, $force_offset);
@@ -86,20 +86,31 @@ class Model_Master_Pegawai  extends Master_Pegawai {
         }
         return $result;
     }
-    
+
     public function get_like_audien($keyword = FALSE, $is_not_this_id = FALSE) {
         $result = FALSE;
         if ($keyword) {
             $this->db->order_by("pegawai_nama", "asc");
             $condition = " (lower(" . $this->table_name . ".pegawai_nip) LIKE lower('%" . $keyword . "%') OR lower(" . $this->table_name . ".pegawai_nama) LIKE lower('%" . $keyword . "%'))";
-            $condition .= " AND ". $this->table_name .".id_penilai IS NULL ";
-            if($is_not_this_id){
-                $condition .= " AND  ". $this->table_name .".id_user <> '".$is_not_this_id."'";
+            $condition .= " AND " . $this->table_name . ".id_penilai IS NULL ";
+            if ($is_not_this_id) {
+                $condition .= " AND  " . $this->table_name . ".id_user <> '" . $is_not_this_id . "'";
             }
             $this->db->where($condition, NULL, FALSE);
             $result = $this->get_where();
         }
         return $result;
+    }
+
+    public function add_remove_penilai($id_user = FALSE, $id_penilai = NULL) {
+        $this->db->set('id_penilai', $id_penilai);
+        if (is_null($id_penilai)) {
+            $this->db->where('id_user', $id_user);
+        } else {
+            $this->db->where('id_pegawai', $id_user);
+        }
+        $this->db->update($this->table_name);
+        return;
     }
 
     public function get_role_id_by_role_name($role_name = FALSE, $additional_condition = FALSE) {
@@ -155,4 +166,5 @@ class Model_Master_Pegawai  extends Master_Pegawai {
                     "keyword" => $keyword
         );
     }
+
 }
