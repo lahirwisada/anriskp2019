@@ -55,7 +55,7 @@ $is_developer = isset($is_developer) ? $is_developer : TRUE;
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group btn-group-sm">
-                                                <a class="btn btn-default" href="">Daftar Audiens</a>
+                                                <a class="btn btn-default" href="<?php echo base_url('penilai/daftar_audien')."/".add_salt_to_string($record->id_user); ?>">Daftar Audiens</a>
                                             </div>
                                         </td>
                                     </tr>
