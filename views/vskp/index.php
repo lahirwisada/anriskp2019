@@ -78,11 +78,11 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-borderless table-vcenter">
+                            <table class="table table-striped table-vcenter">
                                 <thead>
                                     <tr role="row">
                                         <th>No</th>
-                                        <th class="text-center" style="width: 100px;">Nama Kegiatan</th>
+                                        <th class="text-center">Nama Kegiatan</th>
                                         <th>Kuantitas</th>
                                         <th>Kualitas</th>
                                         <th>Waktu</th>
@@ -95,19 +95,33 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                                     <?php if ($records != FALSE): ?>
                                         <?php foreach ($records as $key => $record): ?>
                                             <tr>
-                                                <td class="text-right"><?php echo $next_list_number++ ?></td>
-                                                <td><?php echo beautify_str($record->deskripsi_dupnk) ?></td>
+                                                <td class="text-right" rowspan="3"><?php echo $next_list_number++ ?></td>
+                                                <td rowspan="2"><?php echo beautify_str($record->deskripsi_dupnk) ?></td>
                                                 <td><?php echo $record->skpt_kuantitas . " " . $skpt_ouput[$record->skpt_output] ?></td>
                                                 <td class="text-right"><?php echo $record->skpt_kualitas ?></td>
                                                 <td class="text-right"><?php echo $record->skpt_waktu ?></td>
-                                                <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($record->skpt_biaya, 0, ',', '.') ?></td>
-                                                <td class="text-center"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
-                                                <td class="text-center">
-                                                    <?php if($record->skpt_status <= 1): ?>
-                                                    <div class="btn-group btn-group-sm">
-                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/accept") . "/" . $record->id_skpt; ?>">Terima</a>
-                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/reject") . "/" . $record->id_skpt; ?>">Kembalikan</a>
-                                                    </div>
+                                                <td class="text-right" rowspan="2"><span class="pull-left">Rp. </span><?php echo number_format($record->skpt_biaya, 0, ',', '.') ?></td>
+                                                <td class="text-center" rowspan="2"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
+                                                <td class="text-center" rowspan="2">
+                                                    <?php if ($record->skpt_status <= 1): ?>
+                                                        <div class="btn-group btn-group-sm">
+                                                            <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/accept") . "/" . $record->id_skpt; ?>">Terima</a>
+                                                            <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/reject") . "/" . $record->id_skpt; ?>">Kembalikan</a>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong><?php echo $record->skpt_real_kuantitas . " " . $skpt_ouput[$record->skpt_real_output] ?></strong></td>
+                                                <td class="text-right"><strong><?php echo $record->skpt_real_kualitas ?></strong></td>
+                                                <td class="text-right"><strong><?php echo $record->skpt_real_waktu ?></strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7">
+                                                    <?php if ($record->uploaded_files && !empty($record->uploaded_files)): ?>
+                                                        <?php foreach ($record->uploaded_files as $uploaded_file): ?>
+                                                            <a class="btn btn-xs btn-app-teal-outline" target="_blank" rel="noopener noreferrer" href="<?php echo base_url('_assets/uploads').'/'.$record->upload_random_id.'/'.$uploaded_file; ?>"><?php echo $uploaded_file ?></a>
+                                                        <?php endforeach; ?>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
