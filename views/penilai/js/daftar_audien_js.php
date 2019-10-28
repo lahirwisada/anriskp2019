@@ -50,7 +50,13 @@
         });
 
         $("#tambah_audien").click(function () {
-            alert($("#slc_pegawai").val());
+            location.href = '<?php echo base_url('penilai/add_audien'); ?>/'+$("#slc_pegawai").val()+'?pid=<?php echo $id_user ?>';
+        });
+        
+        $(".rem-audien").click(function(e){
+            e.stopPropagation();
+            var u = $(this).attr('rel');
+            executeWithConfirm(null, u, 'Hapus Audien', 'Anda yakin akan menghapus audien dari penilai ini?');
         });
     });
 </script>
