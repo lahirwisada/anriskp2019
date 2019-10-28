@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Tr_skp_nilai extends MY_Model {
 
     public $sort_by = 'id_skp_nilai';
-    public $sort_mode = 'asc';
+    public $sort_mode = 'desc';
 
 //    public $master_schema = "sc_master";
 
