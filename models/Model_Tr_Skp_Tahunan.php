@@ -2,7 +2,6 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
 class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
 
     public function __construct() {
@@ -12,16 +11,16 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
     public function all($force_limit = FALSE, $force_offset = FALSE) {
         return parent::get_all(array("skpt_kegiatan", "pegawai_nip", "pegawai_nama"), FALSE, TRUE, FALSE, 1, TRUE, $force_limit, $force_offset);
     }
-    
+
     public function get_all_skpt($tahun = FALSE) {
-        if(!$tahun){
+        if (!$tahun) {
             $tahun = date('Y');
         }
-        
+
         $conditions = array(
             'sc_ppk.tr_skp_tahunan.skpt_tahun = ' . $tahun
         );
-        
+
         return $this->get_all(array("skpt_kegiatan", "pegawai_nip", "pegawai_nama"), $conditions, TRUE, FALSE);
     }
 
@@ -35,14 +34,14 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         }
         return parent::get_all(array("deskripsi_dupnk"), $conditions, TRUE, TRUE, 1, TRUE, $force_limit, $force_offset);
     }
-    
+
     protected function after__get_all($records) {
-        if($records){
-            foreach($records as $key => $record){
+        if ($records) {
+            foreach ($records as $key => $record) {
                 $records[$key]->uploaded_files = FALSE;
-                if(!is_null($record->upload_random_id)){
-                    $dir = ASSET_UPLOAD . '/'.$record->upload_random_id;
-                    if(is_dir($dir)){
+                if (!is_null($record->upload_random_id)) {
+                    $dir = ASSET_UPLOAD . '/' . $record->upload_random_id;
+                    if (is_dir($dir)) {
                         $records[$key]->uploaded_files = array_diff(scandir($dir), array('..', '.'));
                     }
                 }
@@ -51,9 +50,22 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         return $records;
     }
 
-    public function get_persetujuan($id_bawahan = array(), $tahun = FALSE, $force_limit = FALSE, $force_offset = FALSE) {
+    public function after_show_detail($record_found = FALSE) {
+        if ($record_found) {
+            $record_found->uploaded_files = FALSE;
+            if (!is_null($record_found->upload_random_id)) {
+                $dir = ASSET_UPLOAD . '/' . $record_found->upload_random_id;
+                if (is_dir($dir)) {
+                    $record_found->uploaded_files = array_diff(scandir($dir), array('..', '.'));
+                }
+            }
+        }
+        return $record_found;
+    }
+
+    public function get_persetujuan($id_bawahan = array(), $tahun = FALSE, $status = 1, $force_limit = FALSE, $force_offset = FALSE) {
 //        $conditions[] = $this->table_name . ".skpt_status > 0";
-        $conditions[] = $this->table_name . ".skpt_status = 1";
+        $conditions[] = $this->table_name . ".skpt_status = '" . $status . "'";
         if ($id_bawahan) {
             $bawahan = is_array($id_bawahan) ? implode(',', $id_bawahan) : $id_bawahan;
             $conditions[] = $this->table_name . ".id_pegawai in (" . $bawahan . ")";
