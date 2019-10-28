@@ -12,6 +12,8 @@
  * @author lahir
  */
 class Model_Master_Pegawai  extends Master_Pegawai {
+    
+    const ID_ROLE_PENILAI = 3;
 
     public function __construct() {
         parent::__construct();
@@ -58,6 +60,13 @@ class Model_Master_Pegawai  extends Master_Pegawai {
         $data = $this->get_detail($where);
         return $data;
     }
+    
+    public function get_pegawai_by_role_penilai($force_limit = FALSE, $force_offset = FALSE, $condition = FALSE) {
+        $this->db->join("backbone_user_role bur", $this->table_name.".id_user = bur.id_user and bur.id_role = '".self::ID_ROLE_PENILAI."'");
+        return parent::get_all(array(
+                    "pegawai_nip", "pegawai_nama"
+                        ), $condition, TRUE, FALSE, 1, TRUE, $force_limit, $force_offset);
+    }
 
     public function get_by_opd($id_opd) {
         $this->db->where($this->table_name . ".record_active = 1");
@@ -102,7 +111,7 @@ class Model_Master_Pegawai  extends Master_Pegawai {
         $keyword = $this->get_keyword();
         $this->db->select('p.id_pegawai,p.pegawai_nip,p.pegawai_nama,(case when tp.perilaku_kepemimpinan > 0 then (tp.perilaku_pelayanan + tp.perilaku_integritas + tp.perilaku_komitmen + tp.perilaku_disiplin + tp.perilaku_kerjasama + tp.perilaku_kepemimpinan)/6'
                 . ' else (tp.perilaku_pelayanan + tp.perilaku_integritas + tp.perilaku_komitmen + tp.perilaku_disiplin + tp.perilaku_kerjasama)/5 end) as tpn');
-        $this->db->join('sc_ppk.tr_perilaku tp', 'tp.id_pegawai = p.id_pegawai and tp.perilaku_tahun = ' . $tahun . ' and tp.perilaku_bulan = ' . $bulan, 'left');
+        $this->db->join('tr_perilaku tp', 'tp.id_pegawai = p.id_pegawai and tp.perilaku_tahun = ' . $tahun . ' and tp.perilaku_bulan = ' . $bulan, 'left');
         if ($keyword) {
             $this->db->where($this->get_keyword_where(array('pegawai_nama')));
         }

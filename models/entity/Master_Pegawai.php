@@ -11,7 +11,7 @@
  *
  * @author lahir
  */
-class Master_Pegawai  extends MY_Model {
+class Master_Pegawai extends MY_Model {
 
     public $sort_by = 'pegawai_nama';
     public $sort_mode = 'asc';
@@ -40,11 +40,11 @@ class Master_Pegawai  extends MY_Model {
         array("id_user", "required|is_natural_no_zero"),
         array("id_penilai", "required|is_natural_no_zero"),
     );
-    
 //    public $attr_not_null = array(
 //        "is_guru" => '0'
 //    );
-    
+
     protected $related_tables = array();
     protected $attribute_types = array();
+
 }
