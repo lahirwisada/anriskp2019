@@ -140,10 +140,10 @@ $config['modul_action_configuration'] = array(
         "update" => array("ajukan", "temp_upload", "remove_file"),
     ),
     "penilai" => array(
-        "read" => array("daftar_audien"),
+        "read" => array("daftar_audien", "get_like_pegawai_audien"),
     ),
     "vskp" => array(
-        "read" => array("accept", "reject"),
+        "read" => array("accept", "reject", "get_like_pegawai_audien"),
     ),
 );
 
