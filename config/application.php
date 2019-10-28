@@ -139,6 +139,9 @@ $config['modul_action_configuration'] = array(
     "skp" => array(
         "update" => array("ajukan", "temp_upload", "remove_file"),
     ),
+    "penilai" => array(
+        "read" => array("daftar_audien"),
+    ),
     "vskp" => array(
         "read" => array("accept", "reject"),
     ),
