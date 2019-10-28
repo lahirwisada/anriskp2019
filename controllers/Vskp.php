@@ -69,7 +69,10 @@ class Vskp extends Skarsiparis_cmain {
         $this->set('nip', $nip);
         $this->set('tahun_skp', $tahun_skp);
         $this->set('detail_pegawai', $pegawai);
-        $this->set('pegawai', $this->get_rs_combobox_pegawai_current_opd("reset"));
+        $this->set('pegawai', $this->get_rs_combobox_pegawai("reset"));
+        
+        $this->add_cssfiles(array("plugins/select2/select2.min.css"));
+        $this->add_jsfiles(array("plugins/select2/select2.full.min.js"));
     }
     
     private function __update_status($id = FALSE, $status = 1){
