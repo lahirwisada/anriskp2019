@@ -58,36 +58,26 @@ $current_user_roles = isset($current_user_roles) ? $current_user_roles : "penggu
          */
         ?>
 
-        <?php /**
-          <li class="dropdown">
-          <a href="javascript:void(0)" data-toggle="dropdown"><i class="ion-ios-bell"></i> <span class="badge">3</span></a>
-          <ul class="dropdown-menu dropdown-menu-right">
-          <li class="dropdown-header">Profile</li>
-          <li>
-          <a tabindex="-1" href="javascript:void(0)"><span class="badge pull-right">3</span> News </a>
-          </li>
-          <li>
-          <a tabindex="-1" href="javascript:void(0)"><span class="badge pull-right">1</span> Messages </a>
-          </li>
-          <li class="divider"></li>
-          <li class="dropdown-header">More</li>
-          <li>
-          <a tabindex="-1" href="javascript:void(0)">Edit Profile..</a>
-          </li>
-          </ul>
-          </li>
-         * 
-         */
-        ?>
-        <?php if ($is_authenticated): ?>
-            <li>
-                <a href="<?php echo base_url('logout'); ?>"><span class="fa fa-sign-in"></span> Logout</a>
-            </li>
-        <?php else: ?>
-            <li>
-                <a href="<?php echo base_url('login'); ?>"><span class="fa fa-sign-in"></span> Login</a>
-            </li>
-        <?php endif; ?>
+        <li class="dropdown">
+            <a href="javascript:void(0)" data-toggle="dropdown">
+                <span class="m-r-sm"><?php echo isset($active_user_detail['pegawai_nama']) ? $active_user_detail['pegawai_nama'] : 'User Menu'; ?><span class="caret"></span></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li>
+                    <a tabindex="-1" href="<?php echo base_url('profil/passwd'); ?>">Ganti Password</a>
+                </li>
+                <li class="divider"></li>
+                <?php if ($is_authenticated): ?>
+                    <li>
+                        <a href="<?php echo base_url('logout'); ?>"><span class="fa fa-sign-in"></span> Logout</a>
+                    </li>
+                <?php else: ?>
+                    <li>
+                        <a href="<?php echo base_url('login'); ?>"><span class="fa fa-sign-in"></span> Login</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </li>
     </ul>
     <!-- .navbar-right -->
 </div>

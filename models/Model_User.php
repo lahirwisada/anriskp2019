@@ -28,6 +28,7 @@ class Model_User extends LWS_Model {
 
     private $in_profile_update = FALSE;
     private $update_password = FALSE;
+    private $update_only_password = FALSE;
     private $in_front_register_user = FALSE;
     private $array_role_names = array(
         "role", "role_name", "nama_role", "name", "nama"
@@ -35,6 +36,10 @@ class Model_User extends LWS_Model {
 
     private function set_table_name($table_name = NULL) {
         $this->table_name = $table_name;
+    }
+    
+    public function set_primary_key($primary_key = 'id'){
+        $this->primary_key = $primary_key;
     }
 
     protected $attribute_labels = array(
@@ -70,6 +75,14 @@ class Model_User extends LWS_Model {
         array("nama_profil", "required|max_length[200]|min_length[6]"),
 //        array("email_profil", "required|valid_email|max_length[100]"),
         array("email_profil", "valid_email|max_length[100]"),
+    );
+    protected $chgpasswd_attribute_labels = array(
+        "oldpassword" => "Password (Lama)",
+        "newpassword" => "Password (Baru)",
+    );
+    protected $chgpasswd_rules = array(
+        array("oldpassword", ""),
+        array("newpassword", "max_length[60]|min_length[6]"),
     );
     protected $login_attribute_labels = array(
         "username" => "Username",
@@ -129,6 +142,10 @@ class Model_User extends LWS_Model {
     protected function after_run_validation($is_valid) {
         if ($is_valid && $this->in_profile_update && $this->is_newpassword_exists()) {
             $this->password = $this->newpassword;
+            if($this->update_only_password){
+                $this->set_table_name($this->get_schema_name('backbone_user', TRUE));
+                $this->apply_password();
+            }
         }
     }
 
@@ -168,11 +185,29 @@ class Model_User extends LWS_Model {
         }
         return TRUE;
     }
+    
+    protected function before_data_update($data = FALSE) {
+        if($this->update_only_password){
+            unset($data["username"], $data["oldpassword"], $data["newpassword"]);
+        }
+        return $data;
+    }
 
     public function set_profile_rules() {
         $this->attribute_labels = $this->profile_attribute_labels;
         $this->rules = $this->profile_rules;
         $this->in_profile_update = TRUE;
+    }
+    
+    /**
+     * when the user only wants to update the password without updating the profile
+     */
+    public function set_update_password_rules(){
+        $this->attribute_labels = $this->chgpasswd_attribute_labels;
+        $this->rules = $this->chgpasswd_rules;
+        $this->in_profile_update = TRUE;
+        $this->update_only_password = TRUE;
+        $this->set_table_name($this->get_schema_name('backbone_user', TRUE));
     }
 
     public function set_register_rules($front_end = FALSE) {
@@ -252,6 +287,7 @@ class Model_User extends LWS_Model {
     public function reset() {
         $this->in_profile_update = FALSE;
         $this->update_password = FALSE;
+        $this->update_only_password = FALSE;
         $this->set_login_rules();
     }
 
@@ -378,20 +414,6 @@ class Model_User extends LWS_Model {
                     "keyword" => $this->get_keyword()
         );
     }
-
-    /**
-      public function show_anggota($condition = FALSE) {
-      return $this->call_view_user_gurita_store("v_user_anggota", $condition);
-      }
-
-      public function show_administrator($condition = FALSE) {
-      return $this->call_view_user_gurita_store("v_user_administrator", $condition);
-      }
-
-      public function show_pengembang($condition = FALSE) {
-      return $this->call_view_user_gurita_store("v_user_pengembang", $condition);
-      }
-     */
 }
 
 ?>

@@ -156,6 +156,9 @@ $config['modul_action_configuration'] = array(
     "pperilaku" => array(
         "insert" => array("penilaian"),
     ),
+    "profil" => array(
+        "read" => array("passwd"),
+    ),
 );
 
 /**

@@ -42,6 +42,14 @@ class Back_Bone extends Main {
 
     private function init_back_bone() {
         $this->my_location = "back_bone/";
+        
+        if (!$this->user_detail) {
+            $this->user_detail = $this->lmanuser->get("user_detail", "BACK_END");
+            
+//            var_dump($this->user_detail);exit;
+        }
+        $this->set("active_user_detail", $this->user_detail);
+        
         $this->init_backend_menu();
         $this->backbone_controller_location = $this->my_location . $this->_name;
         $this->set("controller_location", $this->backbone_controller_location);
