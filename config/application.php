@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 /* custom setting */
 
-$config['appname'] = 'SKP Arsiparis';
+$config['appname'] = 'Semakin Jago';
 $config['maintenance'] = FALSE;
 $config['maintenance_url'] = 'http://' . $_SERVER['SERVER_NAME'];
 $config['copyright'] = 'Copyright Lahir Wisada Santoso &copy; 2019.';

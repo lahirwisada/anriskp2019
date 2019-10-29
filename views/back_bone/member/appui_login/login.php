@@ -20,7 +20,8 @@ $attention_messages = isset($attention_messages) ? $attention_messages : FALSE;
         <div class="container">
             <!-- Section Content -->
             <div class="p-y-lg text-center">
-                <h1 class="display-2">Masuk SKP ARSIPARIS</h1>
+                <h1 class="display-2">SEMAKIN JAGO</h1>
+                <p class="text-center">Sistem Informasi Penilaian Kinerja Jabatan Fungsional Arsiparis Go Online</p>
                 <p class="text-muted">Gunakan NIP sebagai username untuk masuk.</p>
             </div>
             <!-- End Section Content -->
