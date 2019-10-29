@@ -1,40 +1,41 @@
-<?php 
+<?php
 
-if (!defined('BASEPATH')) exit('No direct script access allowed');
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 class Member extends Back_Bone {
 
     public
-    function __construct() {
+            function __construct() {
         parent::__construct();
         //        $this->load->model(array("model_user"));
         $this->load->model(array("model_user", "model_backbone_user", "model_backbone_profil", "model_backbone_user_role", "model_backbone_role"));
     }
 
     private
-    function set_backend_member_redirect($location_uri) {
+            function set_backend_member_redirect($location_uri) {
         $this->session->set_userdata("backend_member_redirect", $location_uri);
     }
 
     private
-    function init_show_member($function_name, $header_title = "Anggota") {
+            function init_show_member($function_name, $header_title = "Anggota") {
         $this->get_attention_message_from_session();
         $this->model_user->change_offset_param("currpage_kelola_member");
         $records = $this->model_user->{
-            $function_name
-        }();
+                $function_name
+                }();
         $paging_set = $this->get_paging($this->get_current_location(), $records->record_found, $this->default_limit_paging, "kelola_member");
         $this->set('records', $records->record_set);
         $this->set("keyword", $records->keyword);
         $this->set("paging_set", $paging_set);
-        $this->set("header_title", $header_title." Gurita Store");
+        $this->set("header_title", $header_title . " Gurita Store");
         $this->set("next_list_number", $this->model_user->get_next_record_number_list());
     }
 
     public
-    function index() {
+            function index() {
         $this->get_attention_message_from_session();
-        //        $this->model_user->change_offset_param("currpage_kelola_member");
+        $this->model_user->change_offset_param("currpage_kelola_member");
         $records = $this->model_user->call_view_user_application();
         $paging_set = $this->get_paging($this->get_current_location(), $records->record_found, $this->default_limit_paging, "kelola_member");
         $this->set("records", $records->record_set);
@@ -42,18 +43,18 @@ class Member extends Back_Bone {
         $this->set("keyword", $records->keyword);
         $this->set("header_title", "Pengelola");
         $this->set("paging_set", $paging_set);
-        $this->set("additional_js", "back_bone/member/".$this->_layout."/js/index_js");
+        $this->set("additional_js", "back_bone/member/" . $this->_layout . "/js/index_js");
         $this->set("next_list_number", $this->model_user->get_next_record_number_list());
 
         $this->set("bread_crumb", array("#" => 'Daftar Pengguna'));
 
-        $this->add_jsfiles(array("atlant/plugins/noty/jquery.noty.js", "atlant/plugins/noty/layouts/topCenter.js", "atlant/plugins/noty/layouts/topLeft.js", "atlant/plugins/noty/layouts/topRight.js", "atlant/plugins/noty/themes/default.js", ));
+        $this->add_jsfiles(array("atlant/plugins/noty/jquery.noty.js", "atlant/plugins/noty/layouts/topCenter.js", "atlant/plugins/noty/layouts/topLeft.js", "atlant/plugins/noty/layouts/topRight.js", "atlant/plugins/noty/themes/default.js",));
 
         $this->set_backend_member_redirect("back_bone/member");
     }
 
     public
-    function update_status_active($username = FALSE) {
+            function update_status_active($username = FALSE) {
         $redirect_uri = $this->session->userdata("backend_member_redirect");
         if ($username) {
             $records = $this->model_user->get_user_detail_username($username, FALSE);
@@ -79,7 +80,7 @@ class Member extends Back_Bone {
      * @see front_end/member/register
      */
     public
-    function detail() {
+            function detail() {
         $register_success = FALSE;
         $this->attention_messages = "";
         $this->model_user->set_register_rules();
@@ -103,16 +104,16 @@ class Member extends Back_Bone {
                 /**
                  * Attribute dari model_user
                  * 
-                    array(4) {
-                      ["username"]=>
-                      string(21) "helpdeskadministrator"
-                      ["password"]=>
-                      string(50) "934fd75dbf1b6d1935a540d2b26eb610::WYx0PggpQCKhfuSQ"
-                      ["nama_profil"]=>
-                      string(9) "Help Desk"
-                      ["email_profil"]=>
-                      string(0) ""
-                    }
+                  array(4) {
+                  ["username"]=>
+                  string(21) "helpdeskadministrator"
+                  ["password"]=>
+                  string(50) "934fd75dbf1b6d1935a540d2b26eb610::WYx0PggpQCKhfuSQ"
+                  ["nama_profil"]=>
+                  string(9) "Help Desk"
+                  ["email_profil"]=>
+                  string(0) ""
+                  }
                  * 
                  */
                 $model_user_attributes = $this->model_user->get_attributes();
@@ -169,7 +170,7 @@ class Member extends Back_Bone {
     }
 
     public
-    function role($user_id = FALSE) {
+            function role($user_id = FALSE) {
         if (!$user_id) {
             redirect('back_bone/user');
         }
@@ -196,12 +197,12 @@ class Member extends Back_Bone {
     }
 
     public
-    function login() {
-        $this->_layout = $this->_layout."_login";
+            function login() {
+        $this->_layout = $this->_layout . "_login";
         parent::login();
     }
-    
-    protected function redirect_after_logout(){
+
+    protected function redirect_after_logout() {
         redirect("login");
     }
 
