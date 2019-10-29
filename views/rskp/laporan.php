@@ -19,6 +19,7 @@ $detail = isset($detail) ? $detail : FALSE;
 $status = array('Proses', 'Pengajuan', 'Selesai');
 $next_list_number = isset($next_list_number) ? $next_list_number : 1;
 $nilai_skp_kerja = 0;
+$nilai_capaian = 0;
 //var_dump($skpt, $perilaku);
 //exit();
 
