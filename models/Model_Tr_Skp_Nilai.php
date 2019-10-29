@@ -19,4 +19,11 @@ class Model_Tr_Skp_Nilai extends Tr_skp_nilai {
         }
         return parent::get_all(array("penilaian_message", "pegawai_message"), "id_skpt = '".$id_skpt."'", TRUE, FALSE, 1, TRUE, $force_limit, $force_offset, "id_skp_nilai desc");
     }
+    
+    protected function before_data_insert($data = FALSE) {
+        $this->db->set('current_active', 0);
+        $this->db->where('id_skpt', $data["id_skpt"]);
+        $this->db->update($this->table_name);
+        return $data;
+    }
 }
