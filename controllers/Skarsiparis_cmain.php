@@ -82,6 +82,7 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
     private function init_cmain() {
         $this->my_location = "/";
         $this->_layout = "appui";
+//        var_dump($this->user_detail);exit;
         $this->set("active_user_detail", $this->user_detail);
         $this->init_backend_menu();
         $this->backend_controller_location = $this->my_location . $this->_name;
