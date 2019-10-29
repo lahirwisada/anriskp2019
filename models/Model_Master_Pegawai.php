@@ -50,6 +50,18 @@ class Model_Master_Pegawai extends Master_Pegawai {
         }
         return $data;
     }
+    
+    public function get_pegawai_by_id_user($id_user = FALSE, $id_opd = FALSE) {
+        $data = FALSE;
+        if ($id_user) {
+            $where = $this->table_name . ".id_user = '" . $id_user . "'";
+//            if ($id_opd) {
+//                $where .= " AND " . $this->table_name . ".id_organisasi = '" . $id_opd . "'";
+//            }
+            $data = $this->get_detail($where);
+        }
+        return $data;
+    }
 
     public function get_pegawai_by_nip($pegawai_nip = FALSE) {
         if (!$pegawai_nip) {

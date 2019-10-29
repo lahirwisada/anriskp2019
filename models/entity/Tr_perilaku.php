@@ -4,14 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Tr_perilaku extends MY_Model {
 
-    public $sort_by = 'id_skp_nilai';
+    public $sort_by = 'id_perilaku';
     public $sort_mode = 'desc';
 
 //    public $master_schema = "sc_master";
 
     public function __construct() {
-        parent::__construct("tr_skp_nilai");
-        $this->primary_key = "id_skp_nilai";
+        parent::__construct("tr_perilaku");
+        $this->primary_key = "id_perilaku";
         $this->attribute_labels = array_merge_recursive($this->_continuously_attribute_label, $this->attribute_labels);
         $this->rules = array_merge_recursive($this->_continuously_rules, $this->rules);
     }

@@ -19,4 +19,11 @@ class Model_Tr_Perilaku extends Tr_perilaku {
         }
         return parent::get_all(array("penilaian_message", "pegawai_message"), "id_skpt = '".$id_skpt."'", TRUE, FALSE, 1, TRUE, $force_limit, $force_offset, "id_skp_nilai desc");
     }
+    
+    public function check_data($id_pegawai, $tahun) {
+        $this->db->where('id_pegawai', $id_pegawai);
+        $this->db->where('perilaku_tahun', $tahun);
+        $query = $this->db->get($this->table_name);
+        return $query->num_rows() > 0 ? $query->row(0)->id_perilaku : FALSE;
+    }
 }

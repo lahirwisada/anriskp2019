@@ -150,6 +150,9 @@ $config['modul_action_configuration'] = array(
     "pskp" => array(
         "insert" => array("lembar_penilaian", "penilaian"),
     ),
+    "pperilaku" => array(
+        "insert" => array("penilaian"),
+    ),
 );
 
 /**
