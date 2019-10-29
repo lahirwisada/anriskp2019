@@ -16,7 +16,7 @@ class Rskp extends Skarsiparis_cmain {
         $thn = $this->input->get('tahun', TRUE);
         $tahun = $thn ? $thn : date('Y');
         $this->get_attention_message_from_session();
-        $records = $this->model_tr_skp_tahunan->get_realisasi_tahunan($this->pegawai_id, $tahun);
+        $records = $this->model_tr_skp_tahunan->get_realisasi_tahunan($this->id_pegawai, $tahun);
         $this->set('records', $records->record_set);
         $this->set('total_record', $records->record_found);
         $this->set('keyword', $records->keyword);

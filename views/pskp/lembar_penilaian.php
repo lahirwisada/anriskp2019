@@ -185,10 +185,34 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label">Biaya</label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-group" >
+                                                                <?php echo form_input('real_nilai_biaya', set_value('real_nilai_biaya', '0'), 'id="real_nilai_biaya" class="form-control"'); ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label">Waktu / Lama Kegiatan</label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-group" >
+                                                                <?php echo form_input('real_nilai_waktu', set_value('real_nilai_waktu', '0'), 'id="real_nilai_waktu" class="form-control"'); ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -219,7 +243,9 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                     <tr role="row">
                                         <th>No</th>
                                         <th width="10%">Nilai Kualitas</th>
+                                        <th width="10%">Nilai Waktu</th>
                                         <th width="10%">Nilai Kuantitas</th>
+                                        <th width="10%">Nilai Biaya</th>
                                         <th width="10%">Banding</th>
                                         <th>Catatan Penilai</th>
                                         <th>Catatan Audien</th>
@@ -232,7 +258,9 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                             <tr>
                                                 <td class="text-right"><?php echo $next_list_number++ ?></td>
                                                 <td><?php echo $record->real_nilai_kualitas ?></td>
+                                                <td><?php echo $record->real_nilai_waktu ?></td>
                                                 <td><?php echo $record->real_nilai_kuantitas . " " . $skpt_ouput[$record->real_output] ?></td>
+                                                <td><?php echo $record->real_nilai_biaya ?></td>
                                                 <td><?php echo $record->reject_by_pegawai == 0 ? "<span class=\"label label-success\"><i class=\"ion-checkmark m-r-xs\"></i> Clear</span>" : "<span class=\"label label-danger\"><i class=\"ion-checkmark m-r-xs\"></i> Yes</span>" ; ?></td>
                                                 <td class="text-left"><?php echo beautify_text($record->penilai_message) ?></td>
                                                 <td class="text-left"><?php echo beautify_text($record->pegawai_message) ?></td>

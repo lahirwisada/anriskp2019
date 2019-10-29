@@ -11,6 +11,8 @@
                 data: {
                     real_nilai_kualitas: $("#real_nilai_kualitas").val(),
                     real_nilai_kuantitas: $("#real_nilai_kuantitas").val(),
+                    real_nilai_waktu: $("#real_nilai_waktu").val(),
+                    real_nilai_biaya: $("#real_nilai_biaya").val(),
                     real_output: $("#real_output").val(),
                     penilai_message: $("#penilai_message").val(),
                     tahun: $("#skpt_tahun").val(),

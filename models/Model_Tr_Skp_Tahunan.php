@@ -79,13 +79,31 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
     }
 
     public function get_realisasi_tahunan($id_pegawai = FALSE, $tahun = FALSE, $force_limit = FALSE, $force_offset = FALSE) {
-        $this->db->select("skpt.id_skpt,dupnk.deskripsi_dupnk as skpt_kegiatan,skpt.skpt_kuantitas,skpt.skpt_output,skpt.skpt_waktu,skpt.skpt_biaya,skpt.skpt_status,skpt.skpt_kualitas,0 jml");
-//        $this->db->select_sum("skpb_real_kuantitas", "real_kuantitas");
+        $this->db->select(
+                "skpt.id_skpt,dupnk.deskripsi_dupnk as skpt_kegiatan,"
+                . "skpt.skpt_kuantitas,"
+                . "skpt.skpt_output,"
+                . "skpt.skpt_waktu,"
+                . "skpt.skpt_biaya,"
+                . "skpt.skpt_status,"
+                . "skpt.skpt_kualitas,"
+                . "skpt.skpt_real_kualitas,"
+                . "skpt.skpt_real_kuantitas,"
+                . "tsn.real_nilai_kualitas,"
+                . "tsn.real_nilai_kuantitas,"
+                . "tsn.real_nilai_biaya,"
+                . "tsn.real_nilai_waktu,"
+                . "tsn.real_output,"
+                . "0 real_hitung,"
+                . "0 real_nilai,"
+                . "skpt.skpt_waktu jml");
+
 //        $this->db->select_sum("skpb_real_biaya", "real_biaya");
-//        $this->db->select_sum("skpb_real_kualitas", "real_kualitas");
+
 //        $this->db->select_sum("skpb_hitung", "real_hitung");
 //        $this->db->select_sum("skpb_nilai", "real_nilai");
         $this->db->from($this->table_name . " skpt");
+        $this->db->join("tr_skp_nilai tsn", "skpt.id_skpt = tsn.id_skpt and tsn.current_active = '1'", "left");
         $this->db->join("master_pegawai p", "p.id_pegawai = skpt.id_pegawai", "left");
         $this->db->join("master_dupnk dupnk", "skpt.id_dupnk = dupnk.id_dupnk", "left");
         $this->db->where("skpt.id_pegawai", $id_pegawai);
@@ -93,6 +111,11 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         $this->db->where("skpt.skpt_status in (2,3)");
         $this->db->group_by('skpt.id_skpt');
         $this->db->group_by('p.id_pegawai');
+        $this->db->group_by('tsn.real_output');
+        $this->db->group_by('tsn.real_nilai_waktu');
+        $this->db->group_by('tsn.real_nilai_biaya');
+        $this->db->group_by('tsn.real_nilai_kuantitas');
+        $this->db->group_by('tsn.real_nilai_kualitas');
         $query = $this->db->get();
 //        print_r($this->db->last_query());
 //        var_dump($query);

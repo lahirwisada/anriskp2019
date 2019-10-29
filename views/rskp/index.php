@@ -39,7 +39,7 @@ $keyword = isset($keyword) ? $keyword : '';
                                 <th rowspan="2">No</th>
                                 <th rowspan="2">Nama Kegiatan</th>
                                 <th colspan="4">Target</th>
-                                <th colspan="4">Realisasi</th>
+                                <th colspan="4">Penilaian</th>
                                 <th rowspan="2">Penghi-<br>tungan</th>
                                 <th rowspan="2">Nilai<br>Capaian<br>SKP</th>
                                 <th rowspan="2">Aksi</th>
@@ -48,11 +48,11 @@ $keyword = isset($keyword) ? $keyword : '';
                                 <th>Kuantitas</th>
                                 <th>Kualitas</th>
                                 <th>Waktu</th>
-                                <th width="120">Biaya</th>
+                                <th>Biaya</th>
                                 <th>Kuantitas</th>
                                 <th>Kualitas</th>
                                 <th>Waktu</th>
-                                <th width="120">Biaya</th>
+                                <th>Biaya</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,11 +68,14 @@ $keyword = isset($keyword) ? $keyword : '';
                                     $waktu_target = $row->skpt_waktu;
                                     $biaya_target = $row->skpt_biaya;
 
-                                    $kuantitas_real = $row->real_kuantitas > 0 ? $row->real_kuantitas : 0;
+                                    $kuantitas_real = $row->real_nilai_kuantitas > 0 ? $row->real_nilai_kuantitas : 0;
 //                                    $kualitas_real = $row->real_kualitas > 0 ? $row->real_kualitas / $row->jml : 0;
-                                    $kualitas_real = $row->real_kualitas > 0 ? lws_divide($row->real_kualitas, $row->jml) : 0;
-                                    $waktu_real = $row->jml;
-                                    $biaya_real = $row->real_biaya > 0 ? $row->real_biaya : 0;
+//                                    $kualitas_real = $row->skpt_real_kualitas > 0 ? lws_divide($row->skpt_real_kualitas, $row->jml) : 0;
+                                    $kualitas_real = $row->real_nilai_kualitas;
+                                    $waktu_real = $row->real_nilai_waktu;
+                                    $biaya_real = $row->real_nilai_biaya > 0 ? $row->real_nilai_biaya : 0;
+                                    
+                                    list($nilai, $nilai_capaian) = hitung_nilai_skp($row);
 
                                     $hitung = lws_divide($row->real_hitung, $row->jml);
                                     $nilai_skp = lws_divide($row->real_nilai, $row->jml);
@@ -86,15 +89,15 @@ $keyword = isset($keyword) ? $keyword : '';
                                         <td class="text-center"><?php echo $kualitas_target ?></td>
                                         <td class="text-center"><?php echo $waktu_target ?></td>
                                         <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
-                                        <td class="text-center"><?php echo $kuantitas_real . " " . $skpt_ouput[$row->skpt_output] ?></td>
+                                        <td class="text-center"><?php echo $kuantitas_real . " " . (!is_null($row->real_output) ? $skpt_ouput[$row->real_output] : "") ?></td>
                                         <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
                                         <td class="text-center"><?php echo $waktu_real ?></td>
                                         <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
-                                        <td class="text-right"><?php echo number_format($hitung, 0, ',', '.') ?></td>
-                                        <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
+                                        <td class="text-right"><?php echo number_format($nilai, 0, ',', '.') ?></td>
+                                        <td class="text-right"><?php echo number_format($nilai_capaian, 2, ',', '.') ?></td>
                                         <td class="text-center">
                                             <div class="btn-group btn-group-sm">
-                                                <a class="btn btn-default" href="<?php echo base_url("back_end/" . $active_modul . "/read") . "/" . $row->skpt_id; ?>">Lihat</a>
+                                                <?php /** <a class="btn btn-default" href="<?php echo base_url($active_modul . "/read") . "/" . $row->id_skpt; ?>">Lihat</a> */ ?>
                                             </div>
                                         </td>
                                     </tr>

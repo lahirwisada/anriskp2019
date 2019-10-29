@@ -119,6 +119,8 @@ class Pskp extends Skarsiparis_cmain {
             "id_turunan_dari",
             "real_nilai_kualitas",
             "real_nilai_kuantitas",
+            "real_nilai_waktu",
+            "real_nilai_biaya",
             "penilai_message",
             "real_output",
         ));
