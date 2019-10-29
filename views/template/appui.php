@@ -73,8 +73,8 @@ $current_base_url = isset($current_base_url) ? $current_base_url : '#';
                     <!-- Drawer scroll area -->
                     <div class="app-layout-drawer-scroll">
                         <!-- Drawer logo -->
-                        <div id="logo" class="drawer-header">
-                            <a href="<?php echo $current_base_url; ?>"><img class="img-responsive" src="<?php echo assets(); ?>/img/logo/text_logo.png" title="Cocosoft" alt="Cocosoft" /></a>
+                        <div id="logo" class="drawer-header text-center">
+                            <a href="<?php echo $current_base_url; ?>"><img class="img-responsive" src="<?php echo assets(); ?>/img/logo/logo.jpeg" title="Indonesia" alt="Indonesia" /></a>
                         </div>
                         <?php echo load_partial('template/appui/menu'); ?>
                         <?php /**
