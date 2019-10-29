@@ -19,6 +19,7 @@ class Skparsiparis_main extends Lws_Modular {
     private function init_skparsiparismain() {
         $this->check_called_class_before_execute(TRUE);
 //        $this->my_location = "back_bone/";
+        $this->set("active_user_detail", $this->user_detail);
         $this->init_backend_menu();
     }
 }
