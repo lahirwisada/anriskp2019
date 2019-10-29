@@ -21,7 +21,7 @@
                     ajxon: true,
                 },
                 success: function (resp) {
-                    console.log(resp);
+                    location.reload();
                 }
             });
         });

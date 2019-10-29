@@ -193,6 +193,10 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                             </tr>
                         </table>
                     </div>
+                    <br />
+                    <br />
+                    <br />
+                    <a href="<?php echo base_url('rskp'); ?>" class="btn-default btn pull-right">Kembali</a>
                 </div>
             </div>
         </div>

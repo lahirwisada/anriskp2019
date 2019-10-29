@@ -73,13 +73,18 @@ class Skp extends Skarsiparis_cmain {
 
     protected function after_show_detail($detail = FALSE) {
         $uploaded_files = FALSE;
-        if ($detail && property_exists($detail, "upload_random_id") && is_null($detail->upload_random_id)) {
-            $detail->upload_random_id = generate_random_id();
-        } else {
-            $dir = self::DIR_TEMP_UPLOAD . $detail->upload_random_id . "/";
-            if (is_dir($dir)) {
-                $uploaded_files = array_diff(scandir($dir), array('..', '.'));
+        if ($detail) {
+            if ($detail && (!property_exists($detail, "upload_random_id"))) {
+                $detail->upload_random_id = generate_random_id();
+            } else {
+                $dir = self::DIR_TEMP_UPLOAD . $detail->upload_random_id . "/";
+                if (is_dir($dir)) {
+                    $uploaded_files = array_diff(scandir($dir), array('..', '.'));
+                }
             }
+        }else{
+            $random_id = generate_random_id();
+            $this->set('random_id', $random_id);
         }
         $this->set('uploaded_files', $uploaded_files);
         return $detail;

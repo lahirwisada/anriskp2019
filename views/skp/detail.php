@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $header_title = isset($header_title) ? $header_title : '';
 $active_modul = isset($active_modul) ? $active_modul : 'none';
 $detail = isset($detail) ? $detail : FALSE;
+$random_id = isset($random_id) ? $random_id : generate_random_id();
 $skpb = isset($skpb) ? $skpb : FALSE;
 $uploaded_files = isset($uploaded_files) ? $uploaded_files : FALSE;
 $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
@@ -114,7 +115,7 @@ $skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
                     <div class="form-group">
                         <label class="col-md-3 col-xs-12 control-label">File Bukti Kerja</label>
                         <div class="col-md-6 col-xs-12">
-                            <input type="hidden" id="random_id" name="upload_random_id" value="<?php echo $detail->upload_random_id; ?>"/>
+                            <input type="hidden" id="random_id" name="upload_random_id" value="<?php echo set_value('upload_random_id', $detail ? $detail->upload_random_id : $random_id); ?>"/>
                             <input type="file" id="bukti_kerja" name="bukti_kerja" class="inputFile" required data-allowed-file-extensions='["png","jpg","jpeg","bmp","pdf"]' multiple>
                         </div>
                     </div>
