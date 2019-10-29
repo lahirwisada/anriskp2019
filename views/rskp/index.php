@@ -7,8 +7,9 @@ $field_id = isset($field_id) ? $field_id : FALSE;
 $total_record = isset($total_record) ? $total_record : FALSE;
 $active_modul = isset($active_modul) ? $active_modul : 'none';
 $next_list_number = isset($next_list_number) ? $next_list_number : 1;
-$skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
-$status = array('Draft', 'Pengajuan', 'Proses', 'Selesai');
+$skpt_ouput = get_skpt_output();
+$status = get_skpt_status();
+$label = get_skpt_label();
 $keyword = isset($keyword) ? $keyword : '';
 ?>
 
@@ -85,11 +86,11 @@ $keyword = isset($keyword) ? $keyword : '';
                                     <tr>
                                         <td class="text-right"><?php echo $next_list_number++ ?></td>
                                         <td><?php echo $row->skpt_kegiatan; ?></td>
-                                        <td class="text-center"><?php echo $kuantitas_target . " " . $skpt_ouput[$row->skpt_output] ?></td>
+                                        <td class="text-center"><?php echo $kuantitas_target . " " . show_skpt_output($row->skpt_output); ?></td>
                                         <td class="text-center"><?php echo $kualitas_target ?></td>
                                         <td class="text-center"><?php echo $waktu_target ?></td>
                                         <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
-                                        <td class="text-center"><?php echo $kuantitas_real . " " . (!is_null($row->real_output) ? $skpt_ouput[$row->real_output] : "") ?></td>
+                                        <td class="text-center"><?php echo $kuantitas_real . " " . show_skpt_output($row->real_output) ?></td>
                                         <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
                                         <td class="text-center"><?php echo $waktu_real ?></td>
                                         <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
@@ -97,7 +98,7 @@ $keyword = isset($keyword) ? $keyword : '';
                                         <td class="text-right"><?php echo number_format($nilai_capaian, 2, ',', '.') ?></td>
                                         <td class="text-center">
                                             <div class="btn-group btn-group-sm">
-                                                <?php /** <a class="btn btn-default" href="<?php echo base_url($active_modul . "/read") . "/" . $row->id_skpt; ?>">Lihat</a> */ ?>
+                                                <a class="btn btn-default" href="<?php echo base_url($active_modul . "/read") . "/" . add_salt_to_string($row->id_skpt); ?>">Lihat</a>
                                             </div>
                                         </td>
                                     </tr>

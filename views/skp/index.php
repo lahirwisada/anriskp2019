@@ -7,9 +7,9 @@ $field_id = isset($field_id) ? $field_id : FALSE;
 $paging_set = isset($paging_set) ? $paging_set : FALSE;
 $active_modul = isset($active_modul) ? $active_modul : 'none';
 $next_list_number = isset($next_list_number) ? $next_list_number : 1;
-$skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
-$status = array('Draft', 'Verifikasi', 'Penilaian', 'Selesai', 'Ditolak', 'Tidak Sesuai');
-$label = array('label-warning', 'label-default', 'label-info', 'label-success', 'label-danger', 'label-warning');
+$skpt_ouput = get_skpt_output();
+$status = get_skpt_status();
+$label = get_skpt_label();
 //var_dump($access_rules);
 ?>
 <div class="row">
@@ -56,7 +56,7 @@ $label = array('label-warning', 'label-default', 'label-info', 'label-success', 
                                         <tr>
                                             <td class="text-right"><?php echo $next_list_number++ ?></td>
                                             <td><?php echo beautify_str($record->deskripsi_dupnk) ?></td>
-                                            <td><?php echo $record->skpt_kuantitas . " " . $skpt_ouput[$record->skpt_output] ?></td>
+                                            <td><?php echo $record->skpt_kuantitas . " " . show_skpt_output($record->skpt_output); ?></td>
                                             <td class="text-right"><?php echo $record->skpt_kualitas ?></td>
                                             <td class="text-right"><?php echo $record->skpt_waktu ?></td>
                                             <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($record->skpt_biaya, 0, ',', '.') ?></td>

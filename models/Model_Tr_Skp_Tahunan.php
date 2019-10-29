@@ -127,21 +127,21 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         );
     }
 
-    public function get_realisasi($id_skpt = FALSE) {
-        $this->db->select($this->table_name . '.*', FALSE);
-        $this->db->select_sum('skpb_kuantitas', 'kuantitas');
-        $this->db->select_sum('skpb_biaya', 'biaya');
-        $this->db->select_sum('skpb_real_kuantitas', 'real_kuantitas');
-        $this->db->select_sum('skpb_real_biaya', 'real_biaya');
-        $this->db->select_sum('skpb_kualitas', 'kualitas');
-        $this->db->join($this->schema_name . '.tr_skp_bulanan', $this->schema_name . '.tr_skp_bulanan.id_skpt = ' . $this->table_name . '.id_skpt', 'left');
-        $this->db->where($this->table_name . '.id_skpt', $id_skpt);
-//        $this->db->where($this->table_name . '.skpt_status >', 1);
-        $this->db->where($this->table_name . '.record_active', 1);
-        $this->db->group_by($this->table_name . '.id_skpt');
-        $query = $this->db->get($this->table_name);
-        return $query->num_rows() && $query->num_rows() > 0 ? $query->row() : FALSE;
-    }
+//    public function get_realisasi($id_skpt = FALSE) {
+//        $this->db->select($this->table_name . '.*', FALSE);
+//        $this->db->select_sum('skpb_kuantitas', 'kuantitas');
+//        $this->db->select_sum('skpb_biaya', 'biaya');
+//        $this->db->select_sum('skpb_real_kuantitas', 'real_kuantitas');
+//        $this->db->select_sum('skpb_real_biaya', 'real_biaya');
+//        $this->db->select_sum('skpb_kualitas', 'kualitas');
+//        $this->db->join($this->schema_name . '.tr_skp_bulanan', $this->schema_name . '.tr_skp_bulanan.id_skpt = ' . $this->table_name . '.id_skpt', 'left');
+//        $this->db->where($this->table_name . '.id_skpt', $id_skpt);
+////        $this->db->where($this->table_name . '.skpt_status >', 1);
+//        $this->db->where($this->table_name . '.record_active', 1);
+//        $this->db->group_by($this->table_name . '.id_skpt');
+//        $query = $this->db->get($this->table_name);
+//        return $query->num_rows() && $query->num_rows() > 0 ? $query->row() : FALSE;
+//    }
 
     public function update_status($id = FALSE, $value = FALSE) {
         $this->db->set('skpt_status', $value);

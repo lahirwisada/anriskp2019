@@ -1,13 +1,4 @@
 <?php
-/*
- * CV MITRA INDOKOMP SEJAHTERA
- * MIS DEVELOPER
- * @autor Rinaldi <rinaldi79@gmail.com>
- * 2017apik
- * laporan.php
- * Oct 30, 2017
- */
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 $header_title = isset($header_title) ? $header_title : '';
 $message_error = isset($message_error) ? $message_error : '';

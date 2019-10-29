@@ -6,7 +6,7 @@ $detail = isset($detail) ? $detail : FALSE;
 $random_id = isset($random_id) ? $random_id : generate_random_id();
 $skpb = isset($skpb) ? $skpb : FALSE;
 $uploaded_files = isset($uploaded_files) ? $uploaded_files : FALSE;
-$skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
+$skpt_ouput = get_skpt_output();
 ?>
 
 <div class="row">

@@ -7,9 +7,9 @@ $tgl_aktivitas = isset($tgl_aktivitas) ? $tgl_aktivitas : date('d-m-Y');
 $nip = isset($nip) ? $nip : '';
 $detail_pegawai = isset($detail_pegawai) ? $detail_pegawai : '';
 
-$skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
-$status = array('Draft', 'Verifikasi', 'Penilaian', 'Selesai', 'Ditolak', 'Tidak Sesuai');
-$label = array('label-warning', 'label-default', 'label-info', 'label-success', 'label-danger', 'label-warning');
+$skpt_ouput = get_skpt_output();
+$status = get_skpt_status();
+$label = get_skpt_label();
 ?>
 
 <div class="row">

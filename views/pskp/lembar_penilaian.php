@@ -4,9 +4,9 @@ $detail_skpt = isset($detail_skpt) ? $detail_skpt : FALSE;
 $records = isset($records) ? $records : FALSE;
 $next_list_number = isset($next_list_number) ? $next_list_number : 1;
 
-$skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
-$status = array('Draft', 'Verifikasi', 'Penilaian', 'Selesai', 'Ditolak', 'Tidak Sesuai');
-$label = array('label-warning', 'label-default', 'label-info', 'label-success', 'label-danger', 'label-warning');
+$skpt_ouput = get_skpt_output();
+$status = get_skpt_status();
+$label = get_skpt_label();
 $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
 ?>
 

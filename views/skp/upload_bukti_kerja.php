@@ -4,7 +4,7 @@ $header_title = isset($header_title) ? $header_title : '';
 $active_modul = isset($active_modul) ? $active_modul : 'none';
 $detail = isset($detail) ? $detail : FALSE;
 $skpb = isset($skpb) ? $skpb : FALSE;
-$skpt_ouput = array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
+$skpt_ouput = get_skpt_output();
 $random_id = isset($random_id) ? $random_id : generate_random_id();
 ?>
 

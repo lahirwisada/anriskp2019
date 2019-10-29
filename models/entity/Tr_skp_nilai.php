@@ -33,8 +33,8 @@ class Tr_skp_nilai extends MY_Model {
     );
     protected $rules = array(
         array("id_turunan_dari", ""),
-        array("id_skpt", "required|integer"),
-        array("tahun", "required|integer"),
+        array("id_skpt", "integer"),
+        array("tahun", "integer"),
         array("real_nilai_kualitas", ""),
         array("real_nilai_kuantitas", ""),
         array("real_nilai_waktu", ""),

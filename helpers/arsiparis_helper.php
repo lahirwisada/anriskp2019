@@ -16,8 +16,44 @@ if (!function_exists('show_nilai_huruf')) {
         } else {
             $nilai_huruf = 'Sangat Baik';
         }
-        
+
         return array($nilai_huruf, $nilai_capaian);
+    }
+
+}
+
+if (!function_exists('show_skpt_output')) {
+
+    function show_skpt_output($skpt_output = NULL) {
+        if (!is_null($skpt_output) && $skpt_output !== FALSE) {
+            $arr_skpt_output = get_skpt_output();
+            return $arr_skpt_output[$skpt_output];
+        }
+        return "";
+    }
+
+}
+
+if (!function_exists('get_skpt_output')) {
+
+    function get_skpt_output($skpt_output = FALSE) {
+        return array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
+    }
+
+}
+
+if (!function_exists('get_skpt_status')) {
+
+    function get_skpt_status() {
+        return array('Draft', 'Verifikasi', 'Penilaian', 'Selesai', 'Ditolak', 'Tidak Sesuai');
+    }
+
+}
+
+if (!function_exists('get_skpt_label')) {
+
+    function get_skpt_label() {
+        return array('label-warning', 'label-default', 'label-info', 'label-success', 'label-danger', 'label-warning');
     }
 
 }
