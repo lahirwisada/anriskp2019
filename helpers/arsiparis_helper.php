@@ -1,10 +1,26 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+if (!function_exists('show_nilai_huruf')) {
+
+    function show_nilai_huruf($total_nilai_skp, $jumlah_laporan) {
+        $nilai_capaian = $jumlah_laporan > 0 ? $total_nilai_skp / $jumlah_laporan : 0;
+        $nilai_huruf = '';
+        if ($nilai_capaian <= 50) {
+            $nilai_huruf = 'Buruk';
+        } elseif ($nilai_capaian <= 60) {
+            $nilai_huruf = 'Sedang';
+        } elseif ($nilai_capaian <= 75) {
+            $nilai_huruf = 'Cukup';
+        } elseif ($nilai_capaian < 91) {
+            $nilai_huruf = 'Baik';
+        } else {
+            $nilai_huruf = 'Sangat Baik';
+        }
+        
+        return array($nilai_huruf, $nilai_capaian);
+    }
+
+}
 
 if (!function_exists('hitung_nilai_skp')) {
 
@@ -51,7 +67,7 @@ if (!function_exists('hitung_nilai_skp')) {
         $hitung = $persen_kualitas + $persen_kuantitas + $nilai_waktu + $nilai_biaya;
 
         $nilai_capaian = (!is_null($row_skp_tahunan->real_nilai_biaya) && $row_skp_tahunan->real_nilai_biaya > 0) ? $hitung / 3 : $hitung / 4;
-        
+
         unset($persen_kualitas, $persen_kuantitas, $nilai_biaya, $nilai_waktu, $biaya_less24, $biaya_up24, $waktu_less24, $waktu_up24);
         return array($hitung, $nilai_capaian);
     }

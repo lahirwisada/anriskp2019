@@ -23,7 +23,6 @@ $nilai_skp_kerja = 0;
 //exit();
 
 $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
-
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -32,14 +31,15 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                 <h3 class="panel-title">Laporan SKP Tahunan</h3>
             </div>
             <div class="panel-body">
-                <table class="table table-condensed table-bordered">
+
+                <table class="table table-bordered table-condensed table-striped table-hover">
                     <thead>
-                        <tr>
+                        <tr role="row">
                             <th rowspan="2">No</th>
-                            <th rowspan="2">Kegiatan</th>
+                            <th rowspan="2">Nama Kegiatan</th>
                             <th colspan="4">Target</th>
-                            <th colspan="4">Realisasi</th>
-                            <th rowspan="2">Perhi-<br>tungan</th>
+                            <th colspan="4">Penilaian</th>
+                            <th rowspan="2">Penghi-<br>tungan</th>
                             <th rowspan="2">Nilai<br>Capaian<br>SKP</th>
                         </tr>
                         <tr>
@@ -66,45 +66,33 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                 $waktu_target = $row->skpt_waktu;
                                 $biaya_target = $row->skpt_biaya;
 
-                                $kuantitas_real = $row->real_kuantitas > 0 ? $row->real_kuantitas : 0;
-                                $kualitas_real = $row->real_kualitas > 0 ? $row->real_kualitas / $row->jml : 0;
-                                $waktu_real = $row->jml;
-                                $biaya_real = $row->real_biaya > 0 ? $row->real_biaya : 0;
+                                $kuantitas_real = $row->real_nilai_kuantitas > 0 ? $row->real_nilai_kuantitas : 0;
+                                $kualitas_real = $row->real_nilai_kualitas;
+                                $waktu_real = $row->real_nilai_waktu;
+                                $biaya_real = $row->real_nilai_biaya > 0 ? $row->real_nilai_biaya : 0;
 
-                                $hitung = $row->real_hitung / $row->jml;
-                                $nilai_skp = $row->real_nilai / $row->jml;
+                                list($nilai, $nilai_skp) = hitung_nilai_skp($row);
+
                                 $total += $nilai_skp;
                                 $jumlah++;
                                 ?>
                                 <tr>
-                                    <td class="text-right"><?php echo $next_list_number++; ?></td>
+                                    <td class="text-right"><?php echo $next_list_number++ ?></td>
                                     <td><?php echo $row->skpt_kegiatan; ?></td>
-                                    <td class="text-center"><?php echo $kuantitas_target; ?></td>
-                                    <td class="text-center"><?php echo $kualitas_target; ?></td>
-                                    <td class="text-center"><?php echo $waktu_target; ?></td>
+                                    <td class="text-center"><?php echo $kuantitas_target ?></td>
+                                    <td class="text-center"><?php echo $kualitas_target ?></td>
+                                    <td class="text-center"><?php echo $waktu_target ?></td>
                                     <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo $kuantitas_real; ?></td>
-                                    <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.'); ?></td>
-                                    <td class="text-center"><?php echo $waktu_real; ?></td>
+                                    <td class="text-center"><?php echo $kuantitas_real ?></td>
+                                    <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
+                                    <td class="text-center"><?php echo $waktu_real ?></td>
                                     <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo number_format($hitung, 0, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
+                                    <td class="text-right"><?php echo number_format($nilai, 0, ',', '.') ?></td>
+                                    <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             <?php
-                            $nilai_capaian = $jumlah > 0 ? $total / $jumlah : 0;
-                            $nilai_huruf = '';
-                            if ($nilai_capaian <= 50) {
-                                $nilai_huruf = 'Buruk';
-                            } elseif ($nilai_capaian <= 60) {
-                                $nilai_huruf = 'Sedang';
-                            } elseif ($nilai_capaian <= 75) {
-                                $nilai_huruf = 'Cukup';
-                            } elseif ($nilai_capaian < 91) {
-                                $nilai_huruf = 'Baik';
-                            } else {
-                                $nilai_huruf = 'Sangat Baik';
-                            }
+                            list($nilai_huruf, $nilai_capaian) = show_nilai_huruf($total, $jumlah);
                             ?>
                             <tr class="table-footer">
                                 <td colspan="10" class="text-center">Nilai Capaian SKP</td>
@@ -119,12 +107,12 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                 <div class="row">
                     <div class="col-md-4">
                         <?php
-                        $perilaku_pelayanan = $perilaku ? $perilaku->perilaku_pelayanan / 12 : 0;
-                        $perilaku_integritas = $perilaku ? $perilaku->perilaku_integritas / 12 : 0;
-                        $perilaku_komitmen = $perilaku ? $perilaku->perilaku_komitmen / 12 : 0;
-                        $perilaku_disiplin = $perilaku ? $perilaku->perilaku_disiplin / 12 : 0;
-                        $perilaku_kerjasama = $perilaku ? $perilaku->perilaku_kerjasama / 12 : 0;
-                        $perilaku_kepemimpinan = $perilaku ? $perilaku->perilaku_kepemimpinan / 12 : 0;
+                        $perilaku_pelayanan = $perilaku ? $perilaku->perilaku_pelayanan : 0;
+                        $perilaku_integritas = $perilaku ? $perilaku->perilaku_integritas : 0;
+                        $perilaku_komitmen = $perilaku ? $perilaku->perilaku_komitmen : 0;
+                        $perilaku_disiplin = $perilaku ? $perilaku->perilaku_disiplin : 0;
+                        $perilaku_kerjasama = $perilaku ? $perilaku->perilaku_kerjasama : 0;
+                        $perilaku_kepemimpinan = $perilaku ? $perilaku->perilaku_kepemimpinan : 0;
                         ?>
                         <table class="table table-bordered table-condensed">
                             <tr style="font-weight: bold;">
@@ -150,27 +138,28 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                 <td>Kerjasama</td>
                                 <td class="text-right"><?php echo number_format($perilaku_kerjasama, 2, ',', '.') ?></td>
                             </tr>
-							<?php if( !$is_fungsional ): ?>
-                            <tr>
-                                <td>Kepemimpinan</td>
-                                <td class="text-right"><?php echo number_format($perilaku_kepemimpinan, 2, ',', '.') ?></td>
-                            </tr>
-							<?php endif; ?>
+                            <?php if (!$is_fungsional): ?>
+                                <tr>
+                                    <td>Kepemimpinan</td>
+                                    <td class="text-right"><?php echo number_format($perilaku_kepemimpinan, 2, ',', '.') ?></td>
+                                </tr>
+                            <?php endif; ?>
                             <tr style="font-weight: bold;">
                                 <td>Jumlah</td>
                                 <td class="text-right"><?php
-									$nilai_perilaku = ( $perilaku ? $perilaku->perilaku_pelayanan +
+                                    $nilai_perilaku = ( $perilaku ? $perilaku->perilaku_pelayanan +
                                             $perilaku->perilaku_integritas +
                                             $perilaku->perilaku_komitmen +
                                             $perilaku->perilaku_disiplin +
                                             $perilaku->perilaku_kerjasama : 0 );
-									if( !$is_fungsional ) $nilai_perilaku = $nilai_perilaku + ( $perilaku && !is_null($perilaku->perilaku_kepemimpinan) ? $perilaku->perilaku_kepemimpinan : 0 );
-									$nilai_perilaku_kerja = ( $nilai_perilaku ? $nilai_perilaku / ($is_fungsional ? 5 : 6) : $nilai_perilaku );
+                                    if (!$is_fungsional)
+                                        $nilai_perilaku = $nilai_perilaku + ( $perilaku && !is_null($perilaku->perilaku_kepemimpinan) ? $perilaku->perilaku_kepemimpinan : 0 );
+                                    $nilai_perilaku_kerja = ( $nilai_perilaku ? $nilai_perilaku / ($is_fungsional ? 5 : 6) : $nilai_perilaku );
 
-									/*
-                                    $nilai_perilaku = $perilaku_pelayanan + $perilaku_integritas + $perilaku_komitmen + $perilaku_disiplin + $perilaku_kepemimpinan + $perilaku_pelayanan;
-                                    $nilai_perilaku_kerja = $nilai_perilaku > 0 ? ($perilaku_pelayanan > 0 ? $nilai_perilaku / 6 : $nilai_perilaku / 5) : 0;
-									*/
+                                    /*
+                                      $nilai_perilaku = $perilaku_pelayanan + $perilaku_integritas + $perilaku_komitmen + $perilaku_disiplin + $perilaku_kepemimpinan + $perilaku_pelayanan;
+                                      $nilai_perilaku_kerja = $nilai_perilaku > 0 ? ($perilaku_pelayanan > 0 ? $nilai_perilaku / 6 : $nilai_perilaku / 5) : 0;
+                                     */
                                     echo number_format($nilai_perilaku, 2, ',', '.');
                                     ?></td>
                             </tr>

@@ -27,7 +27,7 @@ $keyword = isset($keyword) ? $keyword : '';
                             <?php echo dropdown_tahun('tahun', $tahun, 5, 'class="form-control" style="width: 55px;"') ?>
                             <div class="input-group-btn">
                                 <button class="btn btn-default"><span class="fa fa-search"></span> Cari</button>
-                                <a href="<?php echo base_url('back_end/' . $active_modul . '/laporan/' . $tahun); ?>" class="btn btn-default"><span class="fa fa-print"></span> Laporan</a>
+                                <a href="<?php echo base_url($active_modul . '/laporan/' . $tahun); ?>" class="btn btn-default"><span class="fa fa-print"></span> Laporan</a>
                             </div>
                         </div>
                     </div>
