@@ -4,6 +4,8 @@ $model_user_attributes = isset($model_user_attributes) && array_have_value($mode
 $attention_messages = isset($attention_messages) ? $attention_messages : FALSE;
 ?>
 
+
+<?php /*
 <div class="block">
     <?php echo load_partial("back_bone/shared/attention_message"); ?>
 </div>
@@ -67,3 +69,21 @@ $attention_messages = isset($attention_messages) ? $attention_messages : FALSE;
     <!-- End page content -->
 
 </main>
+*/
+?>
+
+<div id="loginBoxMainContainer" class="loginBox" style="margin-bottom: 0px;">
+            <div class="loginBoxinner">
+                <!--<img src="./LASIK-halamanLogin_files/213.jpg" class="user" id="last_user_photo">-->
+                <form id="form_login" method="post">
+                    <p>Username</p>
+                    <input type="text" name="username" placeholder="NIP">
+                    <p>Password</p>
+                    <input type="password" name="password" placeholder="••••••">
+                    <input id="btn_submit" type="submit" name="" value="Masuk" class="">
+                    <!--a href="#">Forget Password</a-->
+                </form>
+                <p class="info">Silahkan melakukan otentifikasi untuk mengakses layanan SEMAKIN JAGO.</p>
+            </div>
+            
+        </div>
