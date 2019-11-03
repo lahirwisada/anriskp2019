@@ -89,11 +89,11 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
                 . "skpt.skpt_kualitas,"
                 . "skpt.skpt_real_kualitas,"
                 . "skpt.skpt_real_kuantitas,"
-                . "tsn.real_nilai_kualitas,"
-                . "tsn.real_nilai_kuantitas,"
-                . "tsn.real_nilai_biaya,"
-                . "tsn.real_nilai_waktu,"
-                . "tsn.real_output,"
+                . "AVG(tsn.real_nilai_kualitas) as real_nilai_kualitas,"
+                . "AVG(tsn.real_nilai_kuantitas) as real_nilai_kuantitas,"
+                . "AVG(tsn.real_nilai_biaya) as real_nilai_biaya,"
+                . "AVG(tsn.real_nilai_waktu) as real_nilai_waktu,"
+//                . "tsn.real_output,"
                 . "0 real_hitung,"
                 . "0 real_nilai,"
                 . "skpt.skpt_waktu jml");
@@ -111,11 +111,11 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         $this->db->where("skpt.skpt_status in (2,3)");
         $this->db->group_by('skpt.id_skpt');
         $this->db->group_by('p.id_pegawai');
-        $this->db->group_by('tsn.real_output');
-        $this->db->group_by('tsn.real_nilai_waktu');
-        $this->db->group_by('tsn.real_nilai_biaya');
-        $this->db->group_by('tsn.real_nilai_kuantitas');
-        $this->db->group_by('tsn.real_nilai_kualitas');
+//        $this->db->group_by('tsn.real_output');
+//        $this->db->group_by('tsn.real_nilai_waktu');
+//        $this->db->group_by('tsn.real_nilai_biaya');
+//        $this->db->group_by('tsn.real_nilai_kuantitas');
+//        $this->db->group_by('tsn.real_nilai_kualitas');
         $query = $this->db->get();
 //        print_r($this->db->last_query());
 //        var_dump($query);

@@ -90,7 +90,7 @@ $keyword = isset($keyword) ? $keyword : '';
                                         <td class="text-center"><?php echo $kualitas_target ?></td>
                                         <td class="text-center"><?php echo $waktu_target ?></td>
                                         <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
-                                        <td class="text-center"><?php echo $kuantitas_real . " " . show_skpt_output($row->real_output) ?></td>
+                                        <td class="text-center"><?php echo $kuantitas_real;// . " " . show_skpt_output($row->real_output) ?></td>
                                         <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
                                         <td class="text-center"><?php echo $waktu_real ?></td>
                                         <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
