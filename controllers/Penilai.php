@@ -10,7 +10,7 @@ class Penilai extends Skarsiparis_cmain {
 
     public function __construct() {
         parent::__construct('kelola_penilai', 'Penilai');
-        $this->load->model(array("model_user", "model_backbone_user", "model_backbone_profil", "model_backbone_user_role", "model_backbone_role"));
+        $this->load->model(array("model_user", "model_backbone_user", "model_backbone_profil", "model_backbone_user_role", "model_backbone_role", "model_petugas_penilai"));
     }
 
     public function index() {
@@ -42,15 +42,16 @@ class Penilai extends Skarsiparis_cmain {
 
         $id_user = extract_id_with_salt($crypt_id_user);
 
-        $penilai_detail = $this->model_master_pegawai->get_pegawai_by_id($id_user);
+        $penilai_detail = $this->model_master_pegawai->get_pegawai_by_id_user($id_user);
 
         $records = (object) array(
                     "record_set" => FALSE,
                     "record_found" => 0,
                     "keyword" => ''
         );
+        
         if ($penilai_detail) {
-            $records = $this->model_master_pegawai->all(FALSE, FALSE, "id_penilai = '" . $id_user . "'");
+            $records = $this->model_petugas_penilai->all(FALSE, FALSE, $this->model_petugas_penilai->get_table_name().".id_penilai = '" . $penilai_detail->id_pegawai . "'");
         }
 
         $this->set('records', $records->record_set);
@@ -71,32 +72,45 @@ class Penilai extends Skarsiparis_cmain {
         }
 
         $id_penilai = $this->input->get_post('pid');
-        
-        if($id_penilai !== FALSE){
+
+        if ($id_penilai !== FALSE) {
+
+            $audien = $this->model_master_pegawai->get_pegawai_by_id_user($id_pegawai);
+            $penilai = $this->model_master_pegawai->get_pegawai_by_id_user(extract_id_with_salt($id_penilai));
             
-            $this->model_master_pegawai->add_remove_penilai($id_pegawai, extract_id_with_salt($id_penilai));
+            if ($audien && $penilai && $audien->jml_penilai < 3) {
+                $response_add_remove_penilai = $this->model_petugas_penilai->add_remove_penilai($audien->id_pegawai, $penilai->id_pegawai);
+                if($response_add_remove_penilai){
+                    $this->model_master_pegawai->update_jml_penilai($audien, 'addition');
+                }
+
+                $uri_redirection = 'penilai/daftar_audien/' . $id_penilai;
+                redirect($uri_redirection);
+                exit;
+            }
             
-            $uri_redirection = 'penilai/daftar_audien/'.$id_penilai;
-            redirect($uri_redirection);
-            exit;
         }
         redirect('penilai');
     }
 
-    public function remove_audien($crypt_id_user = FALSE) {
-        if (!$crypt_id_user) {
+    public function remove_audien($crypt_id_petugas_penilai = FALSE) {
+        if (!$crypt_id_petugas_penilai) {
             redirect('penilai');
         }
 
-        $id_user = extract_id_with_salt($crypt_id_user);
+        $id_petugas_penilai = extract_id_with_salt($crypt_id_petugas_penilai);
 
         $id_penilai = $this->input->get_post('pid');
+        $crypt_id_audien = $this->input->get_post('aid');
         
-        if($id_penilai !== FALSE){
-            
-            $this->model_master_pegawai->add_remove_penilai($id_user);
-            
-            $uri_redirection = 'penilai/daftar_audien/'.$id_penilai;
+        $audien = $this->model_master_pegawai->get_pegawai_by_id(extract_id_with_salt($crypt_id_audien));
+
+        if ($id_penilai !== FALSE && $audien !== FALSE) {
+
+            $this->model_master_pegawai->update_jml_penilai($audien, 'subtraction');
+            $this->model_petugas_penilai->remove($id_petugas_penilai);
+
+            $uri_redirection = 'penilai/daftar_audien/' . $id_penilai;
             redirect($uri_redirection);
             exit;
         }

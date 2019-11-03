@@ -89,12 +89,13 @@ class Pskp extends Skarsiparis_cmain {
         $id_skpt = extract_id_with_salt($crypt_id_skpt);
 
         $detail_skpt = $this->model_tr_vskp->show_detail($id_skpt);
-        $records = $this->model_tr_skp_nilai->all($id_skpt);
+        $records = $this->model_tr_skp_nilai->all($id_skpt, $this->user_detail["id_pegawai"]);
 
         $this->set('records', $records->record_set);
         $this->set('total_record', $records->record_found);
         $this->set('detail_skpt', $detail_skpt);
         $this->set('crypt_id_skpt', $crypt_id_skpt);
+        $this->set('crypt_id_penilai', add_salt_to_string($this->user_detail["id_pegawai"]));
         $this->set("additional_js", "pskp/js/lembar_penilaian_js");
     }
 
@@ -113,9 +114,11 @@ class Pskp extends Skarsiparis_cmain {
     }
 
     public function penilaian($id_skp_nilai = FALSE, $posted_data = array()) {
+        $this->model_tr_skp_nilai->active_module = 'pskp';
         parent::detail($id_skp_nilai, array(
             "id_skpt",
             "tahun",
+            "id_pegawai_penilai",
             "id_turunan_dari",
             "real_nilai_kualitas",
             "real_nilai_kuantitas",
@@ -134,26 +137,7 @@ class Pskp extends Skarsiparis_cmain {
             ));
             exit;
         }
-
-/**
-
-//        $this->set('pegawai_id', $this->pegawai_id);
-        $this->set('pegawai_id', $this->user_detail["id_pegawai"]);
-//        $this->set('skpb', $this->model_tr_skp_bulanan->get_data_setahun($id));
-        $this->set('skpb', FALSE);
-        $this->set("bread_crumb", array(
-            "back_end/" . $this->_name => $this->_header_title,
-            "#" => 'Formulir ' . $this->_header_title
-        ));
-
-        $this->set("additional_js", "skp/js/detail_js");
-
-        $this->add_cssfiles(array("plugins/select2/select2.min.css"));
-        $this->add_jsfiles(array("plugins/select2/select2.full.min.js"));
-//        $this->add_jsfiles(array("plugins/smartwizard/jquery.smartWizard-2.0.min.js"));
-        $this->add_jsfiles(array("plugins/jquery-validation/jquery.validate.js"));
- * 
- */
+        redirect('pskp');
     }
 
 }

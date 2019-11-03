@@ -122,15 +122,15 @@ class Main_controller extends LWS_Controller {
     }
 
     public function get_like_penilaian_audien() {
-        $this->load->model("model_master_pegawai");
-        $query_condition = "id_penilai = '".$this->user_detail["id_user"]."'";
-        return $this->model_master_pegawai->combobox(array(
-                    "key" => "id_pegawai",
+        $this->load->model(array("model_master_pegawai", "model_petugas_penilai"));
+        $query_condition = $this->model_petugas_penilai->table_name.".id_penilai = '" . $this->user_detail["id_pegawai"] . "'";
+        return $this->model_petugas_penilai->combobox(array(
+                    "key" => "id_audien",
                     "value" => "value_pegawai",
                     "cb_using_default_value" => TRUE,
                     "record_active_only" => TRUE,
                     "where" => $query_condition,
-                    "custom_select" => "id_pegawai, concat(pegawai_nip,' - ',pegawai_nama) as value_pegawai"
+                    "custom_select" => $this->model_petugas_penilai->table_name.".id_audien, concat(mp.pegawai_nip,' - ',mp.pegawai_nama) as value_pegawai"
                         )
         );
     }

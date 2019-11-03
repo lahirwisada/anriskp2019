@@ -15,10 +15,32 @@ class Pperilaku extends Skarsiparis_cmain {
     }
 
     public function index() {
+        $pegawai = $this->model_master_pegawai->get_pegawai_by_id_user($this->user_detail["id_user"]);
+
+//        if ($pegawai) {
+            $id = $this->model_tr_perilaku->check_data($this->id_pegawai, date('Y'));
+            parent::detail($id, array(
+                "id_pegawai",
+                "perilaku_tahun",
+                "perilaku_pelayanan",
+                "perilaku_integritas",
+                "perilaku_komitmen",
+                "perilaku_disiplin",
+                "perilaku_kerjasama",
+                "perilaku_kepemimpinan"
+            ));
+//        }else{
+//            redirect('Pperilaku');
+//        }
+
+        $this->set('pegawai', $pegawai);
+        $this->set('tahun', date('Y'));
+        $this->set('id_user', add_salt_to_string($this->user_detail["id_user"]));
+    }
+    
+    public function index_obsolete() {
         $this->session->set_userdata('referer', $this->_uri_before_login);
         $this->get_attention_message_from_session();
-
-
 
         $records = $this->model_master_pegawai->all(FALSE, FALSE, "id_penilai = '" . $this->user_detail['id_user'] . "'");
 //        var_dump($records);exit;
@@ -36,7 +58,7 @@ class Pperilaku extends Skarsiparis_cmain {
         ));
     }
 
-    public function penilaian($crypt_id_user = FALSE) {
+    public function penilaian_obsolete($crypt_id_user = FALSE) {
         if (!$crypt_id_user) {
             redirect('Pperilaku');
         }

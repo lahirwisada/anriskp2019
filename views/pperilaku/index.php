@@ -1,77 +1,77 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 $header_title = isset($header_title) ? $header_title : '';
-$message_error = isset($message_error) ? $message_error : '';
-$record_active_column_name = isset($record_active_column_name) ? $record_active_column_name : FALSE;
-$records = isset($records) ? $records : FALSE;
-$paging_set = isset($paging_set) ? $paging_set : FALSE;
-$keyword = isset($keyword) ? $keyword : "";
-$next_list_number = isset($next_list_number) ? $next_list_number : 1;
-$is_developer = isset($is_developer) ? $is_developer : TRUE;
-?>
+$active_modul = isset($active_modul) ? $active_modul : 'none';
+$pegawai = isset($pegawai) ? $pegawai : FALSE;
+$perilaku = isset($perilaku) ? $perilaku : FALSE;
+$detail = isset($detail) ? $detail : FALSE;
 
+$is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
+?>
 <div class="row">
     <div class="col-md-12">
-
-        <!-- START DEFAULT DATATABLE -->
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <?php echo load_partial("back_bone/shared/attention_message"); ?>
-                <p>Gunakan Formulir ini untuk melakukan pencarian pada halaman ini.</p>
-                <form class="form-panel">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="text" name="keyword" value="<?php echo $keyword; ?>" class="form-control" placeholder="Silahkan masukkan kata kunci disini"/>
-                            <div class="input-group-btn">
-                                <button class="btn btn-default"><span class="fa fa-search"></span> Cari</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="table-responsive">
-                    <table class="table table-condensed table-bordered table-striped">
-                        <thead>
-                            <tr role="row">
-                                <th width="5%">
-                                    No
-                                </th>
-                                <th>
-                                    Nama
-                                </th>
-                                <th width="20%">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if ($records != FALSE): ?>
-                                <?php foreach ($records as $key => $record): ?>
-                                    <tr>
-                                        <td class="text-right">
-                                            <?php echo $next_list_number; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $record->pegawai_nama."<br />"."NIP : ".$record->pegawai_nip; ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="btn-group btn-group-sm">
-                                                <a class="btn btn-default" href="<?php echo base_url('pperilaku/penilaian')."/".add_salt_to_string($record->id_user); ?>">Penilaian</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <?php $next_list_number++; ?>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="5"> Kosong / Data tidak ditemukan. </td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
+        <form role="form" method="POST" class="form-horizontal">
+            <?php
+            echo form_hidden('id_pegawai', $pegawai->id_pegawai);
+            echo form_hidden('perilaku_tahun', $tahun);
+            ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Penilaian Perilaku Pegawai</h3>
+                </div>
+                <div class="panel-body">
+                    <?php echo load_partial("back_end/shared/attention_message"); ?>
+                    <table>
+                        <tr>
+                            <td>Nama Pegawai</td>
+                            <td>:</td>
+                            <td><?php echo $pegawai->pegawai_nama ?></td>
+                        </tr>
+                        <tr>
+                            <td>NIP</td>
+                            <td>:</td>
+                            <td><?php echo $pegawai->pegawai_nip ?></td>
+                        </tr>
                     </table>
-
-                    <?php /** <div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 10 of 57 entries</div> */ ?>
-                    <?php
-                    echo $paging_set;
-                    ?>
+                    <hr>
+                    <table>
+                        <tr>
+                            <td>Orientasi Pelayanan</td>
+                            <td>:</td>
+                            <td><?php echo form_input('perilaku_pelayanan', ($detail) ? $detail->perilaku_pelayanan : 0, 'class="form-control"'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Integritas</td>
+                            <td>:</td>
+                            <td><?php echo form_input('perilaku_integritas', ($detail) ? $detail->perilaku_integritas : 0, 'class="form-control"'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Komitmen</td>
+                            <td>:</td>
+                            <td><?php echo form_input('perilaku_komitmen', ($detail) ? $detail->perilaku_komitmen : 0, 'class="form-control"'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Disiplin</td>
+                            <td>:</td>
+                            <td><?php echo form_input('perilaku_disiplin', ($detail) ? $detail->perilaku_disiplin : 0, 'class="form-control"'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Kerjasama</td>
+                            <td>:</td>
+                            <td><?php echo form_input('perilaku_kerjasama', ($detail) ? $detail->perilaku_kerjasama : 0, 'class="form-control"'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Kepemimpinan</td>
+                            <td>:</td>
+                            <td><?php echo form_input('perilaku_kepemimpinan', ($detail) ? $detail->perilaku_kepemimpinan : 0, 'class="form-control"'); ?></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn-primary btn pull-right">Simpan</button>
+                    <a href="<?php echo base_url('pperilaku'); ?>" class="btn-default btn">Batal / Kembali</a>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>

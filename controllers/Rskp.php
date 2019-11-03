@@ -29,59 +29,89 @@ class Rskp extends Skarsiparis_cmain {
         ));
     }
 
+    private function get_kelompok_penilai() {
+        $rs_kelompok_penilai = $this->model_petugas_penilai->get_petugas_by_id_audien($this->user_detail["id_pegawai"]);
+        if ($rs_kelompok_penilai) {
+            foreach ($rs_kelompok_penilai as $key => $record) {
+                $rs_kelompok_penilai[$key] = $record->id_penilai;
+            }
+            return $rs_kelompok_penilai;
+        }
+        return [];
+    }
+
     public function read($crypt_id_skpt = FALSE) {
-        
+
         if (!$crypt_id_skpt) {
             redirect('pskp');
         }
 
         $id_skpt = extract_id_with_salt($crypt_id_skpt);
-        
-        $this->load->model("model_tr_skp_nilai");
+
+        $this->load->model(array("model_tr_skp_nilai", "model_petugas_penilai"));
 
         $detail_skpt = $this->model_tr_skp_tahunan->show_detail($id_skpt);
-        $records = $this->model_tr_skp_nilai->all($id_skpt);
+        $records = $this->model_tr_skp_nilai->audien_all($id_skpt);
+        $kelompok_penilai = $this->get_kelompok_penilai();
 
         $this->set('records', $records->record_set);
         $this->set('total_record', $records->record_found);
         $this->set('detail_skpt', $detail_skpt);
+        $this->set('kelompok_penilai', $kelompok_penilai);
         $this->set('crypt_id_skpt', $crypt_id_skpt);
         $this->set("additional_js", "rskp/js/read_js");
     }
-    
+
     protected function after_detail($id = FALSE) {
         $request_by_ajax = $this->input->get_post('ajxon');
 
         if ($request_by_ajax) {
-            echo toJsonString((object)array(
-                "success" => '1',
-                "res_id" => $id
+            echo toJsonString((object) array(
+                        "success" => '1',
+                        "res_id" => $id
             ));
             exit;
         }
 
         return;
     }
-    
-    public function banding($crypt_id_skp_nilai = FALSE, $posted_data = array()){
+
+    public function banding($crypt_id_skp_nilai = FALSE, $posted_data = array()) {
         $this->model = "model_tr_skp_nilai";
         $this->load->model("model_tr_skp_nilai");
-        
+
         $id_skp_nilai = extract_id_with_salt($crypt_id_skp_nilai);
-        
+
+        $cis = $this->input->get_post('cis');
+        $cip = $this->input->get_post('cip');
+
+        $id_skpt = FALSE;
+        $id_penilai = FALSE;
+        if ($cis) {
+            $id_skpt = extract_id_with_salt($cis);
+        }
+
+        if ($cip) {
+            $id_penilai = extract_id_with_salt($cip);
+        }
+
+        $penilaian = $this->model_tr_skp_nilai->get_detail("id_skpt = '" . $id_skpt . "' and id_pegawai_penilai = '" . $id_penilai . "' and current_active = '1'");
+
         $_POST["reject_by_pegawai"] = 1;
-        
-        parent::detail($id_skp_nilai, array(
-            "pegawai_message",
-            "reject_by_pegawai",
-        ));
-        
+
+        if ($penilaian) {
+            parent::detail($penilaian->id_skp_nilai, array(
+                "pegawai_message",
+                "reject_by_pegawai",
+            ));
+        }
+
         $request_by_ajax = $this->input->get_post('ajxon');
 
         if ($request_by_ajax) {
             echo toJsonString((object) array(
-                "success" => '0',
-                "res_id" => FALSE
+                        "success" => '0',
+                        "res_id" => FALSE
             ));
             exit;
         }

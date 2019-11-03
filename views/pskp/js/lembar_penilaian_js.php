@@ -18,6 +18,7 @@
                     tahun: $("#skpt_tahun").val(),
                     id_turunan_dari: null,
                     id_skpt: '<?php echo extract_id_with_salt($crypt_id_skpt); ?>',
+                    cip: '<?php echo $crypt_id_penilai; ?>',
                     ajxon: true,
                 },
                 success: function (resp) {

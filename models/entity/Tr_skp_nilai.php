@@ -20,6 +20,7 @@ class Tr_skp_nilai extends MY_Model {
         "id_skp_nilai" => array("id_skp_nilai", "id_skp_nilai"),
         "id_turunan_dari" => array("id_turunan_dari", "Lanjutan Dari Penilaian"),
         "id_skpt" => array("id_skpt", "ID SKPT"),
+        "id_pegawai_penilai" => array("id_pegawai_penilai", "ID Penilai"),
         "tahun" => array("tahun", "Tahun"),
         "real_nilai_kualitas" => array("real_nilai_kualitas", "Real Kualitas"),
         "real_nilai_kuantitas" => array("real_nilai_kuantitas", "Real Kuantitas"),
@@ -34,6 +35,7 @@ class Tr_skp_nilai extends MY_Model {
     protected $rules = array(
         array("id_turunan_dari", ""),
         array("id_skpt", "integer"),
+        array("id_pegawai_penilai", "integer"),
         array("tahun", "integer"),
         array("real_nilai_kualitas", ""),
         array("real_nilai_kuantitas", ""),

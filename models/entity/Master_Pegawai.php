@@ -27,6 +27,7 @@ class Master_Pegawai extends MY_Model {
         "id_pegawai" => array("id_pegawai", "ID Pegawai"),
         "id_user" => array("id_user", "ID User"),
         "id_penilai" => array("id_penilai", "ID Penilai"),
+        "jml_penilai" => array("jml_penilai", "Jumlah Penilai"),
         "pegawai_nip" => array("pegawai_nip", "NIP Pegawai"),
         "pegawai_nama" => array("pegawai_nama", "Nama Pegawai"),
         "jabfungsional" => array("jabfungsional", "Jabatan"),
@@ -39,6 +40,7 @@ class Master_Pegawai extends MY_Model {
 //        array("kode_organisasi", "required|is_natural_no_zero"),
         array("id_user", "required|is_natural_no_zero"),
         array("id_penilai", "required|is_natural_no_zero"),
+        array("jml_penilai", ""),
     );
 //    public $attr_not_null = array(
 //        "is_guru" => '0'

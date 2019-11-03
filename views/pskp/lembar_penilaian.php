@@ -8,6 +8,7 @@ $skpt_ouput = get_skpt_output();
 $status = get_skpt_status();
 $label = get_skpt_label();
 $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
+$crypt_id_penilai = isset($crypt_id_penilai) ? $crypt_id_penilai : FALSE;
 ?>
 
 <div class="row">

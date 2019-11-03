@@ -86,11 +86,11 @@ $penilai_detail = isset($penilai_detail) ? $penilai_detail : FALSE;
                                                     <?php echo $next_list_number; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $record->pegawai_nama . "<br />" . "NIP : " . $record->pegawai_nip; ?>
+                                                    <?php echo $record->audiens_nama . "<br />" . "NIP : " . $record->audiens_nip; ?>
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="btn-group btn-group-sm">
-                                                        <a class="btn btn-default rem-audien" rel="<?php echo base_url('penilai/remove_audien') . "/" . add_salt_to_string($record->id_user).'?pid='. $id_user; ?>">Hapus</a>
+                                                        <a class="btn btn-default rem-audien" rel="<?php echo base_url('penilai/remove_audien') . "/" . add_salt_to_string($record->id_petugas_penilai).'?pid='. $id_user.'&aid='.add_salt_to_string($record->id_audien); ?>">Hapus</a>
                                                     </div>
                                                 </td>
                                             </tr>

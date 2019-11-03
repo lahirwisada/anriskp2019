@@ -45,12 +45,12 @@
             var cL = modalLoading({
                 title: "Mohon Tunggu ...",
                 titleIcon: 'fa fa-times',
-                msg: "Sedang Mencatat Aktivitas baru ..."
+                msg: "Sedang Mencatat Data baru ..."
             });
         });
 
         $("#tambah_audien").click(function () {
-            location.href = '<?php echo base_url('penilai/add_audien'); ?>/'+$("#slc_pegawai").val()+'?pid=<?php echo $id_user ?>';
+            location.href = '<?php echo base_url('penilai/add_audien'); ?>/'+$("#slc_pegawai").val()+'?pid=<?php echo $id_user; ?>';
         });
         
         $(".rem-audien").click(function(e){

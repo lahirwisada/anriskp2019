@@ -104,7 +104,7 @@ $autoload['helper'] = array('url','file','conf', 'common', 'crypto', 'form', 'se
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array('application');
+$autoload['config'] = array('application', 'skparsiparis');
 
 /*
 | -------------------------------------------------------------------

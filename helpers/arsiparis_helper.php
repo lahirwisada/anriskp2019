@@ -109,3 +109,36 @@ if (!function_exists('hitung_nilai_skp')) {
     }
 
 }
+
+if (!function_exists('crypt_array')) {
+
+    function crypt_array($arr_string = []) {
+        if (empty($arr_string))
+            return [];
+
+
+        return array_map('add_salt_to_string', $arr_string);
+    }
+
+}
+
+if (!function_exists('array_key_for_caption')) {
+
+    function array_key_for_caption($arr_string = [], $caption = '', $key_is_default = TRUE) {
+        if (empty($arr_string)) {
+            return [];
+        }
+
+        $arr_string = array_keys($arr_string);
+
+        foreach ($arr_string as $key => $val) {
+            $arr_string[$key] = $caption . " " . $val;
+            if ($key_is_default) {
+                $arr_string[$key] = $caption . " " . ($val + 1);
+            }
+        }
+
+        return $arr_string;
+    }
+
+}

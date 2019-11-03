@@ -1,10 +1,8 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+if (!defined("BASEPATH")) {
+    exit("No direct script access allowed");
+}
 
 /**
  * Description of Model_Master_Pegawai
@@ -50,7 +48,7 @@ class Model_Master_Pegawai extends Master_Pegawai {
         }
         return $data;
     }
-    
+
     public function get_pegawai_by_id_user($id_user = FALSE, $id_opd = FALSE) {
         $data = FALSE;
         if ($id_user) {
@@ -104,7 +102,8 @@ class Model_Master_Pegawai extends Master_Pegawai {
         if ($keyword) {
             $this->db->order_by("pegawai_nama", "asc");
             $condition = " (lower(" . $this->table_name . ".pegawai_nip) LIKE lower('%" . $keyword . "%') OR lower(" . $this->table_name . ".pegawai_nama) LIKE lower('%" . $keyword . "%'))";
-            $condition .= " AND " . $this->table_name . ".id_penilai IS NULL ";
+//            $condition .= " AND " . $this->table_name . ".id_penilai IS NULL ";
+            $condition .= " AND " . $this->table_name . ".jml_penilai < '3' ";
             if ($is_not_this_id) {
                 $condition .= " AND  " . $this->table_name . ".id_user <> '" . $is_not_this_id . "'";
             }
@@ -114,6 +113,12 @@ class Model_Master_Pegawai extends Master_Pegawai {
         return $result;
     }
 
+    /**
+     * @obsolete since 03 nov 2019
+     * @param type $id_user
+     * @param type $id_penilai
+     * @return type
+     */
     public function add_remove_penilai($id_user = FALSE, $id_penilai = NULL) {
         $this->db->set('id_penilai', $id_penilai);
         if (is_null($id_penilai)) {
@@ -123,6 +128,24 @@ class Model_Master_Pegawai extends Master_Pegawai {
         }
         $this->db->update($this->table_name);
         return;
+    }
+
+    /**
+     * 
+     * @param type $record_audien
+     * @param type $operation addition or subtraction
+     */
+    public function update_jml_penilai($record_audien = FALSE, $operation = 'addition') {
+        if ($record_audien) {
+            if ($operation == 'addition') {
+                $this->db->set('jml_penilai', ($record_audien->jml_penilai + 1));
+            } elseif ($operation == 'subtraction') {
+                $this->db->set('jml_penilai', ($record_audien->jml_penilai - 1));
+            }
+            $this->db->where('id_pegawai', $record_audien->id_pegawai);
+            $this->db->update($this->table_name);
+        }
+        return $record_audien;
     }
 
     public function get_role_id_by_role_name($role_name = FALSE, $additional_condition = FALSE) {

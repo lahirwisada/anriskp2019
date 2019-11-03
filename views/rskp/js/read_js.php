@@ -12,6 +12,8 @@
                     type: "POST",
                     data: {
                         pegawai_message: $("#pegawai_message").val(),
+                        cip: $("#cipdd").val(),
+                        cis: '<?php echo $crypt_id_skpt; ?>',
                         ajxon: true,
                     },
                     success: function (resp) {
@@ -20,5 +22,7 @@
                 });
             }
         });
+        
+        $("#anchor-tab-0").click();
     });
 </script>
