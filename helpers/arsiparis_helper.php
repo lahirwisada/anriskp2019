@@ -11,7 +11,8 @@ if (!function_exists('show_nilai_huruf')) {
 }
 
 if (!function_exists('get_nilai_huruf')) {
-    function get_nilai_huruf($nilai_capaian, $as_numeric = FALSE){
+
+    function get_nilai_huruf($nilai_capaian, $as_numeric = FALSE) {
         $nilai_huruf = $as_numeric ? FALSE : '';
         if ($nilai_capaian <= 50) {
             $nilai_huruf = $as_numeric ? 4 : 'Buruk';
@@ -26,17 +27,88 @@ if (!function_exists('get_nilai_huruf')) {
         }
         return $nilai_huruf;
     }
+
 }
 
 if (!function_exists('convert_nilai_huruf_to_prosentase')) {
-    function convert_nilai_huruf_to_prosentase($nilai_capaian){
+
+    function convert_nilai_huruf_to_prosentase($nilai_capaian) {
         $key = get_nilai_huruf($nilai_capaian, TRUE);
-        $arr_prosentase = [150,125,100,75,50];
-        if(array_key_exists($key, $arr_prosentase)){
+        $arr_prosentase = [150, 125, 100, 75, 50];
+        if (array_key_exists($key, $arr_prosentase)) {
             return $arr_prosentase[$key];
         }
         return '-';
     }
+
+}
+
+if (!function_exists('get_syarat_angka_kredit')) {
+
+    function get_syarat_angka_kredit($key = FALSE) {
+        $syarat_angka_kredit = [
+            0 => '5',
+            1 => '12.5',
+            2 => '25',
+            3 => '12.5',
+            4 => '25',
+        ];
+        if (!$key) {
+            return $syarat_angka_kredit;
+        }
+
+        if (is_string($key)) {
+            $key = get_array_tingkatan($key);
+        }
+        
+        if (array_key_exists($key, $syarat_angka_kredit)) {
+            return $syarat_angka_kredit[$key];
+        }
+        
+        return FALSE;
+    }
+
+}
+
+if (!function_exists('get_array_tingkatan')) {
+
+    function get_array_tingkatan($key = FALSE) {
+        $array_tingkatan = [
+            0 => 'terampil',
+            1 => 'mahir',
+            2 => 'penyelia',
+            3 => 'pertama',
+            4 => 'muda',
+        ];
+        if (!$key) {
+            return $array_tingkatan;
+        }
+        
+        if(is_numeric($key) && array_key_exists($key, $array_tingkatan)){
+            return $array_tingkatan[$key];
+        }
+        
+        if(is_string($key)){
+            $array_tingkatan = array_flip($array_tingkatan);
+            if(array_key_exists($key, $array_tingkatan)) {
+                return $array_tingkatan[$key];
+            }
+        }
+        
+        return FALSE;
+    }
+
+}
+
+if (!function_exists('calculate_nilai_akt')) {
+
+    function calculate_nilai_akt($nilai_kinerja, $jabatan) {
+        $nilai_prosentase = !is_null($nilai_kinerja) ? convert_nilai_huruf_to_prosentase($nilai_kinerja) : 0;
+        $ak_minimal_jab = get_syarat_angka_kredit(strtolower(trim($jabatan)));
+        
+        return lws_divide(($nilai_prosentase * $ak_minimal_jab), 100);
+    }
+
 }
 
 if (!function_exists('show_skpt_output')) {
@@ -129,9 +201,11 @@ if (!function_exists('hitung_nilai_skp')) {
 }
 
 if (!function_exists('hitung_nilai_capaian')) {
-    function hitung_nilai_capaian($rnb = NULL, $hitung = 0){
+
+    function hitung_nilai_capaian($rnb = NULL, $hitung = 0) {
         return (!is_null($rnb) && $rnb > 0) ? lws_divide($hitung, 3) : lws_divide($hitung, 4);
     }
+
 }
 
 if (!function_exists('crypt_array')) {

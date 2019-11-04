@@ -13,8 +13,65 @@ class Model_Master_Pegawai extends Master_Pegawai {
 
     const ID_ROLE_PENILAI = 3;
 
+    public $by_berita_acara = FALSE;
+    public $berita_acara_tahun = FALSE;
+
     public function __construct() {
         parent::__construct();
+    }
+
+    public function set_by_berita_acara() {
+        $this->by_berita_acara = TRUE;
+    }
+
+    public function unset_by_berita_acara() {
+        $this->by_berita_acara = FALSE;
+    }
+    
+    public function set_berita_acara_tahun($tahun = FALSE){
+        if(!$tahun) $tahun = date('Y');
+        
+        $this->berita_acara_tahun = $tahun;
+    }
+
+    protected function before__get_all() {
+        if (!$this->by_berita_acara) {
+            return;
+        }
+
+        $sql_nilai_kinerja = "SELECT "
+                . "`skpt`.`id_pegawai`"
+                . " , CAST(IF(dp3.perilaku_kepemimpinan IS NOT NULL OR dp3.perilaku_kepemimpinan > 0, ((dp3.perilaku_pelayanan + dp3.perilaku_integritas + dp3.perilaku_komitmen + dp3.perilaku_disiplin + dp3.perilaku_kerjasama + dp3.perilaku_kepemimpinan)/6),((dp3.perilaku_pelayanan + dp3.perilaku_integritas + dp3.perilaku_komitmen + dp3.perilaku_disiplin + dp3.perilaku_kerjasama)/5)) AS DECIMAL(10,2)) nilai_dp3"
+                . " , fnilaicapaian(AVG(tsn.real_nilai_biaya), fhitung(AVG(tsn.real_nilai_kualitas), skpt.skpt_kualitas, AVG(tsn.real_nilai_kuantitas), skpt.skpt_kuantitas, AVG(tsn.real_nilai_waktu), skpt.skpt_waktu, AVG(tsn.real_nilai_biaya), skpt.skpt_biaya)) real_capaian "
+                . " FROM "
+                . "`tr_skp_tahunan` `skpt`LEFT JOIN `tr_skp_nilai` `tsn` "
+                . " ON `skpt`.`id_skpt` = `tsn`.`id_skpt` "
+                . " AND `tsn`.`current_active` = '1' "
+                . " LEFT JOIN `master_pegawai` `p` "
+                . " ON `p`.`id_pegawai` = `skpt`.`id_pegawai` "
+                . " LEFT JOIN `tr_perilaku` `dp3` "
+                . " ON dp3.`id_pegawai` = skpt.`id_pegawai` AND dp3.perilaku_tahun = '" . $this->berita_acara_tahun . "' "
+                . " WHERE "
+                . " `skpt`.`skpt_tahun` = '" . $this->berita_acara_tahun . "' AND "
+                . " `skpt`.`skpt_status` IN (2, 3) "
+                . " GROUP BY `skpt`.`id_skpt`, "
+                . " dp3.perilaku_pelayanan, "
+                . " dp3.perilaku_integritas, "
+                . " dp3.perilaku_komitmen, "
+                . " dp3.perilaku_disiplin, "
+                . " dp3.perilaku_kerjasama, "
+                . " dp3.perilaku_kepemimpinan, "
+                . " `p`.`id_pegawai` ";
+
+        $sql_agg = "select id_pegawai, nilai_dp3, AVG(real_capaian) total_capaian, fnilaikinerja(nilai_dp3, AVG(real_capaian)) nilai_kinerja FROM (" . $sql_nilai_kinerja . ") htcapaian GROUP BY id_pegawai, nilai_dp3";
+
+        
+        $this->db->join("(".$sql_agg . ") AS kin", "kin.id_pegawai = " . $this->table_name . ".id_pegawai", "LEFT");
+        $th_lalu = $this->berita_acara_tahun - 1;
+        $this->db->join("tr_angka_kredit_tahunan as akkthlalu", "akkthlalu.id_pegawai = " . $this->table_name . ".id_pegawai AND akkthlalu.tahun = '".$th_lalu."'", "LEFT");
+        
+        
+        $this->db->select("kin.nilai_dp3, kin.total_capaian, kin.nilai_kinerja, akkthlalu.akk as akkthlalu");
     }
 
     public function all($force_limit = FALSE, $force_offset = FALSE, $condition = FALSE) {

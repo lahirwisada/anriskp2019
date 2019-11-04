@@ -47,6 +47,7 @@ class Master_Pegawai extends MY_Model {
 //    );
 
     protected $related_tables = array();
+    
     protected $attribute_types = array();
 
 }

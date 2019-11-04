@@ -3,6 +3,10 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
+/**
+ * kesemua di dalam configurasi ini lihat juga di helper arsiparis_helper.php
+ */
+
 $config['enum_tingkatan'] = [
     0 => 'terampil',
     1 => 'mahir',
