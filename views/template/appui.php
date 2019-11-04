@@ -44,7 +44,7 @@ $current_base_url = isset($current_base_url) ? $current_base_url : '#';
 
         <!-- Favicons -->
         <link rel="apple-touch-icon" href="assets/img/favicons/apple-touch-icon.png" />
-        <link rel="icon" href="assets/img/favicons/favicon.ico" />
+        <link rel="icon" href="<?php echo assets(); ?>/img/favicon.png" />
 
         <!-- Google fonts -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,900%7CRoboto+Slab:300,400%7CRoboto+Mono:400" />
@@ -74,7 +74,7 @@ $current_base_url = isset($current_base_url) ? $current_base_url : '#';
                     <div class="app-layout-drawer-scroll">
                         <!-- Drawer logo -->
                         <div id="logo" class="drawer-header text-center">
-                            <a href="<?php echo $current_base_url; ?>"><img class="img-responsive" src="<?php echo assets(); ?>/img/logo/logo.jpeg" title="Indonesia" alt="Indonesia" /></a>
+                            <a href="<?php echo $current_base_url; ?>"><img class="img-responsive" style="height: 53px; margin-left: 5px;" src="<?php echo assets(); ?>/img/logo/logo-mini.png" title="Indonesia" alt="Indonesia" /></a>
                         </div>
                         <?php echo load_partial('template/appui/menu'); ?>
                         <?php /**

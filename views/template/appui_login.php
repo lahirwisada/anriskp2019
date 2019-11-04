@@ -78,6 +78,7 @@ $user_role = isset($user_role) ? $user_role : '';
         <title><?php echo $page_title; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, target-densitydpi=device-dpi">
         <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="icon" href="<?php echo assets(); ?>/img/favicon.png" />
 
         <meta name="description" content="<?php echo $site_description; ?>">
         <meta name="author" content="<?php echo $app_author; ?>">
