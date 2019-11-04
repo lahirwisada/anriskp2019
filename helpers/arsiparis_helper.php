@@ -4,22 +4,39 @@ if (!function_exists('show_nilai_huruf')) {
 
     function show_nilai_huruf($total_nilai_skp, $jumlah_laporan) {
         $nilai_capaian = $jumlah_laporan > 0 ? $total_nilai_skp / $jumlah_laporan : 0;
-        $nilai_huruf = '';
-        if ($nilai_capaian <= 50) {
-            $nilai_huruf = 'Buruk';
-        } elseif ($nilai_capaian <= 60) {
-            $nilai_huruf = 'Sedang';
-        } elseif ($nilai_capaian <= 75) {
-            $nilai_huruf = 'Cukup';
-        } elseif ($nilai_capaian < 91) {
-            $nilai_huruf = 'Baik';
-        } else {
-            $nilai_huruf = 'Sangat Baik';
-        }
-
+        $nilai_huruf = get_nilai_huruf($nilai_capaian);
         return array($nilai_huruf, $nilai_capaian);
     }
 
+}
+
+if (!function_exists('get_nilai_huruf')) {
+    function get_nilai_huruf($nilai_capaian, $as_numeric = FALSE){
+        $nilai_huruf = $as_numeric ? FALSE : '';
+        if ($nilai_capaian <= 50) {
+            $nilai_huruf = $as_numeric ? 4 : 'Buruk';
+        } elseif ($nilai_capaian <= 60) {
+            $nilai_huruf = $as_numeric ? 3 : 'Sedang';
+        } elseif ($nilai_capaian <= 75) {
+            $nilai_huruf = $as_numeric ? 2 : 'Cukup';
+        } elseif ($nilai_capaian < 91) {
+            $nilai_huruf = $as_numeric ? 1 : 'Baik';
+        } else {
+            $nilai_huruf = $as_numeric ? 0 : 'Sangat Baik';
+        }
+        return $nilai_huruf;
+    }
+}
+
+if (!function_exists('convert_nilai_huruf_to_prosentase')) {
+    function convert_nilai_huruf_to_prosentase($nilai_capaian){
+        $key = get_nilai_huruf($nilai_capaian, TRUE);
+        $arr_prosentase = [150,125,100,75,50];
+        if(array_key_exists($key, $arr_prosentase)){
+            return $arr_prosentase[$key];
+        }
+        return '-';
+    }
 }
 
 if (!function_exists('show_skpt_output')) {
@@ -102,12 +119,19 @@ if (!function_exists('hitung_nilai_skp')) {
 
         $hitung = $persen_kualitas + $persen_kuantitas + $nilai_waktu + $nilai_biaya;
 
-        $nilai_capaian = (!is_null($row_skp_tahunan->real_nilai_biaya) && $row_skp_tahunan->real_nilai_biaya > 0) ? $hitung / 3 : $hitung / 4;
+//        $nilai_capaian = (!is_null($row_skp_tahunan->real_nilai_biaya) && $row_skp_tahunan->real_nilai_biaya > 0) ? $hitung / 3 : $hitung / 4;
+        $nilai_capaian = hitung_nilai_capaian($row_skp_tahunan->real_nilai_biaya, $hitung);
 
         unset($persen_kualitas, $persen_kuantitas, $nilai_biaya, $nilai_waktu, $biaya_less24, $biaya_up24, $waktu_less24, $waktu_up24);
         return array($hitung, $nilai_capaian);
     }
 
+}
+
+if (!function_exists('hitung_nilai_capaian')) {
+    function hitung_nilai_capaian($rnb = NULL, $hitung = 0){
+        return (!is_null($rnb) && $rnb > 0) ? lws_divide($hitung, 3) : lws_divide($hitung, 4);
+    }
 }
 
 if (!function_exists('crypt_array')) {

@@ -4,17 +4,17 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 $config['enum_tingkatan'] = [
-    0 => 'mahir',
-    1 => 'muda',
+    0 => 'terampil',
+    1 => 'mahir',
     2 => 'penyelia',
     3 => 'pertama',
-    4 => 'terampil',
+    4 => 'muda',
 ];
 
-$config['nilai_naik_tingkatan'] = [
-    0 => '12.5',
-    1 => '25',
+$config['syarat_angka_kredit'] = [
+    0 => '5',
+    1 => '12.5',
     2 => '25',
     3 => '12.5',
-    4 => '5',
+    4 => '25',
 ];

@@ -63,7 +63,8 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                 $waktu_real = $row->real_nilai_waktu;
                                 $biaya_real = $row->real_nilai_biaya > 0 ? $row->real_nilai_biaya : 0;
 
-                                list($nilai, $nilai_skp) = hitung_nilai_skp($row);
+//                                list($nilai, $nilai_skp) = hitung_nilai_skp($row);
+                                $nilai_skp = hitung_nilai_capaian($row->real_nilai_biaya, $row->real_hitung);
 
                                 $total += $nilai_skp;
                                 $jumlah++;
@@ -79,7 +80,7 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                     <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
                                     <td class="text-center"><?php echo $waktu_real ?></td>
                                     <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
-                                    <td class="text-right"><?php echo number_format($nilai, 0, ',', '.') ?></td>
+                                    <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
                                     <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                 </tr>
                             <?php endforeach; ?>

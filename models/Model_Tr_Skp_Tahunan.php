@@ -94,12 +94,11 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
                 . "AVG(tsn.real_nilai_biaya) as real_nilai_biaya,"
                 . "AVG(tsn.real_nilai_waktu) as real_nilai_waktu,"
 //                . "tsn.real_output,"
-                . "0 real_hitung,"
+                . "fhitung(AVG(tsn.real_nilai_kualitas), skpt.skpt_kualitas, AVG(tsn.real_nilai_kuantitas), skpt.skpt_kuantitas, AVG(tsn.real_nilai_waktu), skpt.skpt_waktu, AVG(tsn.real_nilai_biaya), skpt.skpt_biaya) real_hitung,"
                 . "0 real_nilai,"
                 . "skpt.skpt_waktu jml");
 
 //        $this->db->select_sum("skpb_real_biaya", "real_biaya");
-
 //        $this->db->select_sum("skpb_hitung", "real_hitung");
 //        $this->db->select_sum("skpb_nilai", "real_nilai");
         $this->db->from($this->table_name . " skpt");
@@ -120,6 +119,26 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
 //        print_r($this->db->last_query());
 //        var_dump($query);
 //        exit();
+        return (object) array(
+                    "record_set" => $query->num_rows() > 0 ? $query->result() : FALSE,
+                    "record_found" => $query->num_rows(),
+                    "keyword" => $this->get_keyword()
+        );
+    }
+
+    public function get_all_realisasi_tahunan($tahun = FALSE, $force_limit = FALSE, $force_offset = FALSE) {
+        $this->db->select(
+                "skpt.id_pegawai,"
+                . "fnilaicapaian(AVG(tsn.real_nilai_biaya), fhitung(AVG(tsn.real_nilai_kualitas), skpt.skpt_kualitas, AVG(tsn.real_nilai_kuantitas), skpt.skpt_kuantitas, AVG(tsn.real_nilai_waktu), skpt.skpt_waktu, AVG(tsn.real_nilai_biaya), skpt.skpt_biaya)) real_capaian");
+        $this->db->from($this->table_name . " skpt");
+        $this->db->join("tr_skp_nilai tsn", "skpt.id_skpt = tsn.id_skpt and tsn.current_active = '1'", "left");
+        $this->db->join("master_pegawai p", "p.id_pegawai = skpt.id_pegawai", "left");
+        $this->db->join("master_dupnk dupnk", "skpt.id_dupnk = dupnk.id_dupnk", "left");
+        $this->db->where("skpt.skpt_tahun", $tahun);
+        $this->db->where("skpt.skpt_status in (2,3)");
+        $this->db->group_by('skpt.id_skpt');
+        $this->db->group_by('p.id_pegawai');
+        $query = $this->db->get();
         return (object) array(
                     "record_set" => $query->num_rows() > 0 ? $query->result() : FALSE,
                     "record_found" => $query->num_rows(),
