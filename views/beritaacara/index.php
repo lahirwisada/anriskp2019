@@ -6,7 +6,7 @@ $records = isset($records) ? $records : FALSE;
 $paging_set = isset($paging_set) ? $paging_set : FALSE;
 $keyword = isset($keyword) ? $keyword : "";
 $next_list_number = isset($next_list_number) ? $next_list_number : 1;
-$is_developer = isset($is_developer) ? $is_developer : TRUE;
+$tahun = isset($tahun) ? $tahun : date('Y');
 //var_dump($records);exit;
 ?>
 
@@ -72,31 +72,45 @@ $is_developer = isset($is_developer) ? $is_developer : TRUE;
                                             Arsiparis <?php echo beautify_str($record->jabfungsional) ?>
                                         </td>
                                         <td>
-                                            <?php echo number_format($record->nilai_kinerja, 2, ',', '.'); ?>
+                                            <?php echo!is_null($record->nilaikinerja_ini) ? number_format($record->nilaikinerja_ini, 2, ',', '.') : number_format($record->nilai_kinerja, 2, ',', '.'); ?>
                                         </td>
                                         <td>
-                                            <?php $akkth_ini = calculate_nilai_akt($record->nilai_kinerja, $record->jabfungsional); ?>
-                                            <?php echo number_format($akkth_ini, 2, ',', '.'); ?>
+                                            <?php
+                                            $akkth_ini = $record->akt_ini;
+                                            if (is_null($record->akt_ini)):
+                                                ?>
+                                                <?php $akkth_ini = calculate_nilai_akt($record->nilai_kinerja, $record->jabfungsional); ?>
+                                            <?php endif; ?>
+        <?php echo number_format($akkth_ini, 2, ',', '.'); ?>
+
                                         </td>
                                         <td>
-                                            <?php echo number_format($akkth_ini + $record->akkthlalu, 2, ',', '.'); ?>
+                                            <?php 
+                                            $akk = $record->akk_ini;
+                                            if (is_null($record->akk_ini)): ?>
+                                                <?php $akk = $akkth_ini + $record->akkthlalu; ?>
+                                            <?php endif; ?>
+                                                <?php echo number_format($akk, 2, ',', '.'); ?>
                                         </td>
                                         <td>
                                             <div class="btn-group">
-                                                <a id="r_<?php echo $record->username; ?>" class="btn btn-default resetusername" onclick="javascript:;">
+        <?php
+        $crypt_id_akt = is_null($record->id_akt_ini) ? FALSE : add_salt_to_string($record->id_akt_ini);
+        ?>
+                                                <a class="btn btn-default pull-right btnrekomendasi" urlloc="<?php echo base_url($active_modul . "/set_rekomendasi") . "/" . $crypt_id_akt; ?>?cip=<?php echo add_salt_to_string($record->id_pegawai); ?>&tahun=<?php echo $tahun; ?>">
                                                     Rekomendasi
                                                 </a>
                                             </div>
                                         </td>
                                     </tr>
-                                    <?php $next_list_number++; ?>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+        <?php $next_list_number++; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                         </tbody>
                     </table>
-                    <?php
-                    echo $paging_set;
-                    ?>
+<?php
+echo $paging_set;
+?>
                 </div>
             </div>
         </div>

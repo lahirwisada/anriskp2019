@@ -120,6 +120,24 @@ class Main_controller extends LWS_Controller {
                         )
         );
     }
+    
+    protected function get_rs_combobox_rekomendasi($action_can_write = FALSE) {
+        $this->load->model("model_master_rekomendasi");
+        $query_condition = "";
+        if (!$action_can_write || !$this->can_write($action_can_write)) {
+//            $query_condition = "id_organisasi = '" . $this->user_detail['id_organisasi'] . "' ";
+        }
+        return $this->model_master_rekomendasi->combobox(array(
+                    "key" => "id_rekomendasi",
+                    "value" => "uraian_rekomendasi",
+                    "cb_using_default_value" => TRUE,
+                    "record_active_only" => TRUE,
+                    "cb_default_value" => "12",
+//                    "where" => $query_condition,
+//                    "custom_select" => "id_rekomendasi, uraian_rekomendasi"
+                        )
+        );
+    }
 
     public function get_like_penilaian_audien() {
         $this->load->model(array("model_master_pegawai", "model_petugas_penilai"));

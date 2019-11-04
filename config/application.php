@@ -159,6 +159,9 @@ $config['modul_action_configuration'] = array(
     "profil" => array(
         "read" => array("passwd"),
     ),
+    "beritaacara" => array(
+        "insert" => array("set_rekomendasi"),
+    ),
 );
 
 /**

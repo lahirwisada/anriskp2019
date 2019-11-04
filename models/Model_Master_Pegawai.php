@@ -27,16 +27,19 @@ class Model_Master_Pegawai extends Master_Pegawai {
     public function unset_by_berita_acara() {
         $this->by_berita_acara = FALSE;
     }
-    
-    public function set_berita_acara_tahun($tahun = FALSE){
-        if(!$tahun) $tahun = date('Y');
-        
+
+    public function set_berita_acara_tahun($tahun = FALSE) {
+        if (!$tahun)
+            $tahun = date('Y');
+
         $this->berita_acara_tahun = $tahun;
     }
 
-    protected function before__get_all() {
-        if (!$this->by_berita_acara) {
-            return;
+    private function __get_sql_nilai_kinerja($id_pegawai = FALSE) {
+
+        $condition_id_pegawai = "  ";
+        if ($id_pegawai) {
+            $condition_id_pegawai = " skpt.id_pegawai = '" . $id_pegawai . "' AND ";
         }
 
         $sql_nilai_kinerja = "SELECT "
@@ -52,6 +55,7 @@ class Model_Master_Pegawai extends Master_Pegawai {
                 . " LEFT JOIN `tr_perilaku` `dp3` "
                 . " ON dp3.`id_pegawai` = skpt.`id_pegawai` AND dp3.perilaku_tahun = '" . $this->berita_acara_tahun . "' "
                 . " WHERE "
+                . $condition_id_pegawai
                 . " `skpt`.`skpt_tahun` = '" . $this->berita_acara_tahun . "' AND "
                 . " `skpt`.`skpt_status` IN (2, 3) "
                 . " GROUP BY `skpt`.`id_skpt`, "
@@ -65,13 +69,31 @@ class Model_Master_Pegawai extends Master_Pegawai {
 
         $sql_agg = "select id_pegawai, nilai_dp3, AVG(real_capaian) total_capaian, fnilaikinerja(nilai_dp3, AVG(real_capaian)) nilai_kinerja FROM (" . $sql_nilai_kinerja . ") htcapaian GROUP BY id_pegawai, nilai_dp3";
 
-        
-        $this->db->join("(".$sql_agg . ") AS kin", "kin.id_pegawai = " . $this->table_name . ".id_pegawai", "LEFT");
+
+        $this->db->join("(" . $sql_agg . ") AS kin", "kin.id_pegawai = " . $this->table_name . ".id_pegawai", "LEFT");
         $th_lalu = $this->berita_acara_tahun - 1;
-        $this->db->join("tr_angka_kredit_tahunan as akkthlalu", "akkthlalu.id_pegawai = " . $this->table_name . ".id_pegawai AND akkthlalu.tahun = '".$th_lalu."'", "LEFT");
-        
-        
+        $this->db->join("tr_angka_kredit_tahunan as akkthlalu", "akkthlalu.id_pegawai = " . $this->table_name . ".id_pegawai AND akkthlalu.tahun = '" . $th_lalu . "'", "LEFT");
+        $this->db->join("tr_angka_kredit_tahunan as akkthini", "akkthini.id_pegawai = " . $this->table_name . ".id_pegawai AND akkthini.tahun = '" . $this->berita_acara_tahun . "'", "LEFT");
+
+
         $this->db->select("kin.nilai_dp3, kin.total_capaian, kin.nilai_kinerja, akkthlalu.akk as akkthlalu");
+        $this->db->select("akkthini.id_akt as id_akt_ini, akkthini.ak_sebelumnya as ak_sebelumnya_ini, akkthini.nilaikinerja as nilaikinerja_ini, akkthini.akt as akt_ini, akkthini.akk as akk_ini, akkthini.id_rekomendasi as id_rekomendasi_ini");
+    }
+
+    protected function before__get_all() {
+        if (!$this->by_berita_acara) {
+            return;
+        }
+
+        $this->__get_sql_nilai_kinerja();
+    }
+    
+    public function before_show_detail($id = FALSE, $record_active = TRUE) {
+        if (!$this->by_berita_acara) {
+            return;
+        }
+        
+        $this->__get_sql_nilai_kinerja();
     }
 
     public function all($force_limit = FALSE, $force_offset = FALSE, $condition = FALSE) {

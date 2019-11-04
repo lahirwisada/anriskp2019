@@ -26,9 +26,13 @@ $is_developer = isset($is_developer) ? $is_developer : TRUE;
                             <input type="text" name="keyword" value="<?php echo $keyword; ?>" class="form-control" placeholder="Silahkan masukkan kata kunci disini"/>
                             <div class="input-group-btn">
                                 <button class="btn btn-default"><span class="fa fa-search"></span> Cari</button>
+                                <?php /**
                                 <a href="<?php echo backbone_url('member/detail'); ?>" class="btn btn-default">
                                     <span class="fa fa-plus"></span> Tambah baru
                                 </a>
+                                 * 
+                                 */
+                                ?>
                             </div>
                         </div>
                     </div>

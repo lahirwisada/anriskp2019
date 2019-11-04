@@ -11,8 +11,6 @@ FROM
     AND `tsn`.`current_active` = '1'
   LEFT JOIN `master_pegawai` `p`
     ON `p`.`id_pegawai` = `skpt`.`id_pegawai`
-  LEFT JOIN `master_dupnk` `dupnk`
-    ON `skpt`.`id_dupnk` = `dupnk`.`id_dupnk`
     LEFT JOIN tr_perilaku dp3
     ON dp3.`id_pegawai` = skpt.`id_pegawai` AND dp3.perilaku_tahun = '2019'
 WHERE 
