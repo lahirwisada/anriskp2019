@@ -12,11 +12,11 @@ if (!defined("BASEPATH")) {
 class Model_Dupnk extends Master_Dupnk {
 
     public $enum_jabatan = array(
+        'terampil' => 'Terampil',
         'mahir' => 'Mahir',
-        'muda' => 'Muda',
         'penyelia' => "Penyelia",
         'pertama' => 'Pertama',
-        'terampil' => 'Terampil'
+        'muda' => 'Muda',
     );
 
     public function __construct() {
@@ -37,9 +37,28 @@ class Model_Dupnk extends Master_Dupnk {
 
     public function get_like($keyword = FALSE, $jabatan_fungsional = FALSE) {
         $result = FALSE;
+        $arr_tingkatan = array_keys($this->enum_jabatan);
+        
+        $alternate_condition_1 = " ";
+        $alternate_condition_2 = " ";
+        
+        $key_found = array_search($jabatan_fungsional, $arr_tingkatan);
+        $key_alternate_1 = $key_found;
+        $key_alternate_2 = $key_found;
+        
+        if($key_found > 0){
+            $key_alternate_1 = $key_found - 1;
+            $alternate_condition_1 = " lower(" . $this->table_name . ".jabfungsional) = lower('" . $arr_tingkatan[$key_alternate_1] . "') OR ";
+        }
+        
+        if($key_found < 4){
+            $key_alternate_2 = $key_found + 1;
+            $alternate_condition_2 = " lower(" . $this->table_name . ".jabfungsional) = lower('" . $arr_tingkatan[$key_alternate_2] . "') OR ";
+        }
+        
         if ($keyword) {
             if ($jabatan_fungsional && !is_null($jabatan_fungsional)) {
-                $this->db->where(" lower(" . $this->table_name . ".jabfungsional) = lower('" . $jabatan_fungsional . "')", NULL, FALSE);
+                $this->db->where("(".$alternate_condition_1." ".$alternate_condition_2." "." lower(" . $this->table_name . ".jabfungsional) = lower('" . $jabatan_fungsional . "'))", NULL, FALSE);
             }
             $this->db->where("( lower(" . $this->table_name . ".kode_nomor) LIKE lower('%" . $keyword . "%') OR  lower(" . $this->table_name . ".deskripsi_dupnk) LIKE lower('%" . $keyword . "%'))", NULL, FALSE);
             $this->db->order_by("deskripsi_dupnk", "asc");
