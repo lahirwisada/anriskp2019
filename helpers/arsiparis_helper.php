@@ -60,11 +60,11 @@ if (!function_exists('get_syarat_angka_kredit')) {
         if (is_string($key)) {
             $key = get_array_tingkatan($key);
         }
-        
+
         if (array_key_exists($key, $syarat_angka_kredit)) {
             return $syarat_angka_kredit[$key];
         }
-        
+
         return FALSE;
     }
 
@@ -83,18 +83,18 @@ if (!function_exists('get_array_tingkatan')) {
         if (!$key) {
             return $array_tingkatan;
         }
-        
-        if(is_numeric($key) && array_key_exists($key, $array_tingkatan)){
+
+        if (is_numeric($key) && array_key_exists($key, $array_tingkatan)) {
             return $array_tingkatan[$key];
         }
-        
-        if(is_string($key)){
+
+        if (is_string($key)) {
             $array_tingkatan = array_flip($array_tingkatan);
-            if(array_key_exists($key, $array_tingkatan)) {
+            if (array_key_exists($key, $array_tingkatan)) {
                 return $array_tingkatan[$key];
             }
         }
-        
+
         return FALSE;
     }
 
@@ -105,7 +105,7 @@ if (!function_exists('calculate_nilai_akt')) {
     function calculate_nilai_akt($nilai_kinerja, $jabatan) {
         $nilai_prosentase = !is_null($nilai_kinerja) ? convert_nilai_huruf_to_prosentase($nilai_kinerja) : 0;
         $ak_minimal_jab = get_syarat_angka_kredit(strtolower(trim($jabatan)));
-        
+
         return lws_divide(($nilai_prosentase * $ak_minimal_jab), 100);
     }
 
@@ -116,7 +116,9 @@ if (!function_exists('show_skpt_output')) {
     function show_skpt_output($skpt_output = NULL) {
         if (!is_null($skpt_output) && $skpt_output !== FALSE) {
             $arr_skpt_output = get_skpt_output();
-            return $arr_skpt_output[$skpt_output];
+            if (array_key_exists($skpt_output, $arr_skpt_output)) {
+                return $arr_skpt_output[$skpt_output];
+            }
         }
         return "";
     }
