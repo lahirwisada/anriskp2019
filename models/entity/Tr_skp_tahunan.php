@@ -20,6 +20,8 @@ class Tr_skp_tahunan extends MY_Model {
         "id_skpt" => array("id_skpt", "ID SKP Tahunan"),
         "id_pegawai" => array("id_pegawai", "ID Pegawai"),
         "id_dupnk" => array("id_dupnk", "Nama Kegiatan"),
+        "uraian_tgs_tambahan" => array("uraian_tgs_tambahan", "Uraian Tugas Tambahan"),
+        "is_tugas_tambahan" => array("is_tugas_tambahan", "Tugas Tambahan"),
         "skpt_tahun" => array("skpt_tahun", "Periode Tahun"),
         "skpt_waktu" => array("skpt_waktu", "Lama Kegiatan"),
         "skpt_kuantitas" => array("skpt_kuantitas", "Kuantitas Output"),
@@ -51,6 +53,8 @@ class Tr_skp_tahunan extends MY_Model {
         array("skpt_real_kuantitas", "integer"),
         array("skpt_real_output", "integer"),
         array("skpt_real_kualitas", "integer"),
+        array("uraian_tgs_tambahan", ""),
+        array("is_tugas_tambahan", "integer"),
         array("skpt_real_waktu", "integer"),
         array("upload_random_id", "max[200]"),
     );

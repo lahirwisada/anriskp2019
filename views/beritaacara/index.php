@@ -23,9 +23,11 @@ $tahun = isset($tahun) ? $tahun : date('Y');
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <div class="input-group">
-                                    <input type="text" name="keyword" class="form-control" value="<?php echo $keyword; ?>">
+                                    <input type="text" name="keyword" style="width: calc(100% - 80px);" class="form-control" value="<?php echo $keyword; ?>">
+                                    <?php echo dropdown_tahun('tahun', $tahun, 5, 'id="slctahun" class="form-control" style="width: 80px;"') ?>
                                     <div class="input-group-btn">
                                         <button type="Submit" class="btn btn-info">Cari!</button>
+                                        <button id="btncetakbap" type="Button" class="btn btn-default">Cetak!</button>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +74,7 @@ $tahun = isset($tahun) ? $tahun : date('Y');
                                             Arsiparis <?php echo beautify_str($record->jabfungsional) ?>
                                         </td>
                                         <td>
-                                            <?php echo!is_null($record->nilaikinerja_ini) ? number_format($record->nilaikinerja_ini, 2, ',', '.') : number_format($record->nilai_kinerja, 2, ',', '.'); ?>
+                                            <?php echo !is_null($record->nilaikinerja_ini) ? number_format($record->nilaikinerja_ini, 2, ',', '.') : number_format($record->nilai_kinerja, 2, ',', '.'); ?>
                                         </td>
                                         <td>
                                             <?php
@@ -95,10 +97,13 @@ $tahun = isset($tahun) ? $tahun : date('Y');
                                         <td>
                                             <div class="btn-group">
         <?php
-        $crypt_id_akt = is_null($record->id_akt_ini) ? FALSE : add_salt_to_string($record->id_akt_ini);
+        $crypt_id_akt = is_null($record->id_akt_ini) ? "" : add_salt_to_string($record->id_akt_ini);
         ?>
                                                 <a class="btn btn-default pull-right btnrekomendasi" urlloc="<?php echo base_url($active_modul . "/set_rekomendasi") . "/" . $crypt_id_akt; ?>?cip=<?php echo add_salt_to_string($record->id_pegawai); ?>&tahun=<?php echo $tahun; ?>">
                                                     Rekomendasi
+                                                </a>
+                                                <a class="btn btn-default pull-right btnrekomendasi" urlloc="<?php echo base_url($active_modul . "/cetak_akt_akk") . "/" . add_salt_to_string($record->id_pegawai); ?>">
+                                                    AKK & AKT
                                                 </a>
                                             </div>
                                         </td>

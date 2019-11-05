@@ -160,7 +160,7 @@ $config['modul_action_configuration'] = array(
         "read" => array("passwd"),
     ),
     "beritaacara" => array(
-        "insert" => array("set_rekomendasi"),
+        "insert" => array("set_rekomendasi","cetak_bap", "cetak_akt_akk"),
     ),
 );
 

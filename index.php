@@ -1,6 +1,7 @@
 <?php 
 
 define('ASSET_UPLOAD', dirname(__FILE__).DIRECTORY_SEPARATOR.'_assets'.DIRECTORY_SEPARATOR.'uploads');
+define('ASSET_TEMPLATE', dirname(__FILE__).DIRECTORY_SEPARATOR.'_assets'.DIRECTORY_SEPARATOR.'template');
 
 /**
  * set value TRUE, FALSE (boolean)
@@ -8,7 +9,7 @@ define('ASSET_UPLOAD', dirname(__FILE__).DIRECTORY_SEPARATOR.'_assets'.DIRECTORY
 define('ONCPANEL', FALSE);
 
 define('APPROOT', dirname(__FILE__).DIRECTORY_SEPARATOR);
-define('APPPATH', APPROOT.DIRECTORY_SEPARATOR);
+define('APPPATH', APPROOT);
 
 $view_folder = "";
 // The path to the "views" directory

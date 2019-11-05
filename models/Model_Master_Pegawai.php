@@ -12,9 +12,11 @@ if (!defined("BASEPATH")) {
 class Model_Master_Pegawai extends Master_Pegawai {
 
     const ID_ROLE_PENILAI = 3;
+    const ID_ROLE_ARSIPARIS = 4;
 
     public $by_berita_acara = FALSE;
     public $berita_acara_tahun = FALSE;
+    public $berita_acara_by_id_pegawai = FALSE;
 
     public function __construct() {
         parent::__construct();
@@ -27,6 +29,14 @@ class Model_Master_Pegawai extends Master_Pegawai {
     public function unset_by_berita_acara() {
         $this->by_berita_acara = FALSE;
     }
+    
+    public function set_berita_acara_id_pegawai($id_pegawai = FALSE) {
+        $this->berita_acara_by_id_pegawai = $id_pegawai;
+    }
+    
+    public function unset_berita_acara_id_pegawai() {
+        $this->berita_acara_by_id_pegawai = FALSE;
+    }
 
     public function set_berita_acara_tahun($tahun = FALSE) {
         if (!$tahun)
@@ -38,7 +48,8 @@ class Model_Master_Pegawai extends Master_Pegawai {
     private function __get_sql_nilai_kinerja($id_pegawai = FALSE) {
 
         $condition_id_pegawai = "  ";
-        if ($id_pegawai) {
+        if ($id_pegawai || $this->berita_acara_by_id_pegawai) {
+            $id_pegawai = $this->berita_acara_by_id_pegawai ? $this->berita_acara_by_id_pegawai : $id_pegawai;
             $condition_id_pegawai = " skpt.id_pegawai = '" . $id_pegawai . "' AND ";
         }
 
@@ -75,12 +86,15 @@ class Model_Master_Pegawai extends Master_Pegawai {
         $this->db->join("tr_angka_kredit_tahunan as akkthlalu", "akkthlalu.id_pegawai = " . $this->table_name . ".id_pegawai AND akkthlalu.tahun = '" . $th_lalu . "'", "LEFT");
         $this->db->join("tr_angka_kredit_tahunan as akkthini", "akkthini.id_pegawai = " . $this->table_name . ".id_pegawai AND akkthini.tahun = '" . $this->berita_acara_tahun . "'", "LEFT");
 
+        $this->db->join("backbone_user_role bur", "bur.id_user = ".$this->table_name.".id_user and bur.id_role = '".self::ID_ROLE_ARSIPARIS."'");
 
+        $this->db->join("master_rekomendasi mrek", "mrek.id_rekomendasi = akkthini.id_rekomendasi", "LEFT");
         $this->db->select("kin.nilai_dp3, kin.total_capaian, kin.nilai_kinerja, akkthlalu.akk as akkthlalu");
-        $this->db->select("akkthini.id_akt as id_akt_ini, akkthini.ak_sebelumnya as ak_sebelumnya_ini, akkthini.nilaikinerja as nilaikinerja_ini, akkthini.akt as akt_ini, akkthini.akk as akk_ini, akkthini.id_rekomendasi as id_rekomendasi_ini");
+        $this->db->select("akkthini.id_akt as id_akt_ini, akkthini.ak_sebelumnya as ak_sebelumnya_ini, akkthini.nilaikinerja as nilaikinerja_ini, akkthini.akt as akt_ini, akkthini.akk as akk_ini, akkthini.id_rekomendasi as id_rekomendasi_ini, mrek.uraian_rekomendasi");
     }
 
-    protected function before__get_all() {
+//    protected function before__get_all() {
+    protected function before__get_where() {
         if (!$this->by_berita_acara) {
             return;
         }
@@ -100,6 +114,12 @@ class Model_Master_Pegawai extends Master_Pegawai {
         return parent::get_all(array(
                     "pegawai_nip", "pegawai_nama"
                         ), $condition, TRUE, FALSE, 1, TRUE, $force_limit, $force_offset);
+    }
+    
+    public function all_bap(){
+        return parent::get_all(array(
+                    "pegawai_nip", "pegawai_nama"
+                        ), FALSE, FALSE, TRUE);
     }
 
     public function get_all_pegawai() {
