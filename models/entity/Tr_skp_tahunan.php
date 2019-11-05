@@ -40,7 +40,7 @@ class Tr_skp_tahunan extends MY_Model {
     
     protected $rules = array(
         array("id_pegawai", "required|integer"),
-        array("id_dupnk", "required|min[10]|max[200]"),
+        array("id_dupnk", "min[10]|max[200]"),
         array("skpt_tahun", "required|integer"),
         array("skpt_waktu", "required|integer"),
         array("skpt_kuantitas", "required|integer"),
