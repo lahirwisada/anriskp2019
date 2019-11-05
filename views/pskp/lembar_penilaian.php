@@ -260,7 +260,7 @@ $crypt_id_penilai = isset($crypt_id_penilai) ? $crypt_id_penilai : FALSE;
                                                 <td class="text-right"><?php echo $next_list_number++ ?></td>
                                                 <td><?php echo $record->real_nilai_kualitas ?></td>
                                                 <td><?php echo $record->real_nilai_waktu ?></td>
-                                                <td><?php echo $record->real_nilai_kuantitas . " " . $skpt_ouput[$record->real_output] ?></td>
+                                                <td><?php echo $record->real_nilai_kuantitas . " " . show_skpt_output($record->real_output) ?></td>
                                                 <td><?php echo $record->real_nilai_biaya ?></td>
                                                 <td><?php echo $record->reject_by_pegawai == 0 ? "<span class=\"label label-success\"><i class=\"ion-checkmark m-r-xs\"></i> Clear</span>" : "<span class=\"label label-danger\"><i class=\"ion-checkmark m-r-xs\"></i> Yes</span>" ; ?></td>
                                                 <td class="text-left"><?php echo beautify_text($record->penilai_message) ?></td>
