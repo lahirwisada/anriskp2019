@@ -24,8 +24,8 @@ $keyword = isset($keyword) ? $keyword : '';
                 <form class="form-panel">
                     <div>
                         <div class="input-group">
-                            <input type="text" name="keyword" style="width: calc(100% - 55px);" value="<?php echo $keyword; ?>" class="form-control" placeholder="Silahkan masukkan kata kunci disini"/>
-                            <?php echo dropdown_tahun('tahun', $tahun, 5, 'class="form-control" style="width: 55px;"') ?>
+                            <input type="text" name="keyword" style="width: calc(100% - 80px);" value="<?php echo $keyword; ?>" class="form-control" placeholder="Silahkan masukkan kata kunci disini"/>
+                            <?php echo dropdown_tahun('tahun', $tahun, 5, 'class="form-control" style="width: 80px;"') ?>
                             <div class="input-group-btn">
                                 <button class="btn btn-default"><span class="fa fa-search"></span> Cari</button>
                                 <a href="<?php echo base_url($active_modul . '/laporan/' . $tahun); ?>" class="btn btn-default"><span class="fa fa-print"></span> Laporan</a>
