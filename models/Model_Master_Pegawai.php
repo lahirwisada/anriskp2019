@@ -37,6 +37,10 @@ class Model_Master_Pegawai extends Master_Pegawai {
     public function unset_berita_acara_id_pegawai() {
         $this->berita_acara_by_id_pegawai = FALSE;
     }
+    
+    public function set_rules_for_infoupdate(){
+        $this->rules = $this->info_rules;
+    }
 
     public function set_berita_acara_tahun($tahun = FALSE) {
         if (!$tahun)
@@ -108,6 +112,17 @@ class Model_Master_Pegawai extends Master_Pegawai {
         }
         
         $this->__get_sql_nilai_kinerja();
+    }
+    
+    protected function before_update() {
+        
+//        var_dump($this->attributes);exit;
+        
+        return TRUE;
+    }
+    protected function after_update() {
+//        echo $this->db->last_query();exit;
+        return;
     }
 
     public function all($force_limit = FALSE, $force_offset = FALSE, $condition = FALSE) {

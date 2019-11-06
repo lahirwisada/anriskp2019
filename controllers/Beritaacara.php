@@ -48,13 +48,15 @@ class Beritaacara extends Skarsiparis_cmain {
         if (!empty($arr_pegawai_detail) && $pegawai_detail) {
             $this->load->library('Calcel');
 
-
             //$template_path = APPPATH . '../_assets/template/Template_Rekapitulasi_TPP.xls';
             $template_path = ASSET_TEMPLATE . '/template_akt_akk.xls';
 
             $genid = md5(date('Y-m-d H:i:s:u'));
             $save_path = APPPATH . '../_assets/generated_bap/' . $genid . '.xls';
             $nama_file = '' . $genid . '.xls';
+
+            $tempat_tanggal_lahir = beautify_str($pegawai_detail->nokarpeg) . ", " . show_date_with_format($pegawai_detail->tgllahir);
+            $jenis_kelamin = ["Perempuan", "Laki-laki"];
 
             $this->calcel->load($template_path);
 
@@ -69,7 +71,17 @@ class Beritaacara extends Skarsiparis_cmain {
             $active_sheet->setCellValue('G11', $tahun);
             $active_sheet->setCellValue('D13', $pegawai_detail->pegawai_nama);
             $active_sheet->setCellValue('D14', $pegawai_detail->pegawai_nip . " ");
+            $active_sheet->setCellValue('D15', $pegawai_detail->nokarpeg . " ");
+            $active_sheet->setCellValue('D16', $tempat_tanggal_lahir);
+            if (!is_null($pegawai_detail->jeniskelamin)) {
+                $active_sheet->setCellValue('D17', $jenis_kelamin[$pegawai_detail->jeniskelamin]);
+            }
+            $active_sheet->setCellValue('D18', $pegawai_detail->pangkat);
+            $active_sheet->setCellValue('E18', $pegawai_detail->golongan);
+            $active_sheet->setCellValue('F18', $pegawai_detail->tmtpangkat_gol);
             $active_sheet->setCellValue('D19', 'Arsiparis ' . beautify_str($pegawai_detail->jabfungsional));
+            $active_sheet->setCellValue('F19', $pegawai_detail->tmtjabfungsional);
+            $active_sheet->setCellValue('D20', $pegawai_detail->unitkerja);
 
 
 
@@ -93,12 +105,25 @@ class Beritaacara extends Skarsiparis_cmain {
             $active_sheet->setCellValue('F12', $tahun);
             $active_sheet->setCellValue('D14', $pegawai_detail->pegawai_nama);
             $active_sheet->setCellValue('D15', $pegawai_detail->pegawai_nip . " ");
+            
+            
+            $active_sheet->setCellValue('D16', $pegawai_detail->nokarpeg . " ");
+            $active_sheet->setCellValue('D17', $tempat_tanggal_lahir);
+            if (!is_null($pegawai_detail->jeniskelamin)) {
+                $active_sheet->setCellValue('D18', $jenis_kelamin[$pegawai_detail->jeniskelamin]);
+            }
+            $active_sheet->setCellValue('D19', $pegawai_detail->pangkat);
+            $active_sheet->setCellValue('E19', $pegawai_detail->golongan);
+            $active_sheet->setCellValue('F19', $pegawai_detail->tmtpangkat_gol);
             $active_sheet->setCellValue('D20', 'Arsiparis ' . beautify_str($pegawai_detail->jabfungsional));
+//            $active_sheet->setCellValue('F19', $pegawai_detail->tmtjabfungsional);
+            $active_sheet->setCellValue('D21', $pegawai_detail->unitkerja);
+            
             $active_sheet->setCellValue('A27', number_format($pegawai_detail->nilai_kinerja, 2, '.', ','));
             $active_sheet->setCellValue('D27', lws_divide(convert_nilai_huruf_to_prosentase($pegawai_detail->nilai_kinerja), 100));
             $active_sheet->setCellValue('E27', get_syarat_angka_kredit($pegawai_detail->jabfungsional));
 
-            if($zip){
+            if ($zip) {
                 $this->calcel->save($save_path);
                 return $save_path;
             }
@@ -137,8 +162,6 @@ class Beritaacara extends Skarsiparis_cmain {
             $arr_pegawai_detail[$tahun] = $pegawai_detail;
 
             $this->generate_akt_akk($arr_pegawai_detail, $pegawai_detail, $tahun);
-
-            
         } else {
 //            $records = $this->model_master_pegawai->all_bap();
 //            if ($records) {

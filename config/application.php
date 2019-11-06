@@ -158,6 +158,7 @@ $config['modul_action_configuration'] = array(
     ),
     "profil" => array(
         "read" => array("passwd"),
+        "update" => array("info"),
     ),
     "beritaacara" => array(
         "insert" => array("set_rekomendasi","cetak_bap", "cetak_akt_akk"),

@@ -64,6 +64,9 @@ $current_user_roles = isset($current_user_roles) ? $current_user_roles : "penggu
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li>
+                    <a tabindex="-1" href="<?php echo base_url('profil/info'); ?>">Atribut Data</a>
+                </li>
+                <li>
                     <a tabindex="-1" href="<?php echo base_url('profil/passwd'); ?>">Ganti Password</a>
                 </li>
                 <li class="divider"></li>
