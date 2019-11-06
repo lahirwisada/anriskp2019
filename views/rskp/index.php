@@ -64,6 +64,7 @@ $keyword = isset($keyword) ? $keyword : '';
                                 ?>
                                 <?php foreach ($records as $row) : ?>
                                     <?php
+                                
                                     $kuantitas_target = $row->skpt_kuantitas;
                                     $kualitas_target = $row->skpt_kualitas;
                                     $waktu_target = $row->skpt_waktu;
@@ -75,11 +76,9 @@ $keyword = isset($keyword) ? $keyword : '';
                                     $kualitas_real = $row->real_nilai_kualitas;
                                     $waktu_real = $row->real_nilai_waktu;
                                     $biaya_real = $row->real_nilai_biaya > 0 ? $row->real_nilai_biaya : 0;
-                                    
-                                    list($nilai, $nilai_capaian) = hitung_nilai_skp($row);
 
                                     $hitung = lws_divide($row->real_hitung, $row->jml);
-                                    $nilai_skp = lws_divide($row->real_nilai, $row->jml);
+                                    $nilai_skp = hitung_nilai_capaian($row->real_nilai_biaya, $row->real_hitung);
                                     $total += $nilai_skp;
                                     $jumlah++;
                                     ?>
@@ -94,8 +93,8 @@ $keyword = isset($keyword) ? $keyword : '';
                                         <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
                                         <td class="text-center"><?php echo $waktu_real ?></td>
                                         <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
-                                        <td class="text-right"><?php echo number_format($nilai, 0, ',', '.') ?></td>
-                                        <td class="text-right"><?php echo number_format($nilai_capaian, 2, ',', '.') ?></td>
+                                        <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
+                                        <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                         <td class="text-center">
                                             <div class="btn-group btn-group-sm">
                                                 <a class="btn btn-default" href="<?php echo base_url($active_modul . "/read") . "/" . add_salt_to_string($row->id_skpt); ?>">Lihat</a>

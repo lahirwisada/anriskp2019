@@ -77,12 +77,35 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                     <td class="text-center"><?php echo $waktu_target ?></td>
                                     <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
                                     <td class="text-center"><?php echo $kuantitas_real ?></td>
-                                    <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo $waktu_real ?></td>
+                                    <td class="text-center"><?php echo number_format($kualitas_real, 0, ',', '.') ?></td>
+                                    <td class="text-center"><?php echo $waktu_real."<br />" ?></td>
                                     <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
                                     <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
                                     <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                 </tr>
+                                <?php
+                                /**
+                                <tr>
+                                    <td colspan="12">
+                                        <?php echo "<br />"; ?>
+                                        <?php echo "Perhitungan Kualitas ".$row->kw; ?>
+                                        <?php echo "<br />"; ?>
+                                        <?php echo "Perhitungan Kuantitas ".$row->kn; ?>
+                                        <?php echo "<br />"; ?>
+                                        <?php echo "Perhitungan Waktu Less ".$row->wl; ?>
+                                        <?php echo "<br />"; ?>
+                                        <?php echo "Perhitungan Waktu Up ".$row->wu; ?>
+                                        <?php echo "<br />"; ?>
+                                        <?php echo "Perhitungan Hitung Waktu ".$row->wh ." --> ".$row->real_nilai_waktu; ?>
+                                        <?php echo "<br />"; ?>
+                                        <?php echo "Perhitungan Waktu ".$row->pw; ?>
+                                        <?php echo "<br />"; ?>
+                                        <?php echo "Perhitungan Biaya ".$row->pb; ?>
+                                    </td>
+                                </tr>
+                                 * 
+                                 */
+                                ?>
                             <?php endforeach; ?>
                             <?php
                             list($nilai_huruf, $nilai_capaian) = show_nilai_huruf($total, $jumlah);

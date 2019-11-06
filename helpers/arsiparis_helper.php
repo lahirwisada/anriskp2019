@@ -175,11 +175,13 @@ if (!function_exists('hitung_nilai_skp')) {
         }
 
         if (!is_null($row_skp_tahunan->real_nilai_waktu)) {
-            $persen_waktu = 100 - (lws_divide($row_skp_tahunan->real_nilai_waktu, $row_skp_tahunan->skpt_waktu) * 100);
+            $pw = (lws_divide($row_skp_tahunan->real_nilai_waktu, $row_skp_tahunan->skpt_waktu) * 100);
+            $persen_waktu = $pw > 0 ? 100 - $pw : 0;
         }
 
         if (!is_null($row_skp_tahunan->real_nilai_biaya)) {
-            $persen_biaya = 100 - (lws_divide($row_skp_tahunan->real_nilai_biaya, $row_skp_tahunan->skpt_biaya) * 100);
+            $pb = (lws_divide($row_skp_tahunan->real_nilai_biaya, $row_skp_tahunan->skpt_biaya) * 100);
+            $persen_biaya = $pb > 0 ? 100 - $pb : 0;
         }
 
         $biaya_less24 = lws_divide((1.76 * $row_skp_tahunan->skpt_biaya - (is_null($row_skp_tahunan->real_nilai_biaya) ? 0 : $row_skp_tahunan->real_nilai_biaya)), $row_skp_tahunan->skpt_biaya) * 100;
@@ -205,7 +207,7 @@ if (!function_exists('hitung_nilai_skp')) {
 if (!function_exists('hitung_nilai_capaian')) {
 
     function hitung_nilai_capaian($rnb = NULL, $hitung = 0) {
-        return (!is_null($rnb) && $rnb > 0) ? lws_divide($hitung, 3) : lws_divide($hitung, 4);
+        return (!is_null($rnb) && $rnb > 0) ? lws_divide($hitung, 4) : lws_divide($hitung, 3);
     }
 
 }

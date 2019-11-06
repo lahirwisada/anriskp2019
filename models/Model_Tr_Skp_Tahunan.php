@@ -95,6 +95,13 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
                 . "AVG(tsn.real_nilai_waktu) as real_nilai_waktu,"
 //                . "tsn.real_output,"
                 . "fhitung(AVG(tsn.real_nilai_kualitas), skpt.skpt_kualitas, AVG(tsn.real_nilai_kuantitas), skpt.skpt_kuantitas, AVG(tsn.real_nilai_waktu), skpt.skpt_waktu, AVG(tsn.real_nilai_biaya), skpt.skpt_biaya) real_hitung,"
+                . "fnilai24(AVG(tsn.real_nilai_biaya), skpt.skpt_biaya) pb,"
+                . "fnilai24(AVG(tsn.real_nilai_waktu), skpt.skpt_waktu) pw,"
+                . "fpersentation(AVG(tsn.real_nilai_kualitas), skpt.skpt_kualitas) kw,"
+                . "fpersentation(AVG(tsn.real_nilai_kuantitas), skpt.skpt_kuantitas) kn,"
+                . "fless24(AVG(tsn.real_nilai_waktu), skpt.skpt_waktu) wl,"
+                . "fup24(AVG(tsn.real_nilai_waktu), skpt.skpt_waktu) wu,"
+                . "((1.76 * AVG(tsn.real_nilai_waktu)) - skpt.skpt_waktu) wh,"
                 . "0 real_nilai,"
                 . "skpt.skpt_waktu jml");
 
