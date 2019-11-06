@@ -186,6 +186,7 @@ $crypt_id_penilai = isset($crypt_id_penilai) ? $crypt_id_penilai : FALSE;
                                                     </div>
                                                 </div>
                                             </div>
+                                            <?php /**
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -198,6 +199,11 @@ $crypt_id_penilai = isset($crypt_id_penilai) ? $crypt_id_penilai : FALSE;
                                                     </div>
                                                 </div>
                                             </div>
+                                            *
+                                             * 
+                                             */
+                                            echo form_hidden('real_nilai_biaya', 0);
+                                            ?>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
