@@ -75,7 +75,7 @@ class Penilai extends Skarsiparis_cmain {
 
         if ($id_penilai !== FALSE) {
 
-            $audien = $this->model_master_pegawai->get_pegawai_by_id_user($id_pegawai);
+            $audien = $this->model_master_pegawai->get_pegawai_by_id($id_pegawai);
             $penilai = $this->model_master_pegawai->get_pegawai_by_id_user(extract_id_with_salt($id_penilai));
             
             if ($audien && $penilai && $audien->jml_penilai < 3) {
