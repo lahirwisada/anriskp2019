@@ -104,7 +104,7 @@ $label = get_skpt_label();
                                                 <td class="text-center" rowspan="2"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
                                                 <td class="text-center" rowspan="2">
                                                     <div class="btn-group btn-group-sm">
-                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/lembar_penilaian") . "/" . add_salt_to_string($record->id_skpt); ?>">Detail</a>
+                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/lembar_penilaian") . "/" . add_salt_to_string($record->id_skpt); ?>">Nilai</a>
                                                     </div>
                                                 </td>
                                             </tr>
