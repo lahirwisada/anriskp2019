@@ -60,14 +60,14 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
                         $this->attention_messages = "Perubahan telah disimpan.";
                     }
                     if ($parent_id) {
-                        redirect('back_end/' . $this->_name . '/index/' . $parent_id);
+                        redirect($this->_name . '/index/' . $parent_id);
                     }
                     $referer = $this->session->userdata('referer');
                     if ($referer) {
                         $this->session->unset_userdata('referer');
                         redirect($referer);
                     }
-                    redirect('back_end/' . $this->_name);
+                    redirect($this->_name);
                 }
                 $this->attention_messages = "Terdapat Kesalahan, Periksa kembali isian anda.";
             } else {

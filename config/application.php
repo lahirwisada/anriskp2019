@@ -52,6 +52,7 @@ $config['another_profil_properties']['columns'] = array(
     "master_pegawai.pegawai_nip",
     "master_pegawai.pegawai_nama",
     "master_pegawai.jabfungsional",
+    "master_pegawai.foto",
 //    "master_pegawai.id_organisasi"
 );
 //$config['another_profil_properties']['related_tables'] = array(
