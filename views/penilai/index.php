@@ -63,13 +63,11 @@ $is_developer = isset($is_developer) ? $is_developer : TRUE;
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="5"> Kosong / Data tidak ditemukan. </td>
+                                    <td colspan="3"> Kosong / Data tidak ditemukan. </td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
-
-                    <?php /** <div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 10 of 57 entries</div> */ ?>
                     <?php
                     echo $paging_set;
                     ?>

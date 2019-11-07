@@ -26,6 +26,7 @@ class Skparsiparis_main extends Lws_Modular {
 //            var_dump($this->user_detail);exit;
         }
         $this->set("active_user_detail", $this->user_detail);
+        $this->set("current_foto", $this->user_detail["foto"]);
         $this->init_backend_menu();
     }
 

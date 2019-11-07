@@ -17,7 +17,6 @@ class Beritaacara extends Skarsiparis_cmain {
     public function index() {
         $this->model = 'model_master_pegawai';
 
-
         $tahun = $this->input->get_post('tahun');
 
         $this->__reconfigure_model($tahun);

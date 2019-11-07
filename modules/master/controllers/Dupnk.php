@@ -17,6 +17,10 @@ class Dupnk extends Skparsiparis_main {
         $this->set('current_base_url', base_url('dupnk'));
 //        $this->load->model('model_dupnk');
     }
+    
+    protected function get_current_location() {
+        return $this->my_location ."master/" .$this->_name . "/" . $this->_action;
+    }
 
     public function index() {
         $this->get_attention_message_from_session();

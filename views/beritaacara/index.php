@@ -74,7 +74,7 @@ $tahun = isset($tahun) ? $tahun : date('Y');
                                             Arsiparis <?php echo beautify_str($record->jabfungsional) ?>
                                         </td>
                                         <td>
-                                            <?php echo !is_null($record->nilaikinerja_ini) ? number_format($record->nilaikinerja_ini, 2, ',', '.') : number_format($record->nilai_kinerja, 2, ',', '.'); ?>
+                                            <?php echo!is_null($record->nilaikinerja_ini) ? number_format($record->nilaikinerja_ini, 2, ',', '.') : number_format($record->nilai_kinerja, 2, ',', '.'); ?>
                                         </td>
                                         <td>
                                             <?php
@@ -83,22 +83,23 @@ $tahun = isset($tahun) ? $tahun : date('Y');
                                                 ?>
                                                 <?php $akkth_ini = calculate_nilai_akt($record->nilai_kinerja, $record->jabfungsional); ?>
                                             <?php endif; ?>
-        <?php echo number_format($akkth_ini, 2, ',', '.'); ?>
+                                            <?php echo number_format($akkth_ini, 2, ',', '.'); ?>
 
                                         </td>
                                         <td>
-                                            <?php 
+                                            <?php
                                             $akk = $record->akk_ini;
-                                            if (is_null($record->akk_ini)): ?>
+                                            if (is_null($record->akk_ini)):
+                                                ?>
                                                 <?php $akk = $akkth_ini + $record->akkthlalu; ?>
                                             <?php endif; ?>
-                                                <?php echo number_format($akk, 2, ',', '.'); ?>
+        <?php echo number_format($akk, 2, ',', '.'); ?>
                                         </td>
                                         <td>
                                             <div class="btn-group">
-        <?php
-        $crypt_id_akt = is_null($record->id_akt_ini) ? "" : add_salt_to_string($record->id_akt_ini);
-        ?>
+                                                <?php
+                                                $crypt_id_akt = is_null($record->id_akt_ini) ? "" : add_salt_to_string($record->id_akt_ini);
+                                                ?>
                                                 <a class="btn btn-default pull-right btnrekomendasi" urlloc="<?php echo base_url($active_modul . "/set_rekomendasi") . "/" . $crypt_id_akt; ?>?cip=<?php echo add_salt_to_string($record->id_pegawai); ?>&tahun=<?php echo $tahun; ?>">
                                                     Rekomendasi
                                                 </a>
@@ -108,14 +109,14 @@ $tahun = isset($tahun) ? $tahun : date('Y');
                                             </div>
                                         </td>
                                     </tr>
-        <?php $next_list_number++; ?>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                                    <?php $next_list_number++; ?>
+                                <?php endforeach; ?>
+<?php endif; ?>
                         </tbody>
                     </table>
-<?php
-echo $paging_set;
-?>
+                    <?php
+                    echo $paging_set;
+                    ?>
                 </div>
             </div>
         </div>
