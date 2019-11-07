@@ -14,21 +14,30 @@ class Pperilaku extends Skarsiparis_cmain {
         $this->load->model('model_master_pegawai');
     }
 
+    protected function after_detail($id = FALSE) {
+        if ($id) {
+            $this->attention_messages = "Perubahan telah disimpan.";
+        }
+        redirect('pperilaku');
+    }
+
     public function index() {
+
+        $this->set('referer', 'pperilaku');
         $pegawai = $this->model_master_pegawai->get_pegawai_by_id_user($this->user_detail["id_user"]);
 
 //        if ($pegawai) {
-            $id = $this->model_tr_perilaku->check_data($this->id_pegawai, date('Y'));
-            parent::detail($id, array(
-                "id_pegawai",
-                "perilaku_tahun",
-                "perilaku_pelayanan",
-                "perilaku_integritas",
-                "perilaku_komitmen",
-                "perilaku_disiplin",
-                "perilaku_kerjasama",
-                "perilaku_kepemimpinan"
-            ));
+        $id = $this->model_tr_perilaku->check_data($this->id_pegawai, date('Y'));
+        parent::detail($id, array(
+            "id_pegawai",
+            "perilaku_tahun",
+            "perilaku_pelayanan",
+            "perilaku_integritas",
+            "perilaku_komitmen",
+            "perilaku_disiplin",
+            "perilaku_kerjasama",
+            "perilaku_kepemimpinan"
+        ));
 //        }else{
 //            redirect('Pperilaku');
 //        }
@@ -37,7 +46,7 @@ class Pperilaku extends Skarsiparis_cmain {
         $this->set('tahun', date('Y'));
         $this->set('id_user', add_salt_to_string($this->user_detail["id_user"]));
     }
-    
+
     public function index_obsolete() {
         $this->session->set_userdata('referer', $this->_uri_before_login);
         $this->get_attention_message_from_session();
@@ -78,7 +87,7 @@ class Pperilaku extends Skarsiparis_cmain {
                 "perilaku_kerjasama",
                 "perilaku_kepemimpinan"
             ));
-        }else{
+        } else {
             redirect('Pperilaku');
         }
 
