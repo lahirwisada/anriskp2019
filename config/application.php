@@ -157,6 +157,9 @@ $config['modul_action_configuration'] = array(
     "pperilaku" => array(
         "insert" => array("penilaian"),
     ),
+    "iperilaku" => array(
+        "insert" => array("penilaian"),
+    ),
     "profil" => array(
         "read" => array("passwd"),
         "update" => array("info"),
