@@ -69,6 +69,11 @@ $label = get_skpt_label();
                                                     <a class="btn btn-sm btn-default btn-hapus-row" href="javascript:void(0);" rel="<?php echo base_url($active_modul . "/delete") . "/" . $record->id_skpt; ?>">Hapus</a>
                                                 </div>
                                             <?php endif; ?>
+                                            <?php if ($record->skpt_status == 2): ?>
+                                            <div class="btn-group btn-group-sm">
+                                                    <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/detail") . "/" . $record->id_skpt; ?>">Ubah</a>
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

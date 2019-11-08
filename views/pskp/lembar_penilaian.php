@@ -9,6 +9,10 @@ $status = get_skpt_status();
 $label = get_skpt_label();
 $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
 $crypt_id_penilai = isset($crypt_id_penilai) ? $crypt_id_penilai : FALSE;
+$current_val = isset($current_val) ? $current_val : FALSE;
+
+
+
 ?>
 
 <div class="row">
@@ -156,7 +160,9 @@ $crypt_id_penilai = isset($crypt_id_penilai) ? $crypt_id_penilai : FALSE;
                                                         <label class="col-md-5 control-label">Nilai Kualitas</label>
                                                         <div class="col-md-7">
                                                             <div class="input-group" >
-                                                                <?php echo form_input('real_nilai_kualitas', set_value('real_nilai_kualitas', number_format($detail_skpt->skpt_real_kualitas, 0, ',', '.')), 'id="real_nilai_kualitas" class="form-control"'); ?>
+                                                                <?php 
+                                                                $vrnkw = $current_val ? $current_val->real_nilai_kualitas : $detail_skpt->skpt_real_kualitas;
+                                                                echo form_input('real_nilai_kualitas', set_value('real_nilai_kualitas', number_format($vrnkw, 0, ',', '.')), 'id="real_nilai_kualitas" class="form-control"'); ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -168,7 +174,10 @@ $crypt_id_penilai = isset($crypt_id_penilai) ? $crypt_id_penilai : FALSE;
                                                         <label class="col-md-5 control-label">Nilai Kuantitas</label>
                                                         <div class="col-md-7">
                                                             <div class="input-group" >
-                                                                <?php echo form_input('real_nilai_kuantitas', set_value('real_nilai_kuantitas', number_format($detail_skpt->skpt_real_kuantitas, 0, ',', '.')), 'id="real_nilai_kuantitas" class="form-control"'); ?>
+                                                                <?php 
+                                                                $vrnkn = $current_val ? $current_val->real_nilai_kuantitas : $detail_skpt->skpt_real_kuantitas;
+                                                                echo form_input('real_nilai_kuantitas', set_value('real_nilai_kuantitas', number_format($vrnkn, 0, ',', '.')), 'id="real_nilai_kuantitas" class="form-control"'); 
+                                                                ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -180,7 +189,10 @@ $crypt_id_penilai = isset($crypt_id_penilai) ? $crypt_id_penilai : FALSE;
                                                         <label class="col-md-5 control-label">Output</label>
                                                         <div class="col-md-7">
                                                             <div class="input-group" >
-                                                                <?php echo form_dropdown('real_output', $skpt_ouput, set_value('real_output', number_format($detail_skpt->skpt_real_output, 0, ',', '.')), 'id="real_output" class="form-control select"'); ?>
+                                                                <?php 
+                                                                $vro = $current_val ? $current_val->real_output : $detail_skpt->skpt_real_output;
+                                                                echo form_dropdown('real_output', $skpt_ouput, set_value('real_output', number_format($vro, 0, ',', '.')), 'id="real_output" class="form-control select"'); 
+                                                                ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -214,7 +226,10 @@ $crypt_id_penilai = isset($crypt_id_penilai) ? $crypt_id_penilai : FALSE;
                                                         <label class="col-md-5 control-label">Waktu / Lama Kegiatan</label>
                                                         <div class="col-md-7">
                                                             <div class="input-group" >
-                                                                <?php echo form_input('real_nilai_waktu', set_value('real_nilai_waktu', $detail_skpt->skpt_real_waktu), 'id="real_nilai_waktu" class="form-control"'); ?>
+                                                                <?php 
+                                                                $vrnw = $current_val ? $current_val->real_nilai_waktu : $detail_skpt->skpt_real_waktu;
+                                                                echo form_input('real_nilai_waktu', set_value('real_nilai_waktu', number_format($vrnw, 0, ',', '.')), 'id="real_nilai_waktu" class="form-control"'); 
+                                                                ?>
                                                             </div>
                                                         </div>
                                                     </div>

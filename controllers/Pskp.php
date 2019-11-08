@@ -90,11 +90,13 @@ class Pskp extends Skarsiparis_cmain {
 
         $detail_skpt = $this->model_tr_vskp->show_detail($id_skpt);
         $records = $this->model_tr_skp_nilai->all($id_skpt, $this->user_detail["id_pegawai"]);
+        $current_val = $records->record_set ? current($records->record_set) : FALSE;
 
         $this->set('records', $records->record_set);
         $this->set('total_record', $records->record_found);
         $this->set('detail_skpt', $detail_skpt);
         $this->set('crypt_id_skpt', $crypt_id_skpt);
+        $this->set('current_val', $current_val);
         $this->set('crypt_id_penilai', add_salt_to_string($this->user_detail["id_pegawai"]));
         $this->set("additional_js", "pskp/js/lembar_penilaian_js");
     }
