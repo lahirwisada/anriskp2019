@@ -161,6 +161,16 @@ class Main_controller extends LWS_Controller {
         $data_found = $this->model_master_pegawai->get_like_audien($keyword, $id_user);
         $this->to_json($data_found);
     }
+    
+    public function get_like_pegawai_all_not_self() {
+        $this->load->model("model_master_pegawai");
+        $keyword = $this->input->post("keyword");
+        $id_user = extract_id_with_salt($this->input->post("pid"));
+
+        $data_found = $this->model_master_pegawai->get_like($keyword, $id_user);
+        
+        $this->to_json($data_found);
+    }
 
     protected function get_post_nip($inip = FALSE) {
         $nip = $this->input->get_post('nip', TRUE);

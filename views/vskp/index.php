@@ -41,7 +41,7 @@ $label = get_skpt_label();
                                                 <div class="form-group">
                                                     <label class="col-md-2 control-label">NIP</label>
                                                     <div class="col-md-10">
-                                                        <?php echo lws_form_dropdown('nip', $pegawai, "", " class='form-control select'  data-live-search='true'"); ?>
+                                                        <?php echo lws_form_dropdown('nip', $pegawai, "", " id=\"slc_pegawai\" class='form-control select'  data-live-search='true'"); ?>
                                                     </div>
                                                 </div>
                                             </div>

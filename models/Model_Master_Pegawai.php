@@ -201,11 +201,18 @@ class Model_Master_Pegawai extends Master_Pegawai {
         return $this->get_where("id_organisasi = '" . $id_opd . "'", "pegawai_nip");
     }
 
-    public function get_like($keyword = FALSE) {
+    public function get_like($keyword = FALSE, $is_not_this_id = FALSE) {
         $result = FALSE;
         if ($keyword) {
             $this->db->order_by("pegawai_nama", "asc");
-            $this->db->where(" lower(" . $this->table_name . ".pegawai_nip) LIKE lower('%" . $keyword . "%') OR lower(" . $this->table_name . ".pegawai_nama) LIKE lower('%" . $keyword . "%')", NULL, FALSE);
+            
+            $condition = " (lower(" . $this->table_name . ".pegawai_nip) LIKE lower('%" . $keyword . "%') OR lower(" . $this->table_name . ".pegawai_nama) LIKE lower('%" . $keyword . "%'))";
+            
+            if ($is_not_this_id) {
+                $condition .= " AND  " . $this->table_name . ".id_user <> '" . $is_not_this_id . "'";
+            }
+            
+            $this->db->where($condition, NULL, FALSE);
             $result = $this->get_where();
         }
         return $result;

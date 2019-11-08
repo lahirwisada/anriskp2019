@@ -71,6 +71,8 @@ class Vskp extends Skarsiparis_cmain {
         $this->set('detail_pegawai', $pegawai);
         $this->set('pegawai', $this->get_rs_combobox_pegawai("reset"));
         
+        $this->set('id_user', add_salt_to_string($this->user_detail["id_user"]));
+        
         $this->add_cssfiles(array("plugins/select2/select2.min.css"));
         $this->add_jsfiles(array("plugins/select2/select2.full.min.js"));
     }
