@@ -24,7 +24,7 @@ $uploaded_files = isset($uploaded_files) ? $uploaded_files : FALSE;
             processResults: function (data, params) {
                 var data = $.map(data, function (obj) {
                     obj.id = obj.id || obj.id_dupnk;
-                    obj.text = obj.text || obj.deskripsi_dupnk;
+                    obj.text = obj.text || obj.deskripsi_dupnk + " ("+obj.jabfungsional+")";
                     return obj;
                 });
                 params.page = params.page || 1;

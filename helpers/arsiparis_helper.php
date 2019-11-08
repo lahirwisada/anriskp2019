@@ -128,7 +128,7 @@ if (!function_exists('show_skpt_output')) {
 if (!function_exists('get_skpt_output')) {
 
     function get_skpt_output($skpt_output = FALSE) {
-        return array('Laporan', 'Dokumen', 'Paket', 'Orang', 'Unit');
+        return array('Laporan', 'Dokumen', 'Daftar Arsip', 'Paket', 'Orang', 'Unit');
     }
 
 }
