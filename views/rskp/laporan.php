@@ -72,19 +72,17 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                 <tr>
                                     <td class="text-right"><?php echo $next_list_number++ ?></td>
                                     <td><?php echo $row->skpt_kegiatan; ?></td>
-                                    <td class="text-center"><?php echo $kuantitas_target ?></td>
-                                    <td class="text-center"><?php echo $kualitas_target ?></td>
-                                    <td class="text-center"><?php echo $waktu_target ?></td>
+                                    <td class="text-center"><?php echo number_format($kuantitas_target, 0, ',', '.'); ?></td>
+                                    <td class="text-center"><?php echo number_format($kualitas_target, 0, ',', '.'); ?></td>
+                                    <td class="text-center"><?php echo number_format($waktu_target, 0, ',', '.'); ?></td>
                                     <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo $kuantitas_real ?></td>
-                                    <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo $waktu_real."<br />" ?></td>
+                                    <td class="text-center"><?php echo number_format($kuantitas_real, 0, ',', '.') ?></td>
+                                    <td class="text-center"><?php echo number_format($kualitas_real, 0, ',', '.') ?></td>
+                                    <td class="text-center"><?php echo number_format($waktu_real, 0, ',', '.')."<br />" ?></td>
                                     <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
                                     <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
                                     <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                 </tr>
-                                <?php
-                                /**
                                 <tr>
                                     <td colspan="12">
                                         <?php echo "<br />"; ?>
@@ -103,9 +101,6 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                         <?php echo "Perhitungan Biaya ".$row->pb; ?>
                                     </td>
                                 </tr>
-                                 * 
-                                 */
-                                ?>
                             <?php endforeach; ?>
                             <?php
                             list($nilai_huruf, $nilai_capaian) = show_nilai_huruf($total, $jumlah);
