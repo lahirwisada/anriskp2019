@@ -18,13 +18,14 @@ $uploaded_files = isset($uploaded_files) ? $uploaded_files : FALSE;
                 return {
                     keyword: params.term, // search term
                     jabfung: '<?php echo $current_jab_fungsional; ?>', // search term
+                    istambahan: ($("#cbtugastambahan").is(":checked") ? 1 : 0), // search term
                     page: params.page
                 };
             },
             processResults: function (data, params) {
                 var data = $.map(data, function (obj) {
                     obj.id = obj.id || obj.id_dupnk;
-                    obj.text = obj.text || obj.deskripsi_dupnk + " ("+obj.jabfungsional+")";
+                    obj.text = obj.text || obj.deskripsi_dupnk + " (" + obj.jabfungsional + ")";
                     return obj;
                 });
                 params.page = params.page || 1;
@@ -197,6 +198,15 @@ $uploaded_files = isset($uploaded_files) ? $uploaded_files : FALSE;
 <?php if ($uploaded_files): ?>
             uploadInput.resetAllRemoveButton();
 <?php endif; ?>
-    });
 
+        $("#cbtugastambahan").click(function (e) {
+            if ($(this).is(":checked")) {
+                $("#div-commonform").hide();
+                $("#is_tugas_tambahan").val(1);
+            } else {
+                $("#div-commonform").show();
+                $("#is_tugas_tambahan").val(0);
+            }
+        });
+    });
 </script>

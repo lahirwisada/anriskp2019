@@ -23,7 +23,8 @@ class Master_dupnk extends MY_Model {
         "deskripsi_dupnk" => array("deskripsi_dupnk", "deskripsi_dupnk"),
         "turunan_dari" => array("turunan_dari", "turunan_dari"),
         "no_urut" => array("no_urut", "no_urut"),
-        "jabfungsional" => array("jabfungsional", "jabfungsional")
+        "jabfungsional" => array("jabfungsional", "jabfungsional"),
+        "is_tugastambahan" => array("is_tugastambahan", "is_tugastambahan"),
     );
     protected $rules = array(
         array("id_dupnk", ""),
@@ -33,6 +34,7 @@ class Master_dupnk extends MY_Model {
         array("turunan_dari", ""),
         array("no_urut", ""),
         array("jabfungsional", ""),
+        array("is_tugastambahan", ""),
     );
     protected $related_tables = array();
     protected $attribute_types = array();

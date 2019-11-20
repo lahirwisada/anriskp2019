@@ -34,7 +34,7 @@ class Dupnk extends Skparsiparis_main {
         $this->set("paging_set", $paging_set);
         $this->set("header_title", "Master DUPNK");
 
-        $this->set("additional_js", "back_bone/modul/" . $this->_layout . "/js/index_js");
+        $this->set("additional_js", $this->_name .  "/js/index_js");
 
         $this->set("bread_crumb", array(
             "#" => 'Daftar Modul'
@@ -50,8 +50,11 @@ class Dupnk extends Skparsiparis_main {
             "deskripsi_dupnk",
             "turunan_dari",
             "no_urut",
-            "jabfungsional"));
+            "jabfungsional",
+            "is_tugastambahan",
+            ));
         $this->set('enum_jabatan', $this->model_dupnk->enum_jabatan);
+        $this->set("additional_js", $this->_name . "/js/detail_js");
     }
 
     protected function redirect_after_save_detail($id) {
@@ -61,7 +64,8 @@ class Dupnk extends Skparsiparis_main {
     public function get_like_jab() {
         $keyword = $this->input->post("keyword");
         $jabatanfungsional = $this->input->post("jabfung");
-        $kelompok_found = $this->model_dupnk->get_like($keyword, $jabatanfungsional);
+        $istugastambahan = $this->input->post("istambahan");
+        $kelompok_found = $this->model_dupnk->get_like($keyword, $jabatanfungsional, $istugastambahan);
         $this->to_json($kelompok_found);
     }
 

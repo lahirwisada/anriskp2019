@@ -32,10 +32,11 @@ class Model_Dupnk extends Master_Dupnk {
                     "kode_nomor",
                     "deskripsi_dupnk",
                     "jabfungsional",
+                    "is_tugastambahan",
                         ), FALSE, TRUE, FALSE, 1, TRUE, $force_limit, $force_offset);
     }
 
-    public function get_like($keyword = FALSE, $jabatan_fungsional = FALSE) {
+    public function get_like($keyword = FALSE, $jabatan_fungsional = FALSE, $is_tugastambahan = FALSE) {
         $result = FALSE;
         $arr_tingkatan = array_keys($this->enum_jabatan);
         
@@ -61,6 +62,11 @@ class Model_Dupnk extends Master_Dupnk {
                 $this->db->where("(".$alternate_condition_1." ".$alternate_condition_2." "." lower(" . $this->table_name . ".jabfungsional) = lower('" . $jabatan_fungsional . "'))", NULL, FALSE);
             }
             $this->db->where("( lower(" . $this->table_name . ".kode_nomor) LIKE lower('%" . $keyword . "%') OR  lower(" . $this->table_name . ".deskripsi_dupnk) LIKE lower('%" . $keyword . "%'))", NULL, FALSE);
+            
+            if($is_tugastambahan !== FALSE){
+                $this->db->where($this->table_name.".is_tugastambahan = '".$is_tugastambahan."'");
+            }
+            
             $this->db->order_by("deskripsi_dupnk", "asc");
             $result = $this->get_where();
         }

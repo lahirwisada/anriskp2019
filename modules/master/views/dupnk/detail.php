@@ -66,7 +66,16 @@ $enum_jabatan = isset($enum_jabatan) ? $enum_jabatan : array(
                             </span>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Tugas Tambahan</label>
+                        <div class="col-md-3 col-xs-12">
+                            <label class="css-input css-checkbox css-checkbox-info">
+                                <input type="hidden" id="is_tugastambahan" name="is_tugastambahan" value="<?php echo $detail ? $detail->is_tugastambahan : 0; ?>" />
+                                <input type="checkbox" id="cbtugastambahan" onclick=""><span></span>
+                            </label>
+                            <span class="help-block">Centang jika merupakan tugas tambahan.</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <button type="submit" class="btn-primary btn pull-right">Simpan</button>

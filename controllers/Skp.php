@@ -38,11 +38,14 @@ class Skp extends Skarsiparis_cmain {
     }
 
     public function detail($id = false, $posted_data = [], $parent_id = false) {
+//        var_dump($_POST);exit;
         parent::detail($id, array(
             "upload_random_id",
             "id_pegawai",
             "skpt_tahun",
             "id_dupnk",
+            "uraian_tgs_tambahan",
+            "is_tugas_tambahan",
             "skpt_waktu",
             "skpt_real_waktu",
             "skpt_kuantitas",

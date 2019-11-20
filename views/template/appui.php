@@ -47,7 +47,9 @@ $current_base_url = isset($current_base_url) ? $current_base_url : '#';
         <link rel="icon" href="<?php echo assets(); ?>/img/favicon.png" />
 
         <!-- Google fonts -->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,900%7CRoboto+Slab:300,400%7CRoboto+Mono:400" />
+        <?php if (is_connected() !== FALSE): ?>
+            <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,900%7CRoboto+Slab:300,400%7CRoboto+Mono:400" />
+        <?php endif; ?>
 
         <?php echo load_partial('template/appui/default_style'); ?>
         <?php /**
@@ -220,7 +222,7 @@ $current_base_url = isset($current_base_url) ? $current_base_url : '#';
 
         <div id="whateverelement"></div>
         <div id="whateverformelement" style="display: none;"></div>
-        
+
         <!-- START PRELOADS -->
         <audio id="audio-alert" src="<?php echo assets(); ?>audio/alert.mp3" preload="auto"></audio>
         <audio id="audio-fail" src="<?php echo assets(); ?>audio/fail.mp3" preload="auto"></audio>

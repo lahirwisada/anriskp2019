@@ -33,6 +33,16 @@ $skpt_ouput = get_skpt_output();
                         </div>
                     </div>
                     <?php echo form_hidden('id_pegawai', $pegawai_id); ?>
+                    <input type="hidden" id="is_tugas_tambahan" name="is_tugas_tambahan" value="<?php echo $detail ? $detail->is_tugas_tambahan : 0; ?>" />
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-12 control-label">Tugas Tambahan</label>
+                        <div class="col-md-3 col-xs-12">
+                            <label class="css-input css-checkbox css-checkbox-info">
+                                <input type="checkbox" id="cbtugastambahan" onclick=""><span></span>
+                            </label>
+                            <span class="help-block">Isikan dengan nama kegiatan yang akan dilakukan.</span>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-md-3 col-xs-12 control-label">Nama Kegiatan *</label>
                         <div class="col-md-6 col-xs-12">
@@ -43,69 +53,81 @@ $skpt_ouput = get_skpt_output();
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 col-xs-12 control-label">Lama Kegiatan (Waktu) *</label>
+                        <label class="col-md-3 col-xs-12 control-label">Keterangan Kegiatan</label>
                         <div class="col-md-6 col-xs-12">
-                            <div class="col-xs-6">
-                                <label for="register5-lastname">Target</label>
-                                <?php echo form_input('skpt_waktu', set_value('skpt_waktu', $detail ? $detail->skpt_waktu : '0'), 'class="form-control"'); ?>
-                            </div>
-                            <div class="col-xs-6">
-                                <label for="register5-lastname">Real</label>
-                                <?php echo form_input('skpt_real_waktu', set_value('skpt_real_waktu', $detail ? $detail->skpt_real_waktu : '0'), 'class="form-control"'); ?>
-                            </div>
-                            <span class="help-block">Isikan dengan lama pengerjaan kegiatan dalam hitungan bulan.</span>
+                            <?php
+                            $default_value_tahun = $detail ? $detail->uraian_tgs_tambahan : "";
+                            echo form_textarea('uraian_tgs_tambahan', $default_value_tahun, 'class="form-control"');
+                            ?>
+                            <span class="help-block">Pilih periode tahun.</span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-3 col-xs-12 control-label">Kuantitas Output *</label>
-                        <div class="col-md-6 col-xs-12">
-                            <div class="row">
-                                <label for="register5-lastname">Target</label>
+                    <div id="div-commonform">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Lama Kegiatan (Waktu) *</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="col-xs-6">
+                                    <label for="register5-lastname">Target</label>
+                                    <?php echo form_input('skpt_waktu', set_value('skpt_waktu', $detail ? $detail->skpt_waktu : '0'), 'class="form-control"'); ?>
+                                </div>
+                                <div class="col-xs-6">
+                                    <label for="register5-lastname">Real</label>
+                                    <?php echo form_input('skpt_real_waktu', set_value('skpt_real_waktu', $detail ? $detail->skpt_real_waktu : '0'), 'class="form-control"'); ?>
+                                </div>
+                                <span class="help-block">Isikan dengan lama pengerjaan kegiatan dalam hitungan bulan.</span>
                             </div>
-                            <div class="col-xs-4" style="padding: 0;">
-                                <?php echo form_input('skpt_kuantitas', set_value('skpt_kuantitas', $detail ? $detail->skpt_kuantitas : '0'), 'class="form-control"'); ?>
-                            </div>
-                            <div class="col-xs-8" style="padding-right: 0;">
-                                <?php echo form_dropdown('skpt_output', $skpt_ouput, set_value('skpt_output', $detail ? $detail->skpt_output : '0'), 'class="form-control select"'); ?>
-                            </div>
-                            <span class="help-block">Isikan dengan Target kuantitas output yang dihasilkan.</span>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 col-xs-12 control-label"></label>
-                        <div class="col-md-6 col-xs-12">
-                            <div class="row">
-                                <label for="register5-lastname">Real</label>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Kuantitas Output *</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="row">
+                                    <label for="register5-lastname">Target</label>
+                                </div>
+                                <div class="col-xs-4" style="padding: 0;">
+                                    <?php echo form_input('skpt_kuantitas', set_value('skpt_kuantitas', $detail ? $detail->skpt_kuantitas : '0'), 'class="form-control"'); ?>
+                                </div>
+                                <div class="col-xs-8" style="padding-right: 0;">
+                                    <?php echo form_dropdown('skpt_output', $skpt_ouput, set_value('skpt_output', $detail ? $detail->skpt_output : '0'), 'class="form-control select"'); ?>
+                                </div>
+                                <span class="help-block">Isikan dengan Target kuantitas output yang dihasilkan.</span>
                             </div>
-                            <div class="col-xs-4" style="padding: 0;">
-                                <?php echo form_input('skpt_real_kuantitas', set_value('skpt_real_kuantitas', $detail ? $detail->skpt_real_kuantitas : '0'), 'class="form-control"'); ?>
-                            </div>
-                            <div class="col-xs-8" style="padding-right: 0;">
-                                <?php echo form_dropdown('skpt_real_output', $skpt_ouput, set_value('skpt_real_output', $detail ? $detail->skpt_real_output : '0'), 'class="form-control select"'); ?>
-                            </div>
-                            <span class="help-block">Isikan dengan kuantitas output real yang dihasilkan.</span>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 col-xs-12 control-label">Kualitas Output *</label>
-                        <div class="col-md-6 col-xs-12">
-                            <div class="col-xs-6">
-                                <label for="register5-lastname">Target</label>
-                                <?php echo form_input('skpt_kualitas', set_value('skpt_kualitas', $detail ? $detail->skpt_kualitas : '0'), 'class="form-control"'); ?>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label"></label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="row">
+                                    <label for="register5-lastname">Real</label>
+                                </div>
+                                <div class="col-xs-4" style="padding: 0;">
+                                    <?php echo form_input('skpt_real_kuantitas', set_value('skpt_real_kuantitas', $detail ? $detail->skpt_real_kuantitas : '0'), 'class="form-control"'); ?>
+                                </div>
+                                <div class="col-xs-8" style="padding-right: 0;">
+                                    <?php echo form_dropdown('skpt_real_output', $skpt_ouput, set_value('skpt_real_output', $detail ? $detail->skpt_real_output : '0'), 'class="form-control select"'); ?>
+                                </div>
+                                <span class="help-block">Isikan dengan kuantitas output real yang dihasilkan.</span>
                             </div>
-                            <div class="col-xs-6">
-                                <label for="register5-lastname">Real</label>
-                                <?php echo form_input('skpt_real_kualitas', set_value('skpt_real_kualitas', $detail ? $detail->skpt_real_kualitas : '0'), 'class="form-control"'); ?>
-                            </div>
-                            <span class="help-block">Isikan dengan kualitas kegiatan yang dihasilkan.<br />Kiri untuk isian <u>Target</u> dan Kanan untuk isian <u>Real penilaian</u> dari atasan.</span>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Kualitas Output *</label>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="col-xs-6">
+                                    <label for="register5-lastname">Target</label>
+                                    <?php echo form_input('skpt_kualitas', set_value('skpt_kualitas', $detail ? $detail->skpt_kualitas : '0'), 'class="form-control"'); ?>
+                                </div>
+                                <div class="col-xs-6">
+                                    <label for="register5-lastname">Real</label>
+                                    <?php echo form_input('skpt_real_kualitas', set_value('skpt_real_kualitas', $detail ? $detail->skpt_real_kualitas : '0'), 'class="form-control"'); ?>
+                                </div>
+                                <span class="help-block">Isikan dengan kualitas kegiatan yang dihasilkan.<br />Kiri untuk isian <u>Target</u> dan Kanan untuk isian <u>Real penilaian</u> dari atasan.</span>
+                            </div>
 
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 col-xs-12 control-label">Biaya Kegiatan *</label>
-                        <div class="col-md-6 col-xs-12">
-                            <?php echo form_input('skpt_biaya', set_value('skpt_biaya', $detail ? $detail->skpt_biaya : '0'), 'class="form-control"'); ?>
-                            <span class="help-block">Isikan dengan biaya yang akan dikeluarkan jika ada. Atau isi dengan "0" jika tidak ada.</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-12 control-label">Biaya Kegiatan *</label>
+                            <div class="col-md-6 col-xs-12">
+                                <?php echo form_input('skpt_biaya', set_value('skpt_biaya', $detail ? $detail->skpt_biaya : '0'), 'class="form-control"'); ?>
+                                <span class="help-block">Isikan dengan biaya yang akan dikeluarkan jika ada. Atau isi dengan "0" jika tidak ada.</span>
+                            </div>
                         </div>
                     </div>
 
