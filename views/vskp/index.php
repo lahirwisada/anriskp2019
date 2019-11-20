@@ -6,6 +6,7 @@ $next_list_number = isset($next_list_number) ? $next_list_number : 1;
 $tgl_aktivitas = isset($tgl_aktivitas) ? $tgl_aktivitas : date('d-m-Y');
 $nip = isset($nip) ? $nip : '';
 $detail_pegawai = isset($detail_pegawai) ? $detail_pegawai : '';
+$url_query_string = isset($url_query_string) ? $url_query_string : '';
 
 $skpt_ouput = get_skpt_output();
 $status = get_skpt_status();
@@ -105,8 +106,8 @@ $label = get_skpt_label();
                                                 <td class="text-center" rowspan="2">
                                                     <?php if ($record->skpt_status <= 1): ?>
                                                         <div class="btn-group btn-group-sm">
-                                                            <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/accept") . "/" . $record->id_skpt; ?>">Terima</a>
-                                                            <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/reject") . "/" . $record->id_skpt; ?>">Kembalikan</a>
+                                                            <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/accept") . "/" . $record->id_skpt.$url_query_string; ?>">Terima</a>
+                                                            <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/reject") . "/" . $record->id_skpt.$url_query_string; ?>">Kembalikan</a>
                                                         </div>
                                                     <?php endif; ?>
                                                 </td>
