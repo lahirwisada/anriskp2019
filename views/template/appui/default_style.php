@@ -4,3 +4,4 @@
 <link rel="stylesheet" id="css-bootstrap" href="<?php echo css(); ?>appui/bootstrap.css" />
 
 <link rel="stylesheet" id="css-app" href="<?php echo css(); ?>appui/app.css" />
+<link rel="stylesheet" id="css-app" href="<?php echo css(); ?>appui/app-custom.css" />
