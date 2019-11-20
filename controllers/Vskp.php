@@ -16,6 +16,12 @@ class Vskp extends Skarsiparis_cmain {
     public function index(){
         $tahun_skp = $this->input->get_post('tahun_skp', TRUE);
         $nip = trim($this->get_post_nip(0));
+        
+        $url_query_string = get_url_query_string();
+        
+        if($url_query_string != ""){
+            $url_query_string = "?".$url_query_string;
+        }
 
         $pegawai = FALSE;
 //        $id_organisasi = $this->user_detail['id_organisasi'];
@@ -69,6 +75,7 @@ class Vskp extends Skarsiparis_cmain {
         $this->set('nip', $nip);
         $this->set('tahun_skp', $tahun_skp);
         $this->set('detail_pegawai', $pegawai);
+        $this->set('url_query_string', $url_query_string);
         $this->set('pegawai', $this->get_rs_combobox_pegawai("reset"));
         
         $this->set('id_user', add_salt_to_string($this->user_detail["id_user"]));
@@ -84,7 +91,8 @@ class Vskp extends Skarsiparis_cmain {
         } else {
             $this->set_attention_message('Pengajuan gagal dilakukan...');
         }
-        redirect('vskp');
+        $url = 'vskp?'.get_url_query_string();
+        redirect($url);
     }
     
     public function accept($id = FALSE) {
