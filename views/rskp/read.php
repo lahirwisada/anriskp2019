@@ -184,7 +184,7 @@ $crypt_id_skpt = isset($crypt_id_skpt) ? $crypt_id_skpt : FALSE;
                                 </div>
                             </div>
                             <a href="<?php echo base_url('rskp'); ?>" class="btn-default btn">Batal / Kembali</a>
-                            <a class="btn btn-app-blue pull-right" id="btnscore" urlloc="<?php echo base_url($active_modul . "/banding") . "/" . $crypt_id_skpt; ?>">Banding</a>
+                            <a class="btn btn-app-blue pull-right" id="btnscore" urlloc="<?php echo base_url($active_modul . "/banding") . "/" . $crypt_id_skpt; ?>">Sanggah</a>
                         </div>
                     </div>
                     <br />
