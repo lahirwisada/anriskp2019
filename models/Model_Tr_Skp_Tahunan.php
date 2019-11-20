@@ -62,9 +62,12 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         }
         return $record_found;
     }
+    
+    protected function before_get_persetujuan(){}
 
     public function get_persetujuan($id_bawahan = array(), $tahun = FALSE, $status = 1, $force_limit = FALSE, $force_offset = FALSE) {
 //        $conditions[] = $this->table_name . ".skpt_status > 0";
+        $this->before_get_persetujuan();
         $conditions[] = $this->table_name . ".skpt_status = '" . $status . "'";
         if ($id_bawahan) {
             $bawahan = is_array($id_bawahan) ? implode(',', $id_bawahan) : $id_bawahan;

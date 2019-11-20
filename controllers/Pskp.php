@@ -18,14 +18,6 @@ class Pskp extends Skarsiparis_cmain {
         $id_pegawai = trim($this->get_post_nip(0));
 
         $pegawai = FALSE;
-//        $id_organisasi = $this->user_detail['id_organisasi'];
-//        $action_hapus = "kelolaaktivitas/hapus_umpeg/";
-//        $action_reset = "kelolaaktivitas/reset_umpeg/";
-//        if ($this->can_write("reset")) {
-//            $id_organisasi = FALSE;
-//            $action_hapus = "kelolaaktivitas/hapus/";
-//            $action_reset = "kelolaaktivitas/reset/";
-//        }
 
         $this->load->model(array('model_master_pegawai'));
 

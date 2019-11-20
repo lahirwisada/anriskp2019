@@ -94,7 +94,7 @@ $label = get_skpt_label();
                                 <tbody>
                                     <?php if ($records != FALSE): ?>
                                         <?php foreach ($records as $key => $record): ?>
-                                            <tr>
+                                            <tr class="<?php echo $record->telahdinilai > 0 ? "bg-cyan-lighter-important" : ""; ?>">
                                                 <td class="text-right" rowspan="3"><?php echo $next_list_number++ ?></td>
                                                 <td rowspan="2"><?php echo beautify_str($record->deskripsi_dupnk) ?></td>
                                                 <td><?php echo $record->skpt_kuantitas . " " . $skpt_ouput[$record->skpt_output] ?></td>
@@ -108,16 +108,16 @@ $label = get_skpt_label();
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="<?php echo $record->telahdinilai > 0 ? "bg-cyan-lighter-important" : ""; ?>">
                                                 <td><strong><?php echo $record->skpt_real_kuantitas . " " . $skpt_ouput[$record->skpt_real_output] ?></strong></td>
                                                 <td class="text-right"><strong><?php echo $record->skpt_real_kualitas ?></strong></td>
                                                 <td class="text-right"><strong><?php echo $record->skpt_real_waktu ?></strong></td>
                                             </tr>
-                                            <tr>
+                                            <tr class="<?php echo $record->telahdinilai > 0 ? "bg-cyan-lighter-important" : ""; ?>">
                                                 <td colspan="7">
                                                     <?php if ($record->uploaded_files && !empty($record->uploaded_files)): ?>
                                                         <?php foreach ($record->uploaded_files as $uploaded_file): ?>
-                                                            <a class="btn btn-xs btn-app-teal-outline" target="_blank" rel="noopener noreferrer" href="<?php echo base_url('_assets/uploads') . '/' . $record->upload_random_id . '/' . $uploaded_file; ?>"><?php echo $uploaded_file ?></a>
+                                                            <a class="btn btn-xs btn-app-blue-outline" target="_blank" rel="noopener noreferrer" href="<?php echo base_url('_assets/uploads') . '/' . $record->upload_random_id . '/' . $uploaded_file; ?>"><?php echo $uploaded_file ?></a>
                                                         <?php endforeach; ?>
                                                     <?php endif; ?>
                                                 </td>
