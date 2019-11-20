@@ -83,6 +83,8 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                     <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
                                     <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                 </tr>
+                                <?php 
+                                /* only for debug
                                 <tr>
                                     <td colspan="12">
                                         <?php echo "<br />"; ?>
@@ -101,6 +103,9 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                         <?php echo "Perhitungan Biaya ".$row->pb; ?>
                                     </td>
                                 </tr>
+                                 * 
+                                 */
+                                ?>
                             <?php endforeach; ?>
                             <?php
                             list($nilai_huruf, $nilai_capaian) = show_nilai_huruf($total, $jumlah);
