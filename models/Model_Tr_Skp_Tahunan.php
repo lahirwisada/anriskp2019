@@ -92,6 +92,8 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
                 . "skpt.skpt_kualitas,"
                 . "skpt.skpt_real_kualitas,"
                 . "skpt.skpt_real_kuantitas,"
+                . "skpt.is_tugas_tambahan,"
+                . "skpt.uraian_tgs_tambahan,"
                 . "AVG(tsn.real_nilai_kualitas) as real_nilai_kualitas,"
                 . "AVG(tsn.real_nilai_kuantitas) as real_nilai_kuantitas,"
                 . "AVG(tsn.real_nilai_biaya) as real_nilai_biaya,"

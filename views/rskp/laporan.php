@@ -5,6 +5,7 @@ $message_error = isset($message_error) ? $message_error : '';
 $active_modul = isset($active_modul) ? $active_modul : 'none';
 $pegawai = isset($pegawai) ? $pegawai : FALSE;
 $skpb = isset($skpb) ? $skpb : FALSE;
+$skpt = isset($skpt) ? $skpt : FALSE;
 $perilaku = isset($perilaku) ? $perilaku : FALSE;
 $detail = isset($detail) ? $detail : FALSE;
 $status = array('Proses', 'Pengajuan', 'Selesai');
@@ -50,6 +51,7 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                             <?php
                             $total = 0;
                             $jumlah = 0;
+                            $jumlah_tgs_tambahan = 0;
                             ?>
                             <?php foreach ($skpt as $row) : ?>
                                 <?php
@@ -67,7 +69,12 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                 $nilai_skp = hitung_nilai_capaian($row->real_nilai_biaya, $row->real_hitung);
 
                                 $total += $nilai_skp;
-                                $jumlah++;
+                                if($row->is_tugas_tambahan === '1'){
+                                    $jumlah_tgs_tambahan++;
+                                }else{
+                                    $jumlah++;
+                                }
+                                
                                 ?>
                                 <tr>
                                     <td class="text-right"><?php echo $next_list_number++ ?></td>
@@ -83,8 +90,7 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                     <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
                                     <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                 </tr>
-                                <?php 
-                                /* only for debug
+                                <?php /**
                                 <tr>
                                     <td colspan="12">
                                         <?php echo "<br />"; ?>
@@ -101,6 +107,8 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                         <?php echo "Perhitungan Waktu ".$row->pw; ?>
                                         <?php echo "<br />"; ?>
                                         <?php echo "Perhitungan Biaya ".$row->pb; ?>
+                                        <?php echo "<br />"; ?>
+                                        <?php echo "is Tugas Tambahan ".$row->is_tugas_tambahan; ?>
                                     </td>
                                 </tr>
                                  * 
@@ -108,12 +116,13 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                 ?>
                             <?php endforeach; ?>
                             <?php
-                            list($nilai_huruf, $nilai_capaian) = show_nilai_huruf($total, $jumlah);
+                            $nilai_tgs_tambahan = show_nilai_tgstambahan($jumlah_tgs_tambahan);
+                            list($nilai_huruf, $nilai_capaian) = show_nilai_huruf($total, $jumlah, $nilai_tgs_tambahan);
                             ?>
                             <tr class="table-footer">
                                 <td colspan="10" class="text-center">Nilai Capaian SKP</td>
                                 <td colspan="2" class="text-right">
-                                    <?php echo number_format($nilai_capaian, 2, ',', '.') ?><br>
+                                    <?php echo number_format(($nilai_capaian), 2, ',', '.') ?><br>
                                     (<?php echo $nilai_huruf ?>)
                                 </td>
                             </tr>

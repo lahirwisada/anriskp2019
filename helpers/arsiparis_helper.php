@@ -2,10 +2,20 @@
 
 if (!function_exists('show_nilai_huruf')) {
 
-    function show_nilai_huruf($total_nilai_skp, $jumlah_laporan) {
+    function show_nilai_huruf($total_nilai_skp, $jumlah_laporan, $nilai_tgs_tambahan) {
         $nilai_capaian = $jumlah_laporan > 0 ? $total_nilai_skp / $jumlah_laporan : 0;
-        $nilai_huruf = get_nilai_huruf($nilai_capaian);
-        return array($nilai_huruf, $nilai_capaian);
+        $total_nilai_capaian = $nilai_capaian + $nilai_tgs_tambahan;
+        $nilai_huruf = get_nilai_huruf($total_nilai_capaian);
+        return array($nilai_huruf, $total_nilai_capaian);
+    }
+
+}
+
+if (!function_exists('show_nilai_tgstambahan')) {
+
+    function show_nilai_tgstambahan($jml_tgs_tambahan) {
+        $nilai = ceil(lws_divide($jml_tgs_tambahan, 3));
+        return $nilai > 3 ? 3 : $nilai;
     }
 
 }
