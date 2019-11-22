@@ -29,16 +29,16 @@ class Model_Master_Pegawai extends Master_Pegawai {
     public function unset_by_berita_acara() {
         $this->by_berita_acara = FALSE;
     }
-    
+
     public function set_berita_acara_id_pegawai($id_pegawai = FALSE) {
         $this->berita_acara_by_id_pegawai = $id_pegawai;
     }
-    
+
     public function unset_berita_acara_id_pegawai() {
         $this->berita_acara_by_id_pegawai = FALSE;
     }
-    
-    public function set_rules_for_infoupdate(){
+
+    public function set_rules_for_infoupdate() {
         $this->rules = $this->info_rules;
     }
 
@@ -72,7 +72,7 @@ class Model_Master_Pegawai extends Master_Pegawai {
                 . " WHERE "
                 . $condition_id_pegawai
                 . " `skpt`.`skpt_tahun` = '" . $this->berita_acara_tahun . "' AND "
-                . " `skpt`.`skpt_status` IN (2, 3) "
+                . " `skpt`.`skpt_status` IN (2, 3) AND `skpt`.`is_tugas_tambahan` <> '1'"
                 . " GROUP BY `skpt`.`id_skpt`, "
                 . " dp3.perilaku_pelayanan, "
                 . " dp3.perilaku_integritas, "
@@ -82,7 +82,22 @@ class Model_Master_Pegawai extends Master_Pegawai {
                 . " dp3.perilaku_kepemimpinan, "
                 . " `p`.`id_pegawai` ";
 
-        $sql_agg = "select id_pegawai, nilai_dp3, AVG(real_capaian) total_capaian, fnilaikinerja(nilai_dp3, AVG(real_capaian)) nilai_kinerja FROM (" . $sql_nilai_kinerja . ") htcapaian GROUP BY id_pegawai, nilai_dp3";
+        $sql_tgs_tambahan = "select skpt.id_pegawai, CEIL(flwsdivide(COUNT(skpt.id_skpt), 3)) as nilai_tgstambahan from tr_skp_tahunan skpt where "
+                . $condition_id_pegawai
+                . " skpt.skpt_tahun = '" . $this->berita_acara_tahun . "'"
+                . " AND skpt.is_tugas_tambahan = '1' AND `skpt`.`skpt_status` IN (2, 3)"
+                . " GROUP BY skpt.id_pegawai ";
+
+        $sql_agg = "select "
+                . "htcapaian.id_pegawai, "
+                . "nilai_dp3, "
+                . "(AVG(real_capaian) + ttgs_tambahan.nilai_tgstambahan) total_capaian, "
+                . "fnilaikinerja(nilai_dp3, "
+                . "(AVG(real_capaian) + ttgs_tambahan.nilai_tgstambahan)) nilai_kinerja "
+                . "FROM (" . $sql_nilai_kinerja . ") htcapaian "
+                . "LEFT JOIN (".$sql_tgs_tambahan.") as ttgs_tambahan ON ttgs_tambahan.id_pegawai = htcapaian.id_pegawai "
+                . "GROUP BY "
+                . "htcapaian.id_pegawai, nilai_dp3, ttgs_tambahan.nilai_tgstambahan";
 
 
         $this->db->join("(" . $sql_agg . ") AS kin", "kin.id_pegawai = " . $this->table_name . ".id_pegawai", "LEFT");
@@ -90,7 +105,7 @@ class Model_Master_Pegawai extends Master_Pegawai {
         $this->db->join("tr_angka_kredit_tahunan as akkthlalu", "akkthlalu.id_pegawai = " . $this->table_name . ".id_pegawai AND akkthlalu.tahun = '" . $th_lalu . "'", "LEFT");
         $this->db->join("tr_angka_kredit_tahunan as akkthini", "akkthini.id_pegawai = " . $this->table_name . ".id_pegawai AND akkthini.tahun = '" . $this->berita_acara_tahun . "'", "LEFT");
 
-        $this->db->join("backbone_user_role bur", "bur.id_user = ".$this->table_name.".id_user and bur.id_role = '".self::ID_ROLE_ARSIPARIS."'");
+        $this->db->join("backbone_user_role bur", "bur.id_user = " . $this->table_name . ".id_user and bur.id_role = '" . self::ID_ROLE_ARSIPARIS . "'");
 
         $this->db->join("master_rekomendasi mrek", "mrek.id_rekomendasi = akkthini.id_rekomendasi", "LEFT");
         $this->db->select("kin.nilai_dp3, kin.total_capaian, kin.nilai_kinerja, akkthlalu.akk as akkthlalu");
@@ -105,21 +120,22 @@ class Model_Master_Pegawai extends Master_Pegawai {
 
         $this->__get_sql_nilai_kinerja();
     }
-    
+
     public function before_show_detail($id = FALSE, $record_active = TRUE) {
         if (!$this->by_berita_acara) {
             return;
         }
-        
+
         $this->__get_sql_nilai_kinerja();
     }
-    
+
     protected function before_update() {
-        
+
 //        var_dump($this->attributes);exit;
-        
+
         return TRUE;
     }
+
     protected function after_update() {
 //        echo $this->db->last_query();exit;
         return;
@@ -130,8 +146,8 @@ class Model_Master_Pegawai extends Master_Pegawai {
                     "pegawai_nip", "pegawai_nama"
                         ), $condition, TRUE, FALSE, 1, TRUE, $force_limit, $force_offset);
     }
-    
-    public function all_bap(){
+
+    public function all_bap() {
         return parent::get_all(array(
                     "pegawai_nip", "pegawai_nama"
                         ), FALSE, FALSE, TRUE);
@@ -205,13 +221,13 @@ class Model_Master_Pegawai extends Master_Pegawai {
         $result = FALSE;
         if ($keyword) {
             $this->db->order_by("pegawai_nama", "asc");
-            
+
             $condition = " (lower(" . $this->table_name . ".pegawai_nip) LIKE lower('%" . $keyword . "%') OR lower(" . $this->table_name . ".pegawai_nama) LIKE lower('%" . $keyword . "%'))";
-            
+
             if ($is_not_this_id) {
                 $condition .= " AND  " . $this->table_name . ".id_user <> '" . $is_not_this_id . "'";
             }
-            
+
             $this->db->where($condition, NULL, FALSE);
             $result = $this->get_where();
         }
