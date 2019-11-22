@@ -82,8 +82,6 @@ class Beritaacara extends Skarsiparis_cmain {
             $active_sheet->setCellValue('F19', $pegawai_detail->tmtjabfungsional);
             $active_sheet->setCellValue('D20', $pegawai_detail->unitkerja);
 
-
-
             $key = 0;
             foreach ($arr_pegawai_detail as $tahun => $record) {
 
@@ -156,6 +154,7 @@ class Beritaacara extends Skarsiparis_cmain {
             $this->model_master_pegawai->set_berita_acara_id_pegawai($id_pegawai);
 
             $pegawai_detail = $this->model_master_pegawai->show_detail($id_pegawai);
+            
             $arr_pegawai_detail = $this->get_detail_pertahun($id_pegawai, $tahun);
 
             $arr_pegawai_detail[$tahun] = $pegawai_detail;
