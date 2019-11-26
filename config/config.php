@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //$config['base_url'] = '';
-$config['base_url'] = SERVER_LOCATION.'skparsiparis';
+$config['base_url'] = SERVER_LOCATION.'anriskp2019';
 
 /*
 |--------------------------------------------------------------------------
@@ -235,7 +235,7 @@ $config['log_threshold'] = 2;
 | application/logs/ directory. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '/var/www/local.elink.com/public_html/elink/logs/';
+$config['log_path'] = APPROOT.'logs/';
 
 /*
 |--------------------------------------------------------------------------
