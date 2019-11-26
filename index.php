@@ -37,7 +37,7 @@ elseif(is_dir(APPPATH.$view_folder.DIRECTORY_SEPARATOR)) {
 
 define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
 
-require_once APPROOT.'..'.DIRECTORY_SEPARATOR.'lwscodeigniterwrapper_V1.1.0/autoload.php';
+require_once APPROOT.'..'.DIRECTORY_SEPARATOR.'lwscodeigniterwrapper/autoload.php';
 
 /* End of file index.php */
 /* Location: ./index.php */
