@@ -5,6 +5,7 @@ $records = isset($records) ? $records : FALSE;
 $next_list_number = isset($next_list_number) ? $next_list_number : 1;
 $tgl_aktivitas = isset($tgl_aktivitas) ? $tgl_aktivitas : date('d-m-Y');
 $nip = isset($nip) ? $nip : '';
+$perilaku = isset($perilaku) ? $perilaku : FALSE;
 $detail_pegawai = isset($detail_pegawai) ? $detail_pegawai : '';
 
 $skpt_ouput = get_skpt_output();
@@ -149,14 +150,49 @@ $label = get_skpt_label();
                                     </div>
 
                                 </div>
-                                <div class="tab-pane active" id="btabs-alt-static-files">
+                                <div class="tab-pane" id="btabs-alt-static-files">
                                     <?php if ($thuploaded_files && !empty($thuploaded_files)): ?>
                                         <?php foreach ($thuploaded_files as $uploaded_file): ?>
                                             <a class="btn btn-xs btn-app-teal-outline" target="_blank" rel="noopener noreferrer" href="<?php echo base_url('_assets/uploads') . '/' . $thrandom_id . '/' . $uploaded_file; ?>"><?php echo $uploaded_file ?></a>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </div>
-                                <div class="tab-pane active" id="btabs-alt-static-dp3"></div>
+                                <div class="tab-pane" id="btabs-alt-static-dp3">
+
+                                    <table>
+                                        <tr>
+                                            <td>Orientasi Pelayanan</td>
+                                            <td>:</td>
+                                            <td><?php echo ($perilaku) ? $perilaku->perilaku_pelayanan : 0; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Integritas</td>
+                                            <td>:</td>
+                                            <td><?php echo ($perilaku) ? $perilaku->perilaku_integritas : 0; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Komitmen</td>
+                                            <td>:</td>
+                                            <td><?php echo ($perilaku) ? $perilaku->perilaku_komitmen : 0; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Disiplin</td>
+                                            <td>:</td>
+                                            <td><?php echo ($perilaku) ? $perilaku->perilaku_disiplin : 0; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kerjasama</td>
+                                            <td>:</td>
+                                            <td><?php echo ($perilaku) ? $perilaku->perilaku_kerjasama : 0; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kepemimpinan</td>
+                                            <td>:</td>
+                                            <td><?php echo ($perilaku) ? $perilaku->perilaku_kepemimpinan : 0; ?></td>
+                                        </tr>
+                                    </table>
+
+                                </div>
                             </div>
                         </div>
                     </div>

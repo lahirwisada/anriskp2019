@@ -10,7 +10,7 @@ class Pskp extends Skarsiparis_cmain {
 
     public function __construct() {
         parent::__construct('kelola_penilai', 'Penilaian SKP');
-        $this->load->model(array('model_tr_akt', 'model_tr_vskp'));
+        $this->load->model(array('model_tr_akt', 'model_tr_vskp', 'model_tr_perilaku'));
     }
 
     public function index() {
@@ -18,6 +18,7 @@ class Pskp extends Skarsiparis_cmain {
         $id_pegawai = trim($this->get_post_nip(0));
 
         $pegawai = FALSE;
+        $nip = "";
 
         $this->load->model(array('model_master_pegawai'));
 
@@ -47,6 +48,7 @@ class Pskp extends Skarsiparis_cmain {
         );
         
         $uploaded_files = FALSE;
+        $perilaku = FALSE;
         if ($pegawai) {
             $records = $this->model_tr_vskp->get_persetujuan($pegawai_id, $tahun_skp, 2);
             
@@ -55,6 +57,9 @@ class Pskp extends Skarsiparis_cmain {
                 $random_id = $rakt->upload_random_id;
                 $uploaded_files = $this->get_uploaded_files($random_id);
             }
+            
+            $perilaku = $this->model_tr_perilaku->get_perilaku_by_id($pegawai_id, $tahun_skp);
+            
             unset($rakt);
         }
 
@@ -65,6 +70,7 @@ class Pskp extends Skarsiparis_cmain {
             "#" => $this->_header_title
         ));
 
+        $this->set('perilaku', $perilaku);
         $this->set('thrandom_id', $random_id);
         $this->set('thuploaded_files', $uploaded_files);
         $this->set('records', $records->record_set);

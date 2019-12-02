@@ -11,6 +11,7 @@ class Vskp extends Skarsiparis_cmain {
     
     public function __construct() {
         parent::__construct('verifikasi_skp', 'Verifikasi SKP');
+        $this->load->model(array('model_tr_akt', 'model_tr_perilaku'));
     }
     
     public function index(){
@@ -38,18 +39,32 @@ class Vskp extends Skarsiparis_cmain {
         if ($nip != '') {
             $pegawai = $this->model_master_pegawai->get_pegawai_by_id($nip);
         }
-
-        $pegawai_id = 0;
-        $pegawai_nama = FALSE;
-        if ($pegawai) {
-            $pegawai_id = $pegawai->id_pegawai;
-            $pegawai_nama = $pegawai->pegawai_nama;
-        }
-
+        
         $show_date = date('d-m-Y');
         if (!$tahun_skp) {
             $tahun_skp = date('Y');
         }
+
+        $pegawai_id = 0;
+        $uploaded_files = FALSE;
+        $pegawai_nama = FALSE;
+        $perilaku = FALSE;
+        if ($pegawai) {
+            $pegawai_id = $pegawai->id_pegawai;
+            $pegawai_nama = $pegawai->pegawai_nama;
+            
+            $rakt = $this->model_tr_akt->detail_by_id_pegawai_tahun($pegawai_id, $tahun_skp);
+            if($rakt){
+                $random_id = $rakt->upload_random_id;
+                $uploaded_files = $this->get_uploaded_files($random_id);
+            }
+            
+            $perilaku = $this->model_tr_perilaku->get_perilaku_by_id($pegawai_id, $tahun_skp);
+            
+            unset($rakt);
+        }
+
+        
 
         $records = (object) array(
                     "record_set" => FALSE,
@@ -67,6 +82,9 @@ class Vskp extends Skarsiparis_cmain {
             "#" => $this->_header_title
         ));
 
+        $this->set('perilaku', $perilaku);
+        $this->set('thrandom_id', $random_id);
+        $this->set('thuploaded_files', $uploaded_files);
         $this->set('records', $records->record_set);
         $this->set('total_record', $records->record_found);
 //        $this->set('action_hapus', $action_hapus);
