@@ -87,6 +87,7 @@ class Vskp extends Skarsiparis_cmain {
 
         $this->set('perilaku', $perilaku);
         $this->set('thrandom_id', $random_id);
+        $this->set('final_random_id', $final_random_id);
         $this->set('thuploaded_files', $uploaded_files);
         $this->set('final_uploaded_files', $final_uploaded_files);
         $this->set('records', $records->record_set);

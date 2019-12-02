@@ -10,7 +10,7 @@ class Rskp extends Skarsiparis_cmain {
 
     public function __construct() {
         parent::__construct('kelola_realisasi_skp_tahunan', 'Realisasi SKP Tahunan');
-//        $this->load->model('model_tr_skp_bulanan');
+        $this->load->model('model_tr_akt');
     }
 
     public function index() {
@@ -19,6 +19,17 @@ class Rskp extends Skarsiparis_cmain {
         $tahun = $thn ? $thn : date('Y');
         $this->get_attention_message_from_session();
         $records = $this->model_tr_skp_tahunan->get_realisasi_tahunan($this->id_pegawai, $tahun);
+
+        $rakt = $this->model_tr_akt->detail_by_id_pegawai_tahun($this->id_pegawai, $tahun);
+
+        $final_uploaded_files = FALSE;
+        if ($rakt) {
+            $final_random_id = $rakt->final_random_id;
+            $final_uploaded_files = $this->get_uploaded_files($final_random_id);
+        }
+
+        $this->set('final_random_id', $final_random_id);
+        $this->set('final_uploaded_files', $final_uploaded_files);
         $this->set('records', $records->record_set);
         $this->set('total_record', $records->record_found);
         $this->set('keyword', $records->keyword);

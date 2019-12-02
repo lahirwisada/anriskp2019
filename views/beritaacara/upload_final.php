@@ -29,7 +29,7 @@
                                     ?>
                                     <tr fname="<?php echo $files; ?>">
                                         <td class="td-nama-file">
-                                            <a class="btn btn-xs btn-app-blue-outline" target="_blank" rel="noopener noreferrer" href="<?php echo base_url('_assets/uploads') . '/' . $random_id . '/' . $files; ?>"><?php echo $files ?></a>
+                                            <a class="btn btn-xs btn-app-blue-outline" target="_blank" rel="noopener noreferrer" href="<?php echo base_url('_assets/uploads') . '/' . $final_random_id . '/' . $files; ?>"><?php echo $files ?></a>
                                             <?php // echo $files; ?>
                                             <input name="uploadedFiles[]" type="hidden" value="<?php echo $files; ?>">
                                         </td>
