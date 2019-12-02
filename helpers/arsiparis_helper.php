@@ -20,6 +20,23 @@ if (!function_exists('show_nilai_tgstambahan')) {
 
 }
 
+if(!function_exists('get_nilai_akk_akth')){
+    function get_nilai_akk_akth($pegawai_detail = FALSE){
+        if($pegawai_detail){
+            $akkth_ini = $pegawai_detail->akt_ini;
+            if (is_null($pegawai_detail->akt_ini)):
+                $akkth_ini = calculate_nilai_akt($pegawai_detail->nilai_kinerja, $pegawai_detail->jabfungsional);
+            endif;
+            $akk = $pegawai_detail->akk_ini;
+            if (is_null($pegawai_detail->akk_ini)):
+                $akk = $akkth_ini + $pegawai_detail->akkthlalu;
+            endif;
+            return [$akk, $akkth_ini];
+        }
+        return [NULL, NULL];
+    }
+}
+
 if (!function_exists('get_nilai_huruf')) {
 
     function get_nilai_huruf($nilai_capaian, $as_numeric = FALSE) {

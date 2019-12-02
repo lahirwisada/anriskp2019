@@ -14,6 +14,7 @@ class Skp extends Skarsiparis_cmain {
     public function __construct() {
         parent::__construct('kelola_skp', 'Sasaran Kerja Pegawai');
 //        $this->load->model('model_tr_skp_bulanan');
+        $this->load->model(array('model_tr_akt', 'model_master_pegawai'));
     }
 
     public function index() {
@@ -27,6 +28,8 @@ class Skp extends Skarsiparis_cmain {
 //                    "record_found" => 0,
 //                    "keyword" => ''
 //        );
+
+        $this->read_bukti_tahunan($tahun);
         $this->set('records', $records->record_set);
         $this->set('total_record', $records->record_found);
         $this->set('keyword', $records->keyword);
@@ -35,6 +38,68 @@ class Skp extends Skarsiparis_cmain {
         $this->set("bread_crumb", array(
             "#" => $this->_header_title
         ));
+    }
+
+    private function insert_default_akt($tahun) {
+        $pegawai_detail = $this->model_master_pegawai->show_detail($this->id_pegawai);
+        $random_id = generate_random_id();
+
+        $data = [
+                "id_pegawai" => $this->id_pegawai,
+                "jabfungsional" => $this->user_detail["jabfungsional"],
+                "ak_sebelumnya" => NULL,
+                "tahun" => $tahun,
+                "nilaikinerja" => NULL,
+                "akt" => NULL,
+                "akk" => NULL,
+                "upload_random_id" => $random_id
+            ];
+
+        if ($pegawai_detail) {
+            list($akk, $akkth_ini) = get_nilai_akk_akth($pegawai_detail);
+            $data = [
+                "id_pegawai" => $pegawai_detail->id_pegawai,
+                "jabfungsional" => $pegawai_detail->jabfungsional,
+                "ak_sebelumnya" => $pegawai_detail->akkthlalu,
+                "tahun" => $tahun,
+                "nilaikinerja" => $pegawai_detail->nilai_kinerja,
+                "akt" => $akkth_ini,
+                "akk" => $akk,
+                "upload_random_id" => $random_id
+            ];
+        }
+        $this->model_tr_akt->data_insert($data);
+        unset($data, $pegawai_detail);
+        return $random_id;
+    }
+
+    public function read_bukti_tahunan($tahun = FALSE) {
+
+        $this->model_master_pegawai->set_by_berita_acara();
+        $tahun = $tahun ? $tahun : date('Y');
+        $this->model_master_pegawai->set_berita_acara_tahun($tahun);
+
+        $detail_akt = $this->model_tr_akt->detail_by_id_pegawai_tahun($this->id_pegawai, $tahun);
+
+        if (!$detail_akt) {
+            $random_id = $this->insert_default_akt($tahun);
+            $detail_akt = $this->model_tr_akt->detail_by_id_pegawai_tahun($this->id_pegawai, $tahun);
+        } else {
+            $random_id = $detail_akt->upload_random_id;
+        }
+        $this->set('random_id', $random_id);
+
+        $uploaded_files = $this->get_uploaded_files($random_id);
+
+        $this->set('uploaded_files', $uploaded_files);
+
+        $this->set("additional_js", "skp/js/upload_bukti_kerja_js");
+//        var_dump($detail_akt);
+//        exit;
+    }
+
+    public function upload_bukti_tahunan() {
+        
     }
 
     public function detail($id = false, $posted_data = [], $parent_id = false) {
@@ -80,83 +145,14 @@ class Skp extends Skarsiparis_cmain {
             if ($detail && (!property_exists($detail, "upload_random_id"))) {
                 $detail->upload_random_id = generate_random_id();
             } else {
-                $dir = self::DIR_TEMP_UPLOAD . $detail->upload_random_id . "/";
-                if (is_dir($dir)) {
-                    $uploaded_files = array_diff(scandir($dir), array('..', '.'));
-                }
+                $uploaded_files = $this->get_uploaded_files($detail->upload_random_id);
             }
-        }else{
+        } else {
             $random_id = generate_random_id();
             $this->set('random_id', $random_id);
         }
         $this->set('uploaded_files', $uploaded_files);
         return $detail;
-    }
-
-    public function temp_upload() {
-//        $postdata = file_get_contents("php://input");
-        $file_id = $this->input->post('file_id');
-        if (!empty($_POST) && !empty($_FILES) && array_key_exists("file_bukti_kerja", $_FILES) && $file_id) {
-
-            $file_received = @$_FILES['file_bukti_kerja'];
-
-            $extension = strtolower(@substr($file_received['name'], -4));
-
-            $dir = self::DIR_TEMP_UPLOAD . "$file_id/";
-
-            if (is_dir($dir) === FALSE) {
-                mkdir($dir);
-            }
-
-            $allowedFileType = [
-                "application/vnd.ms-excel",
-                "application/vnd.ms-excel.sheet.macroEnabled.12",
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "text/xml",
-                "application/msword",
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                "application/pdf",
-                "application/x-zip-compressed",
-                "text/plain",
-                "image/jpeg",
-                "image/png",
-                "image/bmp",
-                "image/gif",
-            ];
-
-            if ($file_received['error'] == 0) {
-                $extension = strtolower(@substr($file_received['name'], -4));
-                if (in_array($file_received['type'], $allowedFileType) && $file_received['size'] != '') {
-                    $c = save_file($file_received['tmp_name'], $file_received['name'], $file_received['size'], $dir, 0, 0, FALSE, FALSE, TRUE);
-                    if (is_array($c) && $c['error'] == 1) {
-                        header($_SERVER['SERVER_PROTOCOL'] . ' 415 Unsupported Media Type', true, 415);
-                        exit;
-                    }
-                    header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK', true, 200);
-                    exit;
-                } else {
-                    header($_SERVER['SERVER_PROTOCOL'] . ' 415 Unsupported Media Type', true, 415);
-                    exit;
-                }
-            }
-        }
-        header($_SERVER['SERVER_PROTOCOL'] . ' 204 No Content', true, 204);
-        exit;
-    }
-
-    public function remove_file() {
-        $file_id = $this->input->get_post('file_id');
-        if (!empty($_POST) && $file_id) {
-            $filename = $this->input->get_post('fname');
-
-            $filepath = self::DIR_TEMP_UPLOAD . "$file_id/" . $filename;
-
-            if (file_exists($filepath)) {
-                echo unlink($filepath) ? 1 : 0;
-                exit;
-            }
-        }
-        exit;
     }
 
     public function ajukan($id = FALSE) {

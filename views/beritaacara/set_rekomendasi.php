@@ -14,6 +14,9 @@ $rekomendasi = isset($rekomendasi) ? $rekomendasi : [];
         <form method="POST" class="form-horizontal row-border">
 
             <?php
+            /**
+             * @deprecated 
+             * @see after this commentary
             $akkth_ini = $pegawai_detail->akt_ini;
             if (is_null($pegawai_detail->akt_ini)):
                 $akkth_ini = calculate_nilai_akt($pegawai_detail->nilai_kinerja, $pegawai_detail->jabfungsional);
@@ -22,6 +25,9 @@ $rekomendasi = isset($rekomendasi) ? $rekomendasi : [];
             if (is_null($pegawai_detail->akk_ini)):
                 $akk = $akkth_ini + $pegawai_detail->akkthlalu;
             endif;
+             * 
+             */
+            list($akk, $akkth_ini) = get_nilai_akk_akth($pegawai_detail);
             echo form_hidden('id_pegawai', $pegawai_detail->id_pegawai);
             echo form_hidden('jabfungsional', $pegawai_detail->jabfungsional);
             echo form_hidden('ak_sebelumnya', $pegawai_detail->akkthlalu);

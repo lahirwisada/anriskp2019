@@ -10,7 +10,7 @@ class Pskp extends Skarsiparis_cmain {
 
     public function __construct() {
         parent::__construct('kelola_penilai', 'Penilaian SKP');
-        $this->load->model('model_tr_vskp');
+        $this->load->model(array('model_tr_akt', 'model_tr_vskp'));
     }
 
     public function index() {
@@ -45,8 +45,17 @@ class Pskp extends Skarsiparis_cmain {
                     "record_found" => 0,
                     "keyword" => ''
         );
+        
+        $uploaded_files = FALSE;
         if ($pegawai) {
             $records = $this->model_tr_vskp->get_persetujuan($pegawai_id, $tahun_skp, 2);
+            
+            $rakt = $this->model_tr_akt->detail_by_id_pegawai_tahun($pegawai_id, $tahun_skp);
+            if($rakt){
+                $random_id = $rakt->upload_random_id;
+                $uploaded_files = $this->get_uploaded_files($random_id);
+            }
+            unset($rakt);
         }
 
         $this->get_attention_message_from_session();
@@ -56,6 +65,8 @@ class Pskp extends Skarsiparis_cmain {
             "#" => $this->_header_title
         ));
 
+        $this->set('thrandom_id', $random_id);
+        $this->set('thuploaded_files', $uploaded_files);
         $this->set('records', $records->record_set);
         $this->set('id_user', add_salt_to_string($this->user_detail["id_user"]));
         $this->set('total_record', $records->record_found);
