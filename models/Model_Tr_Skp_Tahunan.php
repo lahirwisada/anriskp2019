@@ -122,6 +122,7 @@ class Model_Tr_Skp_Tahunan extends Tr_skp_tahunan {
         $this->db->where("skpt.skpt_status in (2,3)");
         $this->db->group_by('skpt.id_skpt');
         $this->db->group_by('p.id_pegawai');
+        $this->db->order_by("skpt.is_tugas_tambahan ASC");
 //        $this->db->group_by('tsn.real_output');
 //        $this->db->group_by('tsn.real_nilai_waktu');
 //        $this->db->group_by('tsn.real_nilai_biaya');

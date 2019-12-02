@@ -53,7 +53,8 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                             $jumlah = 0;
                             $jumlah_tgs_tambahan = 0;
                             ?>
-                            <?php foreach ($skpt as $row) : ?>
+                            <tr><th></th><th colspan="12"><strong>TUGAS POKOK</strong></th></tr>
+                            <?php foreach ($skpt as $key => $row) : ?>
                                 <?php
                                 $kuantitas_target = $row->skpt_kuantitas;
                                 $kualitas_target = $row->skpt_kualitas;
@@ -69,48 +70,54 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                 $nilai_skp = hitung_nilai_capaian($row->real_nilai_biaya, $row->real_hitung);
 
                                 $total += $nilai_skp;
-                                if($row->is_tugas_tambahan === '1'){
+                                if ($row->is_tugas_tambahan === '1') {
                                     $jumlah_tgs_tambahan++;
-                                }else{
+                                } else {
                                     $jumlah++;
                                 }
-                                
-                                ?>
+                                if ($jumlah_tgs_tambahan == 1):
+                                    ?>
+                                    <tr><th></th><th colspan="12"><strong>TUGAS TAMBAHAN</strong></th></tr>
+                                <?php endif; ?>
                                 <tr>
                                     <td class="text-right"><?php echo $next_list_number++ ?></td>
                                     <td><?php echo $row->skpt_kegiatan; ?></td>
+                                    <?php if ($jumlah_tgs_tambahan < 1): ?>
                                     <td class="text-center"><?php echo number_format($kuantitas_target, 0, ',', '.'); ?></td>
                                     <td class="text-center"><?php echo number_format($kualitas_target, 0, ',', '.'); ?></td>
                                     <td class="text-center"><?php echo number_format($waktu_target, 0, ',', '.'); ?></td>
                                     <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
                                     <td class="text-center"><?php echo number_format($kuantitas_real, 0, ',', '.') ?></td>
                                     <td class="text-center"><?php echo number_format($kualitas_real, 0, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo number_format($waktu_real, 0, ',', '.')."<br />" ?></td>
+                                    <td class="text-center"><?php echo number_format($waktu_real, 0, ',', '.') . "<br />" ?></td>
                                     <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
                                     <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
                                     <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
+                                    <?php else: ?>
+                                    <td colspan="11"></td>
+                                    <?php endif; ?>
                                 </tr>
                                 <?php /**
-                                <tr>
-                                    <td colspan="12">
-                                        <?php echo "<br />"; ?>
-                                        <?php echo "Perhitungan Kualitas ".$row->kw; ?>
-                                        <?php echo "<br />"; ?>
-                                        <?php echo "Perhitungan Kuantitas ".$row->kn; ?>
-                                        <?php echo "<br />"; ?>
-                                        <?php echo "Perhitungan Waktu Less ".$row->wl; ?>
-                                        <?php echo "<br />"; ?>
-                                        <?php echo "Perhitungan Waktu Up ".$row->wu; ?>
-                                        <?php echo "<br />"; ?>
-                                        <?php echo "Perhitungan Hitung Waktu ".$row->wh ." --> ".$row->real_nilai_waktu; ?>
-                                        <?php echo "<br />"; ?>
-                                        <?php echo "Perhitungan Waktu ".$row->pw; ?>
-                                        <?php echo "<br />"; ?>
-                                        <?php echo "Perhitungan Biaya ".$row->pb; ?>
-                                        <?php echo "<br />"; ?>
-                                        <?php echo "is Tugas Tambahan ".$row->is_tugas_tambahan; ?>
-                                    </td>
-                                </tr>
+                                  <tr>
+                                  <td colspan="12">
+                                  <?php echo "<br />"; ?>
+                                  <?php echo "Perhitungan Kualitas ".$row->kw; ?>
+                                  <?php echo "<br />"; ?>
+                                  <?php echo "Perhitungan Kuantitas ".$row->kn; ?>
+                                  <?php echo "<br />"; ?>
+                                  <?php echo "Perhitungan Waktu Less ".$row->wl; ?>
+                                  <?php echo "<br />"; ?>
+                                  <?php echo "Perhitungan Waktu Up ".$row->wu; ?>
+                                  <?php echo "<br />"; ?>
+                                  <?php echo "Perhitungan Hitung Waktu ".$row->wh ." --> ".$row->real_nilai_waktu; ?>
+                                  <?php echo "<br />"; ?>
+                                  <?php echo "Perhitungan Waktu ".$row->pw; ?>
+                                  <?php echo "<br />"; ?>
+                                  <?php echo "Perhitungan Biaya ".$row->pb; ?>
+                                  <?php echo "<br />"; ?>
+                                  <?php echo "is Tugas Tambahan ".$row->is_tugas_tambahan; ?>
+                                  </td>
+                                  </tr>
                                  * 
                                  */
                                 ?>
