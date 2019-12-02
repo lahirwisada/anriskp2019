@@ -165,7 +165,7 @@ $config['modul_action_configuration'] = array(
         "update" => array("info"),
     ),
     "beritaacara" => array(
-        "insert" => array("set_rekomendasi","cetak_bap", "cetak_akt_akk"),
+        "insert" => array("set_rekomendasi","cetak_bap", "cetak_akt_akk", "upload_final"),
     ),
 );
 

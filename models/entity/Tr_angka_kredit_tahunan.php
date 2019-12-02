@@ -32,6 +32,7 @@ class Tr_angka_kredit_tahunan extends MY_Model {
         "akk" => array("akk", "akk"),
         "id_rekomendasi" => array("id_rekomendasi", "id_rekomendasi"),
         "upload_random_id" => array("upload_random_id", "upload_random_id"),
+        "final_random_id" => array("final_random_id", "final_random_id"),
     );
     protected $rules = array(
         array("id_pegawai", ""),
@@ -48,6 +49,7 @@ class Tr_angka_kredit_tahunan extends MY_Model {
         array("akk", ""),
         array("id_rekomendasi", ""),
         array("upload_random_id", ""),
+        array("final_random_id", ""),
     );
     protected $related_tables = array();
     protected $attribute_types = array();

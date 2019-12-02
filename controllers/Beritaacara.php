@@ -237,6 +237,27 @@ class Beritaacara extends Skarsiparis_cmain {
         }
         redirect('beritaacara');
     }
+    
+    public function upload_final($crypt_id_akt = FALSE){
+        $id_akt = extract_id_with_salt($crypt_id_akt);
+        
+        if(!$id_akt){
+            redirect('beritaacara');
+        }
+        
+        $this->load->model('model_tr_akt');
+        $detail_akt = $this->model_tr_akt->show_detail($id_akt);
+        
+        if(!$detail_akt){
+            redirect('beritaacara');
+        }
+        
+        $this->set('final_random_id', $detail_akt->final_random_id);
+        $uploaded_files = $this->get_uploaded_files($detail_akt->final_random_id);
+        $this->set('uploaded_files', $uploaded_files);
+
+        $this->set("additional_js", "skp/js/upload_bukti_kerja_js");
+    }
 
     public function set_rekomendasi($crypt_id_akt = FALSE) {
         $this->model = 'model_tr_akt';

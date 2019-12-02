@@ -47,6 +47,7 @@ class Vskp extends Skarsiparis_cmain {
 
         $pegawai_id = 0;
         $uploaded_files = FALSE;
+        $final_uploaded_files = FALSE;
         $pegawai_nama = FALSE;
         $perilaku = FALSE;
         if ($pegawai) {
@@ -56,7 +57,9 @@ class Vskp extends Skarsiparis_cmain {
             $rakt = $this->model_tr_akt->detail_by_id_pegawai_tahun($pegawai_id, $tahun_skp);
             if($rakt){
                 $random_id = $rakt->upload_random_id;
+                $final_random_id = $rakt->final_random_id;
                 $uploaded_files = $this->get_uploaded_files($random_id);
+                $final_uploaded_files = $this->get_uploaded_files($final_random_id);
             }
             
             $perilaku = $this->model_tr_perilaku->get_perilaku_by_id($pegawai_id, $tahun_skp);
@@ -85,6 +88,7 @@ class Vskp extends Skarsiparis_cmain {
         $this->set('perilaku', $perilaku);
         $this->set('thrandom_id', $random_id);
         $this->set('thuploaded_files', $uploaded_files);
+        $this->set('final_uploaded_files', $final_uploaded_files);
         $this->set('records', $records->record_set);
         $this->set('total_record', $records->record_found);
 //        $this->set('action_hapus', $action_hapus);

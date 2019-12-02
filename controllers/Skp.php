@@ -43,6 +43,7 @@ class Skp extends Skarsiparis_cmain {
     private function insert_default_akt($tahun) {
         $pegawai_detail = $this->model_master_pegawai->show_detail($this->id_pegawai);
         $random_id = generate_random_id();
+        $final_random_id = generate_random_id();
 
         $data = [
                 "id_pegawai" => $this->id_pegawai,
@@ -52,7 +53,8 @@ class Skp extends Skarsiparis_cmain {
                 "nilaikinerja" => NULL,
                 "akt" => NULL,
                 "akk" => NULL,
-                "upload_random_id" => $random_id
+                "upload_random_id" => $random_id,
+                "final_random_id" => $final_random_id,
             ];
 
         if ($pegawai_detail) {
@@ -65,12 +67,13 @@ class Skp extends Skarsiparis_cmain {
                 "nilaikinerja" => $pegawai_detail->nilai_kinerja,
                 "akt" => $akkth_ini,
                 "akk" => $akk,
-                "upload_random_id" => $random_id
+                "upload_random_id" => $random_id,
+                "final_random_id" => $final_random_id,
             ];
         }
         $this->model_tr_akt->data_insert($data);
         unset($data, $pegawai_detail);
-        return $random_id;
+        return array($random_id, $final_random_id);
     }
 
     public function read_bukti_tahunan($tahun = FALSE) {
@@ -82,12 +85,14 @@ class Skp extends Skarsiparis_cmain {
         $detail_akt = $this->model_tr_akt->detail_by_id_pegawai_tahun($this->id_pegawai, $tahun);
 
         if (!$detail_akt) {
-            $random_id = $this->insert_default_akt($tahun);
+            list($random_id, $final_random_id) = $this->insert_default_akt($tahun);
             $detail_akt = $this->model_tr_akt->detail_by_id_pegawai_tahun($this->id_pegawai, $tahun);
         } else {
             $random_id = $detail_akt->upload_random_id;
+            $final_random_id = $detail_akt->final_random_id;
         }
         $this->set('random_id', $random_id);
+        $this->set('final_random_id', $final_random_id);
 
         $uploaded_files = $this->get_uploaded_files($random_id);
 

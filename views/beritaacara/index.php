@@ -106,6 +106,9 @@ $tahun = isset($tahun) ? $tahun : date('Y');
                                                 <a class="btn btn-default pull-right btnrekomendasi" urlloc="<?php echo base_url($active_modul . "/cetak_akt_akk") . "/" . add_salt_to_string($record->id_pegawai); ?>">
                                                     AKK & AKT
                                                 </a>
+                                                <a class="btn btn-default pull-right btnrekomendasi" urlloc="<?php echo base_url($active_modul . "/upload_final") . "/" . $crypt_id_akt; ?>?cip=<?php echo add_salt_to_string($record->id_pegawai); ?>&tahun=<?php echo $tahun; ?>">
+                                                    Upload Final
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
