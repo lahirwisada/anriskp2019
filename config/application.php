@@ -152,7 +152,7 @@ $config['modul_action_configuration'] = array(
         "insert" => array("lembar_penilaian", "penilaian"),
     ),
     "rskp" => array(
-        "read" => array("laporan", "banding"),
+        "read" => array("laporan", "banding", "cetakskp"),
     ),
     "pperilaku" => array(
         "insert" => array("penilaian"),

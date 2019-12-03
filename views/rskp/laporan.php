@@ -8,6 +8,8 @@ $skpb = isset($skpb) ? $skpb : FALSE;
 $skpt = isset($skpt) ? $skpt : FALSE;
 $perilaku = isset($perilaku) ? $perilaku : FALSE;
 $detail = isset($detail) ? $detail : FALSE;
+$tahun = isset($tahun) ? $tahun : FALSE;
+$crypted_id_pegawai = isset($crypted_id_pegawai) ? $crypted_id_pegawai : FALSE;
 $status = array('Proses', 'Pengajuan', 'Selesai');
 $next_list_number = isset($next_list_number) ? $next_list_number : 1;
 $nilai_skp_kerja = 0;
@@ -21,7 +23,10 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Laporan SKP Tahunan</h3>
+                <div class="row">
+                    <h3 class="panel-title">Laporan SKP Tahunan</h3>
+                    <a urlloc="<?php echo base_url('rskp/cetakskp') . DIRECTORY_SEPARATOR . $tahun; ?><?php echo $crypted_id_pegawai ? "?cip=" . $crypted_id_pegawai : ''; ?>" class="btn-default btn pull-right btncetak">Cetak</a>
+                </div>
             </div>
             <div class="panel-body">
 
@@ -67,7 +72,10 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                 $biaya_real = $row->real_nilai_biaya > 0 ? $row->real_nilai_biaya : 0;
 
 //                                list($nilai, $nilai_skp) = hitung_nilai_skp($row);
-                                $nilai_skp = hitung_nilai_capaian($row->real_nilai_biaya, $row->real_hitung);
+                                $nilai_skp = 0;
+                                if ($row->is_tugas_tambahan !== '1') {
+                                    $nilai_skp = hitung_nilai_capaian($row->real_nilai_biaya, $row->real_hitung);
+                                }
 
                                 $total += $nilai_skp;
                                 if ($row->is_tugas_tambahan === '1') {
@@ -83,18 +91,18 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                     <td class="text-right"><?php echo $next_list_number++ ?></td>
                                     <td><?php echo $row->skpt_kegiatan; ?></td>
                                     <?php if ($jumlah_tgs_tambahan < 1): ?>
-                                    <td class="text-center"><?php echo number_format($kuantitas_target, 0, ',', '.'); ?></td>
-                                    <td class="text-center"><?php echo number_format($kualitas_target, 0, ',', '.'); ?></td>
-                                    <td class="text-center"><?php echo number_format($waktu_target, 0, ',', '.'); ?></td>
-                                    <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo number_format($kuantitas_real, 0, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo number_format($kualitas_real, 0, ',', '.') ?></td>
-                                    <td class="text-center"><?php echo number_format($waktu_real, 0, ',', '.') . "<br />" ?></td>
-                                    <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
-                                    <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
-                                    <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
+                                        <td class="text-center"><?php echo number_format($kuantitas_target, 0, ',', '.'); ?></td>
+                                        <td class="text-center"><?php echo number_format($kualitas_target, 0, ',', '.'); ?></td>
+                                        <td class="text-center"><?php echo number_format($waktu_target, 0, ',', '.'); ?></td>
+                                        <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
+                                        <td class="text-center"><?php echo number_format($kuantitas_real, 0, ',', '.') ?></td>
+                                        <td class="text-center"><?php echo number_format($kualitas_real, 0, ',', '.') ?></td>
+                                        <td class="text-center"><?php echo number_format($waktu_real, 0, ',', '.') . "<br />" ?></td>
+                                        <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
+                                        <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
+                                        <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                     <?php else: ?>
-                                    <td colspan="11"></td>
+                                        <td colspan="11"></td>
                                     <?php endif; ?>
                                 </tr>
                                 <?php /**

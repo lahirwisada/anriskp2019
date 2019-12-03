@@ -11,6 +11,18 @@ if (!function_exists('show_nilai_huruf')) {
 
 }
 
+if(!function_exists('filter_skp_tugaspokok')){
+    function filter_skp_tugaspokok($record){
+        return $record->is_tugas_tambahan != 1;
+    }
+}
+
+if(!function_exists('filter_skp_tugastambahan')){
+    function filter_skp_tugastambahan($record){
+        return $record->is_tugas_tambahan == 1;
+    }
+}
+
 if (!function_exists('show_nilai_tgstambahan')) {
 
     function show_nilai_tgstambahan($jml_tgs_tambahan) {

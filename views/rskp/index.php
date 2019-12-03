@@ -76,7 +76,9 @@ $keyword = isset($keyword) ? $keyword : '';
                                             <?php
                                             $total = 0;
                                             $jumlah = 0;
+                                            $jumlah_tgs_tambahan = 0;
                                             ?>
+                                            <tr><th></th><th colspan="12"><strong>TUGAS POKOK</strong></th></tr>
                                             <?php foreach ($records as $row) : ?>
                                                 <?php
                                                 $kuantitas_target = $row->skpt_kuantitas;
@@ -95,20 +97,32 @@ $keyword = isset($keyword) ? $keyword : '';
                                                 $nilai_skp = hitung_nilai_capaian($row->real_nilai_biaya, $row->real_hitung);
                                                 $total += $nilai_skp;
                                                 $jumlah++;
-                                                ?>
+
+                                                if ($row->is_tugas_tambahan === '1') {
+                                                    $jumlah_tgs_tambahan++;
+                                                }
+                                                if ($jumlah_tgs_tambahan == 1):
+                                                    ?>
+                                                    <tr><th></th><th colspan="12"><strong>TUGAS TAMBAHAN</strong></th></tr>
+                                                <?php endif; ?>
+
                                                 <tr>
                                                     <td class="text-right"><?php echo $next_list_number++ ?></td>
                                                     <td><?php echo $row->skpt_kegiatan; ?></td>
-                                                    <td class="text-center"><?php echo $kuantitas_target . " " . show_skpt_output($row->skpt_output); ?></td>
-                                                    <td class="text-center"><?php echo $kualitas_target ?></td>
-                                                    <td class="text-center"><?php echo $waktu_target ?></td>
-                                                    <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
-                                                    <td class="text-center"><?php echo $kuantitas_real; // . " " . show_skpt_output($row->real_output)    ?></td>
-                                                    <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
-                                                    <td class="text-center"><?php echo $waktu_real ?></td>
-                                                    <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
-                                                    <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
-                                                    <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
+                                                    <?php if ($jumlah_tgs_tambahan < 1): ?>
+                                                        <td class="text-center"><?php echo $kuantitas_target . " " . show_skpt_output($row->skpt_output); ?></td>
+                                                        <td class="text-center"><?php echo $kualitas_target ?></td>
+                                                        <td class="text-center"><?php echo $waktu_target ?></td>
+                                                        <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
+                                                        <td class="text-center"><?php echo $kuantitas_real; // . " " . show_skpt_output($row->real_output)       ?></td>
+                                                        <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
+                                                        <td class="text-center"><?php echo $waktu_real ?></td>
+                                                        <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
+                                                        <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
+                                                        <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
+                                                    <?php else: ?>
+                                                        <td colspan="10"></td>
+                                                    <?php endif; ?>
                                                     <td class="text-center">
                                                         <div class="btn-group btn-group-sm">
                                                             <a class="btn btn-default" href="<?php echo base_url($active_modul . "/read") . "/" . add_salt_to_string($row->id_skpt); ?>">Lihat</a>
@@ -118,7 +132,7 @@ $keyword = isset($keyword) ? $keyword : '';
                                             <?php endforeach; ?>
                                         <?php else: ?>
                                             <tr>
-                                                <td colspan="14">Belum ada data...!</td>
+                                                <td colspan="13">Belum ada data...!</td>
                                             </tr>
                                         <?php endif; ?>
                                     </tbody>

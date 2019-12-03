@@ -128,6 +128,136 @@ class Rskp extends Skarsiparis_cmain {
         }
     }
 
+    private function generate_cetak_skp($pegawai_detail, $skpt, $perilaku = FALSE) {
+
+        $this->load->library('Calcel');
+
+        //$template_path = APPPATH . '../_assets/template/Template_Rekapitulasi_TPP.xls';
+        $template_path = ASSET_TEMPLATE . '/TemplateSKP.xls';
+
+        $genid = md5(date('Y-m-d H:i:s:u'));
+        $save_path = APPPATH . '../_assets/generated_bap/' . $genid . '.xls';
+        $nama_file = '' . $genid . '.xls';
+
+        $this->calcel->load($template_path);
+
+        $active_sheet = $this->calcel->setActiveSheetIndexByName("SKP");
+
+        $baseRow = 15;
+
+        $skp_tugas_pokok = array_filter($skpt, "filter_skp_tugaspokok");
+        $skp_tugas_tambahan = array_filter($skpt, "filter_skp_tugastambahan");
+
+        unset($skpt);
+        $rc_tugas_pokok = count($skp_tugas_pokok) - 1;
+        $active_sheet->insertNewRowBefore($baseRow, $rc_tugas_pokok);
+        $row = 0;
+
+        $active_sheet->setCellValue('E4', $pegawai_detail->pegawai_nama);
+        $active_sheet->setCellValue('E5', $pegawai_detail->tmtjabfungsional);
+        $panggol = $pegawai_detail->pangkat . ", " . $pegawai_detail->golongan;
+        $active_sheet->setCellValue('E6', $panggol);
+        $active_sheet->setCellValue('E7', $pegawai_detail->unitkerja);
+
+        $total = 0;
+        $key = 0;
+        foreach ($skp_tugas_pokok as $key => $record) {
+
+            $nilai_skp = hitung_nilai_capaian($record->real_nilai_biaya, $record->real_hitung);
+
+            $total += $nilai_skp;
+            $row = $baseRow + $key;
+
+            $active_sheet->setCellValue('A' . $row, $key + 1)
+                    ->setCellValue('B' . $row, beautify_str($record->skpt_kegiatan))
+                    ->setCellValue('D' . $row, number_format($record->skpt_kuantitas, 2, '.', ','))
+                    ->setCellValue('E' . $row, show_skpt_output($record->skpt_output))
+                    ->setCellValue('F' . $row, number_format($record->skpt_kualitas, 2, '.', ','))
+                    ->setCellValue('G' . $row, $record->skpt_waktu)
+                    ->setCellValue('H' . $row, "Bulan")
+                    ->setCellValue('J' . $row, number_format($record->skpt_real_kuantitas, 2, '.', ','))
+                    ->setCellValue('K' . $row, number_format($record->skpt_real_kualitas, 2, '.', ','))
+                    ->setCellValue('L' . $row, number_format($record->real_nilai_kuantitas, 2, '.', ','))
+                    ->setCellValue('M' . $row, show_skpt_output($record->skpt_output))
+                    ->setCellValue('N' . $row, number_format($record->real_nilai_kualitas, 2, '.', ','))
+                    ->setCellValue('O' . $row, $record->real_nilai_waktu)
+                    ->setCellValue('P' . $row, "Bulan")
+                    ->setCellValue('R' . $row, number_format($record->real_hitung, 2, '.', ','))
+                    ->setCellValue('S' . $row, number_format($nilai_skp, 2, '.', ','));
+            $key++;
+        }
+        $baseRow = $row + 3;
+        $row = 0;
+        $rc_tugas_tambahan = count($skp_tugas_tambahan) - 1;
+        $active_sheet->insertNewRowBefore($baseRow, $rc_tugas_tambahan);
+        $key = 0;
+        $three = 3;
+        foreach ($skp_tugas_tambahan as $record) {
+            
+            $nilai_skp = hitung_nilai_capaian($record->real_nilai_biaya, $record->real_hitung);
+
+            $total += $nilai_skp;
+
+            $row = $baseRow + $key;
+            $val = "";
+            if ($three == 3 && $key < 8) {
+                $val = "1";
+            }
+            $three--;
+            if ($three == 0) {
+                $three = 3;
+            }
+            $active_sheet->setCellValue('A' . $row, $key + 1)
+                    ->setCellValue('B' . $row, beautify_str($record->skpt_kegiatan))
+                    ->setCellValue('S' . $row, $val);
+            $key++;
+        }
+
+        $nilai_tgs_tambahan = show_nilai_tgstambahan($rc_tugas_tambahan+1);
+        list($nilai_huruf, $nilai_capaian) = show_nilai_huruf($total, ($rc_tugas_pokok+1), $nilai_tgs_tambahan);
+
+        $active_sheet->setCellValue('S'.($row+1), number_format($nilai_capaian, 2, '.', ','));
+        $active_sheet->setCellValue('S'.($row+2), beautify_str($nilai_huruf));
+        
+        $active_sheet = $this->calcel->setActiveSheetIndexByName("DP3");
+
+        $active_sheet->setCellValue('E6', $perilaku->perilaku_pelayanan);
+        $active_sheet->setCellValue('E7', $perilaku->perilaku_integritas);
+        $active_sheet->setCellValue('E8', $perilaku->perilaku_komitmen);
+        $active_sheet->setCellValue('E9', $perilaku->perilaku_disiplin);
+        $active_sheet->setCellValue('E10', $perilaku->perilaku_kerjasama);
+        $active_sheet->setCellValue('E11', $perilaku->perilaku_kepemimpinan);
+        
+        $active_sheet = $this->calcel->setActiveSheetIndexByName("SKP");
+
+//        if ($zip) {
+//            $this->calcel->save($save_path);
+//            return $save_path;
+//        }
+        $this->calcel->stream($genid . '.xls');
+
+        echo $genid . '.xls';
+        exit;
+    }
+
+    public function cetakskp($tahun = FALSE) {
+        if (!$tahun || !array_key_exists('cip', $_GET)) {
+            redirect('rskp');
+        }
+        $this->load->model(array('model_master_pegawai', 'model_tr_perilaku'));
+        $pegawai_found = $this->model_master_pegawai->get_pegawai_by_id($this->id_pegawai);
+
+        $skpt = $this->model_tr_skp_tahunan->get_realisasi_tahunan($this->id_pegawai, $tahun)->record_set;
+        $perilaku = $this->model_tr_perilaku->get_perilaku_by_id($this->id_pegawai, $tahun);
+
+        if ($pegawai_found && !empty($pegawai_found) && $skpt && !empty($skpt) && is_array($skpt)) {
+            $this->generate_cetak_skp($pegawai_found, $skpt, $perilaku);
+        } else {
+            redirect('rskp');
+        }
+        exit;
+    }
+
     public function laporan($tahun = FALSE) {
         $this->set('referer', $this->session->userdata('referer'));
         $tahun = $tahun ? $tahun : date('Y');
@@ -139,6 +269,7 @@ class Rskp extends Skarsiparis_cmain {
 
         $this->set('pegawai', $pegawai_found);
         $this->set('is_fungsional', $is_fungsional);
+        $this->set('crypted_id_pegawai', add_salt_to_string($this->id_pegawai));
         $this->set('skpt', $this->model_tr_skp_tahunan->get_realisasi_tahunan($this->id_pegawai, $tahun)->record_set);
         $this->set('perilaku', $this->model_tr_perilaku->get_perilaku_by_id($this->id_pegawai, $tahun));
         $this->set('tahun', $tahun);
@@ -146,6 +277,8 @@ class Rskp extends Skarsiparis_cmain {
             "back_end/" . $this->_name => $this->_header_title,
             "#" => 'Laporan SKP Tahunan'
         ));
+
+        $this->set("additional_js", $this->_name . "/js/laporan_js");
     }
 
 }
