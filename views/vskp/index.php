@@ -69,6 +69,14 @@ $label = get_skpt_label();
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Cetal SKP</label>
+                                        <div class="col-md-9">                                        
+                                            <a urlloc="<?php echo base_url('vskp/cetakskp') . DIRECTORY_SEPARATOR . $tahun_skp; ?><?php echo $crypted_id_pegawai ? "?cip=" . $crypted_id_pegawai : ''; ?>" class="btn-default btn btn-sm btncetak">Cetak</a>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php endif; ?>
                             <br />
                             <input id="simpan" type="submit" value="Cari" class="btn-primary btn pull-right">

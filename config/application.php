@@ -146,7 +146,7 @@ $config['modul_action_configuration'] = array(
         "update" => array("remove_audien"),
     ),
     "vskp" => array(
-        "read" => array("accept", "reject", "get_like_pegawai_audien", "get_like_pegawai_all_not_self"),
+        "read" => array("accept", "reject", "get_like_pegawai_audien", "get_like_pegawai_all_not_self", "cetakskp"),
     ),
     "pskp" => array(
         "insert" => array("lembar_penilaian", "penilaian"),

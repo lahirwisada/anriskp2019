@@ -50,9 +50,13 @@ class Vskp extends Skarsiparis_cmain {
         $final_uploaded_files = FALSE;
         $pegawai_nama = FALSE;
         $perilaku = FALSE;
+        $crypted_id_pegawai = add_salt_to_string("csd97");
+        $final_random_id = NULL;
         if ($pegawai) {
             $pegawai_id = $pegawai->id_pegawai;
             $pegawai_nama = $pegawai->pegawai_nama;
+            
+            $crypted_id_pegawai = add_salt_to_string($pegawai_id);
             
             $rakt = $this->model_tr_akt->detail_by_id_pegawai_tahun($pegawai_id, $tahun_skp);
             if($rakt){
@@ -97,6 +101,7 @@ class Vskp extends Skarsiparis_cmain {
         $this->set('tgl_aktivitas', $show_date);
         $this->set('nip', $nip);
         $this->set('tahun_skp', $tahun_skp);
+        $this->set('crypted_id_pegawai', $crypted_id_pegawai);
         $this->set('detail_pegawai', $pegawai);
         $this->set('url_query_string', $url_query_string);
         $this->set('pegawai', $this->get_rs_combobox_pegawai("reset"));

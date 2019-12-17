@@ -40,5 +40,13 @@
 //        $('#tr_aktifitas_mulai').timepicker({minuteStep: 1, showMeridian: false});
 //        $('#tr_aktifitas_selesai').timepicker({showMeridian: false});
         $("#slc_pegawai").select2(slc_pegawai_cfg);
+        
+        $(".btncetak").click(function (e) {
+            e.stopPropagation();
+            
+            var url = $(this).attr('urlloc');
+            
+            location.href = url;
+        });
     });
 </script>
