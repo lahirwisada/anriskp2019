@@ -27,7 +27,7 @@ $label = get_skpt_label();
                             <a href="#btabs-alt-static-home">Daftar SKP</a>
                         </li>
                         <li>
-                            <a href="#btabs-alt-static-profile">Bukti Kerja Satu Tahun</a>
+                            <a href="#btabs-alt-static-profile">SKP dan SPMK</a>
                         </li>
                         <li class="pull-right">
                             <a href="#btabs-alt-static-settings" data-toggle="tooltip" title="Settings"><i class="ion-ios-gear-outline"></i></a>

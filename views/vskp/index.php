@@ -86,7 +86,7 @@ $label = get_skpt_label();
                                     <a href="#btabs-alt-static-home">Daftar SKP</a>
                                 </li>
                                 <li>
-                                    <a href="#btabs-alt-static-files">Daftar Bukti / Tahun</a>
+                                    <a href="#btabs-alt-static-files">Daftar Bukti SKP dan SPMK</a>
                                 </li>
                                 <li>
                                     <a href="#btabs-alt-static-dp3">DP 3</a>
