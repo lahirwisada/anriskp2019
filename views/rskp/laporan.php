@@ -57,6 +57,9 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                             $total = 0;
                             $jumlah = 0;
                             $jumlah_tgs_tambahan = 0;
+                            $ktam = 0;
+                            $three = 3;
+                            $valtam = "";
                             ?>
                             <tr><th></th><th colspan="12"><strong>TUGAS POKOK</strong></th></tr>
                             <?php foreach ($skpt as $key => $row) : ?>
@@ -80,10 +83,21 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                 $total += $nilai_skp;
                                 if ($row->is_tugas_tambahan === '1') {
                                     $jumlah_tgs_tambahan++;
+
+                                    $valtam = "";
+                                    if ($three == 3 && $ktam < 8) {
+                                        $valtam = "1,00";
+                                    }
+                                    $three--;
+                                    if ($three == 0) {
+                                        $three = 3;
+                                    }
+                                    $ktam++;
                                 } else {
                                     $jumlah++;
                                 }
                                 if ($jumlah_tgs_tambahan == 1):
+                                    $next_list_number = 1;
                                     ?>
                                     <tr><th></th><th colspan="12"><strong>TUGAS TAMBAHAN</strong></th></tr>
                                 <?php endif; ?>
@@ -102,7 +116,8 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                                         <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
                                         <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                     <?php else: ?>
-                                        <td colspan="11"></td>
+                                        <td colspan="9"></td>
+                                        <td class="text-right"><?php echo $valtam; ?></td>
                                     <?php endif; ?>
                                 </tr>
                                 <?php /**
@@ -187,21 +202,21 @@ $is_fungsional = isset($is_fungsional) ? $is_fungsional : TRUE;
                             <tr style="font-weight: bold;">
                                 <td>Jumlah</td>
                                 <td class="text-right"><?php
-                                    $nilai_perilaku = ( $perilaku ? $perilaku->perilaku_pelayanan +
-                                            $perilaku->perilaku_integritas +
-                                            $perilaku->perilaku_komitmen +
-                                            $perilaku->perilaku_disiplin +
-                                            $perilaku->perilaku_kerjasama : 0 );
-                                    if (!$is_fungsional)
-                                        $nilai_perilaku = $nilai_perilaku + ( $perilaku && !is_null($perilaku->perilaku_kepemimpinan) ? $perilaku->perilaku_kepemimpinan : 0 );
-                                    $nilai_perilaku_kerja = ( $nilai_perilaku ? $nilai_perilaku / ($is_fungsional ? 5 : 6) : $nilai_perilaku );
+                            $nilai_perilaku = ( $perilaku ? $perilaku->perilaku_pelayanan +
+                                    $perilaku->perilaku_integritas +
+                                    $perilaku->perilaku_komitmen +
+                                    $perilaku->perilaku_disiplin +
+                                    $perilaku->perilaku_kerjasama : 0 );
+                            if (!$is_fungsional)
+                                $nilai_perilaku = $nilai_perilaku + ( $perilaku && !is_null($perilaku->perilaku_kepemimpinan) ? $perilaku->perilaku_kepemimpinan : 0 );
+                            $nilai_perilaku_kerja = ( $nilai_perilaku ? $nilai_perilaku / ($is_fungsional ? 5 : 6) : $nilai_perilaku );
 
-                                    /*
-                                      $nilai_perilaku = $perilaku_pelayanan + $perilaku_integritas + $perilaku_komitmen + $perilaku_disiplin + $perilaku_kepemimpinan + $perilaku_pelayanan;
-                                      $nilai_perilaku_kerja = $nilai_perilaku > 0 ? ($perilaku_pelayanan > 0 ? $nilai_perilaku / 6 : $nilai_perilaku / 5) : 0;
-                                     */
-                                    echo number_format($nilai_perilaku, 2, ',', '.');
-                                    ?></td>
+                            /*
+                              $nilai_perilaku = $perilaku_pelayanan + $perilaku_integritas + $perilaku_komitmen + $perilaku_disiplin + $perilaku_kepemimpinan + $perilaku_pelayanan;
+                              $nilai_perilaku_kerja = $nilai_perilaku > 0 ? ($perilaku_pelayanan > 0 ? $nilai_perilaku / 6 : $nilai_perilaku / 5) : 0;
+                             */
+                            echo number_format($nilai_perilaku, 2, ',', '.');
+                            ?></td>
                             </tr>
                             <tr style="font-weight: bold;">
                                 <td>Nilai Rata-rata</td>

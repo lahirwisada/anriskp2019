@@ -77,6 +77,9 @@ $keyword = isset($keyword) ? $keyword : '';
                                             $total = 0;
                                             $jumlah = 0;
                                             $jumlah_tgs_tambahan = 0;
+                                            $ktam = 0;
+                                            $three = 3;
+                                            $valtam = "";
                                             ?>
                                             <tr><th></th><th colspan="12"><strong>TUGAS POKOK</strong></th></tr>
                                             <?php foreach ($records as $row) : ?>
@@ -100,8 +103,19 @@ $keyword = isset($keyword) ? $keyword : '';
 
                                                 if ($row->is_tugas_tambahan === '1') {
                                                     $jumlah_tgs_tambahan++;
+
+                                                    $valtam = "";
+                                                    if ($three == 3 && $ktam < 8) {
+                                                        $valtam = "1,00";
+                                                    }
+                                                    $three--;
+                                                    if ($three == 0) {
+                                                        $three = 3;
+                                                    }
+                                                    $ktam++;
                                                 }
                                                 if ($jumlah_tgs_tambahan == 1):
+                                                    $next_list_number = 1;
                                                     ?>
                                                     <tr><th></th><th colspan="12"><strong>TUGAS TAMBAHAN</strong></th></tr>
                                                 <?php endif; ?>
@@ -114,14 +128,15 @@ $keyword = isset($keyword) ? $keyword : '';
                                                         <td class="text-center"><?php echo $kualitas_target ?></td>
                                                         <td class="text-center"><?php echo $waktu_target ?></td>
                                                         <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_target, 0, ',', '.') ?></td>
-                                                        <td class="text-center"><?php echo $kuantitas_real; // . " " . show_skpt_output($row->real_output)       ?></td>
+                                                        <td class="text-center"><?php echo $kuantitas_real; // . " " . show_skpt_output($row->real_output)        ?></td>
                                                         <td class="text-center"><?php echo number_format($kualitas_real, 2, ',', '.') ?></td>
                                                         <td class="text-center"><?php echo $waktu_real ?></td>
                                                         <td class="text-right"><span class="pull-left">Rp. </span><?php echo number_format($biaya_real, 0, ',', '.') ?></td>
                                                         <td class="text-right"><?php echo number_format($row->real_hitung, 0, ',', '.') ?></td>
                                                         <td class="text-right"><?php echo number_format($nilai_skp, 2, ',', '.') ?></td>
                                                     <?php else: ?>
-                                                        <td colspan="10"></td>
+                                                        <td colspan="9"></td>
+                                                        <td class="text-right"><?php echo $valtam; ?></td>
                                                     <?php endif; ?>
                                                     <td class="text-center">
                                                         <div class="btn-group btn-group-sm">
@@ -137,7 +152,7 @@ $keyword = isset($keyword) ? $keyword : '';
                                         <?php endif; ?>
                                     </tbody>
                                 </table>
-                                Total ada <?php echo $total_record ?> data.
+                                <?php /** Total ada <?php echo $total_record ?> data. */ ?>
                             </div>
                         </div>
                         <div class="tab-pane" id="btabs-alt-static-files">
