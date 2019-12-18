@@ -13,9 +13,8 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
     protected $user_profil = NULL;
     public $perwal = NULL;
     protected $backend_url_query;
-    
     protected $auto_load_model = FALSE;
-    
+
     const DIR_TEMP_UPLOAD = ASSET_UPLOAD . '/';
     const DIR_IMP_UPLOAD = ASSET_UPLOAD . '/final/';
 
@@ -30,8 +29,8 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
     protected function after_detail($id = FALSE) {
         return;
     }
-    
-    protected function after_show_detail($detail = FALSE){
+
+    protected function after_show_detail($detail = FALSE) {
         return $detail;
     }
 
@@ -92,9 +91,8 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
         $this->set("controller_location", $this->backend_controller_location);
 
 //        $user_detail = $this->lmanuser->get("user_detail");
-        
     }
-    
+
     protected function get_uploaded_files($upload_random_id) {
         $uploaded_files = FALSE;
         $dir = self::DIR_TEMP_UPLOAD . $upload_random_id . "/";
@@ -103,7 +101,7 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
         }
         return $uploaded_files;
     }
-    
+
     public function temp_upload() {
 //        $postdata = file_get_contents("php://input");
         $file_id = $this->input->post('file_id');
@@ -169,7 +167,7 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
         }
         exit;
     }
-    
+
     private function generate_cetak_skp($pegawai_detail, $skpt, $perilaku = FALSE) {
 
         $this->load->library('Calcel');
@@ -228,39 +226,55 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
                     ->setCellValue('S' . $row, number_format($nilai_skp, 2, '.', ','));
             $key++;
         }
+
         $baseRow = $row + 3;
         $row = 0;
         $rc_tugas_tambahan = count($skp_tugas_tambahan) - 1;
+        $jml_tugas_tambahan_diakui = 0;
         $active_sheet->insertNewRowBefore($baseRow, $rc_tugas_tambahan);
         $key = 0;
+        $ktam = 0;
         $three = 3;
         foreach ($skp_tugas_tambahan as $record) {
-            
+            $nilai_tugas_tambahan = get_summary_nilai_tgs_tambahan_from_json($record->nilai_tugas_tambahan);
+            $strike_desc = $nilai_tugas_tambahan === 0 ? TRUE : FALSE;
+
             $nilai_skp = hitung_nilai_capaian($record->real_nilai_biaya, $record->real_hitung);
 
             $total += $nilai_skp;
 
             $row = $baseRow + $key;
             $val = "";
-            if ($three == 3 && $key < 8) {
-                $val = "1";
+            if ($nilai_tugas_tambahan!==0) {
+                $jml_tugas_tambahan_diakui++;
+                if ($three == 3 && $ktam < 8) {
+                    $val = "1";
+                }
+                $three--;
+                if ($three == 0) {
+                    $three = 3;
+                }
+                $ktam++;
             }
-            $three--;
-            if ($three == 0) {
-                $three = 3;
-            }
+
+
             $active_sheet->setCellValue('A' . $row, $key + 1)
                     ->setCellValue('B' . $row, beautify_str($record->skpt_kegiatan))
                     ->setCellValue('S' . $row, $val);
+            
+            if ($strike_desc) {
+                $active_sheet->getStyle('B' . $row)->getFont()->setStrikethrough(TRUE);
+            }
             $key++;
         }
 
-        $nilai_tgs_tambahan = show_nilai_tgstambahan($rc_tugas_tambahan+1);
-        list($nilai_huruf, $nilai_capaian) = show_nilai_huruf($total, ($rc_tugas_pokok+1), $nilai_tgs_tambahan);
+//        $nilai_tgs_tambahan = show_nilai_tgstambahan($rc_tugas_tambahan + 1);
+        $nilai_tgs_tambahan = show_nilai_tgstambahan($jml_tugas_tambahan_diakui);
+        list($nilai_huruf, $nilai_capaian) = show_nilai_huruf($total, ($rc_tugas_pokok + 1), $nilai_tgs_tambahan);
 
-        $active_sheet->setCellValue('S'.($row+1), number_format($nilai_capaian, 2, '.', ','));
-        $active_sheet->setCellValue('S'.($row+2), beautify_str($nilai_huruf));
-        
+        $active_sheet->setCellValue('S' . ($row + 1), number_format($nilai_capaian, 2, '.', ','));
+        $active_sheet->setCellValue('S' . ($row + 2), beautify_str($nilai_huruf));
+
         $active_sheet = $this->calcel->setActiveSheetIndexByName("DP3");
 
         $active_sheet->setCellValue('E6', $perilaku->perilaku_pelayanan);
@@ -269,7 +283,7 @@ class Skarsiparis_cmain extends Lwpustaka_Data {
         $active_sheet->setCellValue('E9', $perilaku->perilaku_disiplin);
         $active_sheet->setCellValue('E10', $perilaku->perilaku_kerjasama);
         $active_sheet->setCellValue('E11', $perilaku->perilaku_kepemimpinan);
-        
+
         $active_sheet = $this->calcel->setActiveSheetIndexByName("SKP");
 
 //        if ($zip) {
