@@ -149,7 +149,7 @@ $config['modul_action_configuration'] = array(
         "read" => array("accept", "reject", "get_like_pegawai_audien", "get_like_pegawai_all_not_self", "cetakskp"),
     ),
     "pskp" => array(
-        "insert" => array("lembar_penilaian", "penilaian"),
+        "insert" => array("lembar_penilaian", "penilaian", "ptugas_tambahan"),
     ),
     "rskp" => array(
         "read" => array("laporan", "banding", "cetakskp"),

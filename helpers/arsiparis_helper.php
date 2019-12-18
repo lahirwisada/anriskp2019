@@ -11,16 +11,77 @@ if (!function_exists('show_nilai_huruf')) {
 
 }
 
-if(!function_exists('filter_skp_tugaspokok')){
-    function filter_skp_tugaspokok($record){
+if (!function_exists('filter_skp_tugaspokok')) {
+
+    function filter_skp_tugaspokok($record) {
         return $record->is_tugas_tambahan != 1;
     }
+
 }
 
-if(!function_exists('filter_skp_tugastambahan')){
-    function filter_skp_tugastambahan($record){
+if (!function_exists('filter_skp_tugastambahan')) {
+
+    function filter_skp_tugastambahan($record) {
         return $record->is_tugas_tambahan == 1;
     }
+
+}
+
+if (!function_exists('get_summary_nilai_tgs_tambahan_from_json')) {
+
+    function get_summary_nilai_tgs_tambahan_from_json($json_tgs_tambahan) {
+        $obj_nilai_tambahan = json_decode($json_tgs_tambahan);
+        if (is_null($json_tgs_tambahan) || $obj_nilai_tambahan === NULL) {
+            return NULL;
+        }
+
+        /**
+         * Template JSON nilai Tugas Tambahan
+         *  {"array": [{"id": "203", "status_nilai": "0"}], "status_summary": "0"}
+         */
+        $arr_id_penilai = array_column($obj_nilai_tambahan->array, "id");
+        $arr_status_nilai = array_column($obj_nilai_tambahan->array, "status_nilai");
+        $arr_len = count($arr_status_nilai);
+        $tot = array_sum($arr_status_nilai);
+
+        $status_nilai = 0;
+
+        if (($arr_len > 2 && $tot >= 2) || ($arr_len == 2 && $tot > 1) || ($arr_len == 1 && $tot >= 1))
+            $status_nilai = 1;
+
+        unset($obj_nilai_tambahan, $arr_id_penilai, $arr_status_nilai);
+
+        return $status_nilai;
+    }
+
+}
+
+if (!function_exists('get_nilai_tgs_tambahan_by_ipeg_from_json')) {
+
+    function get_nilai_tgs_tambahan_by_ipeg_from_json($json_tgs_tambahan, $id_pegawai) {
+        $obj_nilai_tambahan = json_decode($json_tgs_tambahan);
+        if (is_null($json_tgs_tambahan) || !$id_pegawai || $obj_nilai_tambahan === NULL) {
+            return NULL;
+        }
+
+        /**
+         * Template JSON nilai Tugas Tambahan
+         *  {"array": [{"id": "203", "status_nilai": "0"}], "status_summary": "0"}
+         */
+        $arr_id_penilai = array_column(toArray($obj_nilai_tambahan->array), "id");
+        $arr_status_nilai = array_column(toArray($obj_nilai_tambahan->array), "status_nilai");
+        $found_penilai = array_search($id_pegawai, $arr_id_penilai);
+        $status_nilai = NULL;
+        if ($found_penilai !== FALSE) {
+            $status_nilai = $arr_status_nilai[$found_penilai];
+        }
+        $summary = $obj_nilai_tambahan->status_summary;
+
+        unset($obj_nilai_tambahan, $arr_id_penilai, $arr_status_nilai, $found_penilai);
+
+        return array($status_nilai, $summary);
+    }
+
 }
 
 if (!function_exists('show_nilai_tgstambahan')) {
@@ -32,9 +93,10 @@ if (!function_exists('show_nilai_tgstambahan')) {
 
 }
 
-if(!function_exists('get_nilai_akk_akth')){
-    function get_nilai_akk_akth($pegawai_detail = FALSE){
-        if($pegawai_detail){
+if (!function_exists('get_nilai_akk_akth')) {
+
+    function get_nilai_akk_akth($pegawai_detail = FALSE) {
+        if ($pegawai_detail) {
             $akkth_ini = $pegawai_detail->akt_ini;
             if (is_null($pegawai_detail->akt_ini)):
                 $akkth_ini = calculate_nilai_akt($pegawai_detail->nilai_kinerja, $pegawai_detail->jabfungsional);
@@ -47,6 +109,7 @@ if(!function_exists('get_nilai_akk_akth')){
         }
         return [NULL, NULL];
     }
+
 }
 
 if (!function_exists('get_nilai_huruf')) {

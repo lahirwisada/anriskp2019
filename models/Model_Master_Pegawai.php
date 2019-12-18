@@ -85,7 +85,7 @@ class Model_Master_Pegawai extends Master_Pegawai {
         $sql_tgs_tambahan = "select skpt.id_pegawai, CEIL(flwsdivide(COUNT(skpt.id_skpt), 3)) as nilai_tgstambahan from tr_skp_tahunan skpt where "
                 . $condition_id_pegawai
                 . " skpt.skpt_tahun = '" . $this->berita_acara_tahun . "'"
-                . " AND skpt.is_tugas_tambahan = '1' AND `skpt`.`skpt_status` IN (2, 3)"
+                . " AND skpt.is_tugas_tambahan = '1' AND `skpt`.`skpt_status` IN (2, 3) AND (nilai_tugas_tambahan->>'$.status_summary' > 1 OR nilai_tugas_tambahan IS NULL)"
                 . " GROUP BY skpt.id_pegawai ";
 
         $sql_agg = "select "

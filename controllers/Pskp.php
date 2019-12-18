@@ -46,20 +46,20 @@ class Pskp extends Skarsiparis_cmain {
                     "record_found" => 0,
                     "keyword" => ''
         );
-        
+
         $uploaded_files = FALSE;
         $perilaku = FALSE;
         if ($pegawai) {
             $records = $this->model_tr_vskp->get_persetujuan($pegawai_id, $tahun_skp, 2);
-            
+
             $rakt = $this->model_tr_akt->detail_by_id_pegawai_tahun($pegawai_id, $tahun_skp);
-            if($rakt){
+            if ($rakt) {
                 $random_id = $rakt->upload_random_id;
                 $uploaded_files = $this->get_uploaded_files($random_id);
             }
-            
+
             $perilaku = $this->model_tr_perilaku->get_perilaku_by_id($pegawai_id, $tahun_skp);
-            
+
             unset($rakt);
         }
 
@@ -70,9 +70,11 @@ class Pskp extends Skarsiparis_cmain {
             "#" => $this->_header_title
         ));
 
+        $this->set('current_id_pegawai', $this->user_detail["id_pegawai"]);
         $this->set('perilaku', $perilaku);
         $this->set('thrandom_id', $random_id);
         $this->set('thuploaded_files', $uploaded_files);
+        $this->set('selected_id_pegawai', $id_pegawai);
         $this->set('records', $records->record_set);
         $this->set('id_user', add_salt_to_string($this->user_detail["id_user"]));
         $this->set('total_record', $records->record_found);
@@ -88,6 +90,67 @@ class Pskp extends Skarsiparis_cmain {
 
         $this->add_cssfiles(array("plugins/select2/select2.min.css"));
         $this->add_jsfiles(array("plugins/select2/select2.full.min.js"));
+    }
+
+    public function ptugas_tambahan($crypt_id_skpt = FALSE, $crypt_action = FALSE) {
+        if (!$crypt_id_skpt || !$crypt_action) {
+            redirect('pskp');
+        }
+
+        $id_skpt = extract_id_with_salt($crypt_id_skpt);
+        $action = extract_id_with_salt($crypt_action);
+
+        $detail_skpt = $this->model_tr_vskp->show_detail($id_skpt);
+        $status_nilai = $action == 2 ? "0" : "1";
+        if ($detail_skpt) {
+            $json_nilai = json_decode($detail_skpt->nilai_tugas_tambahan);
+            $nilai = NULL;
+            $penilaian = (object) array(
+                        "id" => $this->user_detail["id_pegawai"],
+                        "status_nilai" => $status_nilai
+            );
+//            var_dump($json_nilai);exit;
+            if ((is_null($json_nilai)) || ($json_nilai && count(toArray($json_nilai->array)) == 0)) {
+                $json_nilai = (object) array(
+                            "array" => array(
+                                $penilaian
+                            ),
+                            "status_summary" => "0"
+                );
+            } else {
+                $arr_penilai = array_column(toArray($json_nilai->array), "id");
+                $arr_status_nilai = array_column(toArray($json_nilai->array), "status_nilai");
+
+                $key_found = array_search($this->user_detail["id_pegawai"], $arr_penilai);
+
+                if ($key_found !== FALSE) {
+                    unset($arr_penilai[$key_found], $arr_status_nilai[$key_found]);
+                }
+
+                $arr_penilai[] = $this->user_detail["id_pegawai"];
+                $arr_status_nilai[] = $status_nilai;
+
+                $arr_penilaian = array();
+
+                foreach ($arr_penilai as $key => $val) {
+                    $arr_penilaian[] = (object) array(
+                                "id" => $arr_penilai[$key],
+                                "status_nilai" => $arr_status_nilai[$key]
+                    );
+                }
+
+                $json_nilai->array = $arr_penilaian;
+            }
+
+            $json_string = json_encode($json_nilai);
+            $this->model_tr_vskp->nilai_tugas_tambahan = $json_string;
+            $this->model_tr_vskp->save($id_skpt);
+        }
+
+        $tahun_skp = $this->input->get_post('tahun_skp', TRUE);
+        $nip = trim($this->get_post_nip(0));
+
+        redirect('pskp?tahun_skp=' . $tahun_skp . '&nip=' . $nip);
     }
 
     public function lembar_penilaian($crypt_id_skpt = FALSE) {
@@ -114,9 +177,9 @@ class Pskp extends Skarsiparis_cmain {
         $request_by_ajax = $this->input->get_post('ajxon');
 
         if ($request_by_ajax) {
-            echo toJsonString((object)array(
-                "success" => '1',
-                "res_id" => $id
+            echo toJsonString((object) array(
+                        "success" => '1',
+                        "res_id" => $id
             ));
             exit;
         }
@@ -138,13 +201,13 @@ class Pskp extends Skarsiparis_cmain {
             "penilai_message",
             "real_output",
         ));
-        
+
         $request_by_ajax = $this->input->get_post('ajxon');
 
         if ($request_by_ajax) {
             echo toJsonString((object) array(
-                "success" => '0',
-                "res_id" => FALSE
+                        "success" => '0',
+                        "res_id" => FALSE
             ));
             exit;
         }

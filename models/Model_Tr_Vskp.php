@@ -27,7 +27,7 @@ class Model_Tr_Vskp extends Model_Tr_Skp_Tahunan {
         );
         $sql = "IFNULL(real_nilai_kualitas, 0) as telahdinilai";
         $this->db->select($sql);
-        $this->db->where("is_tugas_tambahan = 0");
+//        $this->db->where("is_tugas_tambahan = 0");
     }
 
     public function all($force_limit = FALSE, $force_offset = FALSE) {

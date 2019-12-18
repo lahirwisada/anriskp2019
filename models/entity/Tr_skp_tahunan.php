@@ -36,6 +36,7 @@ class Tr_skp_tahunan extends MY_Model {
         "skpt_real_kualitas" => array("skpt_real_kualitas", "skpt_real_kualitas"),
         "skpt_real_waktu" => array("skpt_real_waktu", "skpt_real_waktu"),
         "upload_random_id" => array("upload_random_id", "upload_random_id"),
+        "nilai_tugas_tambahan" => array("nilai_tugas_tambahan", "nilai_tugas_tambahan"),
     );
     
     protected $rules = array(
@@ -57,6 +58,7 @@ class Tr_skp_tahunan extends MY_Model {
         array("is_tugas_tambahan", "integer"),
         array("skpt_real_waktu", "integer"),
         array("upload_random_id", "max[200]"),
+        array("nilai_tugas_tambahan", ""),
     );
     protected $related_tables = array(
         "master_pegawai" => array(

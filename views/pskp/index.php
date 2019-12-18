@@ -7,6 +7,8 @@ $tgl_aktivitas = isset($tgl_aktivitas) ? $tgl_aktivitas : date('d-m-Y');
 $nip = isset($nip) ? $nip : '';
 $perilaku = isset($perilaku) ? $perilaku : FALSE;
 $detail_pegawai = isset($detail_pegawai) ? $detail_pegawai : '';
+$current_id_pegawai = isset($current_id_pegawai) ? $current_id_pegawai : FALSE;
+$selected_id_pegawai = isset($selected_id_pegawai) ? $selected_id_pegawai : "";
 
 $skpt_ouput = get_skpt_output();
 $status = get_skpt_status();
@@ -111,25 +113,54 @@ $label = get_skpt_label();
                                             <tbody>
                                                 <?php if ($records != FALSE): ?>
                                                     <?php foreach ($records as $key => $record): ?>
+                                                        <?php
+                                                        $rspan = $record->is_tugas_tambahan == 1 ? 1 : 2;
+                                                        $nilai_tugas_tambahan = FALSE;
+                                                        $summary_nilai_tgstambahan = FALSE;
+                                                        if ($record->is_tugas_tambahan && !is_null($record->nilai_tugas_tambahan)) {
+                                                            list($nilai_tugas_tambahan, $summary_nilai_tgstambahan) = get_nilai_tgs_tambahan_by_ipeg_from_json($record->nilai_tugas_tambahan, $current_id_pegawai);
+                                                        }
+
+                                                        $strike_desc = $nilai_tugas_tambahan === FALSE || $nilai_tugas_tambahan > 0 ? "" : "text-decoration: line-through !important;";
+                                                        ?>
                                                         <tr class="<?php echo $record->telahdinilai > 0 ? "bg-cyan-lighter-important" : ""; ?>">
-                                                            <td class="text-right" rowspan="3"><?php echo $next_list_number++ ?></td>
-                                                            <td rowspan="2"><?php echo beautify_str($record->deskripsi_dupnk) ?></td>
-                                                            <td><?php echo $record->skpt_kuantitas . " " . $skpt_ouput[$record->skpt_output] ?></td>
-                                                            <td class="text-right"><?php echo $record->skpt_kualitas ?></td>
-                                                            <td class="text-right"><?php echo $record->skpt_waktu ?></td>
-                                                            <td class="text-right" rowspan="2"><span class="pull-left">Rp. </span><?php echo number_format($record->skpt_biaya, 0, ',', '.') ?></td>
-                                                            <td class="text-center" rowspan="2"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
-                                                            <td class="text-center" rowspan="2">
+                                                            <td class="text-right" rowspan="<?php echo ($rspan + 1); ?>"><?php echo $next_list_number++ ?></td>
+                                                            <td rowspan="<?php echo $rspan; ?>">
+                                                                <?php if ($record->is_tugas_tambahan): ?>
+                                                                    <button class="btn btn-xs btn-app-teal-outline disabled" type="button">Tugas Tambahan</button><br />
+                                                                <?php endif; ?>
+                                                                <span style="<?php echo $strike_desc; ?>"><?php echo beautify_str($record->deskripsi_dupnk) ?></span>
+                                                            </td>
+                                                            <?php if (!$record->is_tugas_tambahan): ?>
+                                                                <td><?php echo $record->skpt_kuantitas . " " . $skpt_ouput[$record->skpt_output] ?></td>
+                                                                <td class="text-right"><?php echo $record->skpt_kualitas ?></td>
+                                                                <td class="text-right"><?php echo $record->skpt_waktu ?></td>
+                                                                <td class="text-right" rowspan="2"><span class="pull-left">Rp. </span><?php echo number_format($record->skpt_biaya, 0, ',', '.') ?></td>
+
+                                                            <?php else: ?>
+                                                                <td class="text-center" colspan="4">
+
+                                                                </td>
+                                                            <?php endif; ?>
+                                                            <td class="text-center" rowspan="<?php echo $rspan; ?>"><span class="label <?php echo $label[$record->skpt_status] ?>"><?php echo $status[$record->skpt_status] ?></span></td>
+                                                            <td class="text-center" rowspan="<?php echo $rspan; ?>">
                                                                 <div class="btn-group btn-group-sm">
-                                                                    <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/lembar_penilaian") . "/" . add_salt_to_string($record->id_skpt); ?>">Nilai</a>
+                                                                    <?php if (!$record->is_tugas_tambahan): ?>
+                                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/lembar_penilaian") . "/" . add_salt_to_string($record->id_skpt); ?>">Nilai</a>
+                                                                    <?php else: ?>
+                                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/ptugas_tambahan") . "/" . add_salt_to_string($record->id_skpt) . "/" . add_salt_to_string(1)."?tahun_skp=".$tahun_skp."&nip=".$selected_id_pegawai; ?>">Terima</a>
+                                                                        <a class="btn btn-sm btn-default" href="<?php echo base_url($active_modul . "/ptugas_tambahan") . "/" . add_salt_to_string($record->id_skpt) . "/" . add_salt_to_string(2)."?tahun_skp=".$tahun_skp."&nip=".$selected_id_pegawai; ?>">Tolak</a>
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                        <tr class="<?php echo $record->telahdinilai > 0 ? "bg-cyan-lighter-important" : ""; ?>">
-                                                            <td><strong><?php echo $record->skpt_real_kuantitas . " " . $skpt_ouput[$record->skpt_real_output] ?></strong></td>
-                                                            <td class="text-right"><strong><?php echo $record->skpt_real_kualitas ?></strong></td>
-                                                            <td class="text-right"><strong><?php echo $record->skpt_real_waktu ?></strong></td>
-                                                        </tr>
+                                                        <?php if (!$record->is_tugas_tambahan): ?>
+                                                            <tr class="<?php echo $record->telahdinilai > 0 ? "bg-cyan-lighter-important" : ""; ?>">
+                                                                <td><strong><?php echo $record->skpt_real_kuantitas . " " . $skpt_ouput[$record->skpt_real_output] ?></strong></td>
+                                                                <td class="text-right"><strong><?php echo $record->skpt_real_kualitas ?></strong></td>
+                                                                <td class="text-right"><strong><?php echo $record->skpt_real_waktu ?></strong></td>
+                                                            </tr>
+                                                        <?php endif; ?>
                                                         <tr class="<?php echo $record->telahdinilai > 0 ? "bg-cyan-lighter-important" : ""; ?>">
                                                             <td colspan="7">
                                                                 <?php if ($record->uploaded_files && !empty($record->uploaded_files)): ?>
