@@ -49,12 +49,12 @@ class Model_Backbone_Modul extends Backbone_Modul {
          */
 
         if ($this->user_detail) {
-            $this->db->join($this->schema_name . ".backbone_modul_role", $this->schema_name . ".backbone_modul_role.id_modul = " . $this->schema_name . ".backbone_modul.id_modul");
-            $this->db->join($this->schema_name . ".backbone_role", $this->schema_name . ".backbone_role.id_role = " . $this->schema_name . ".backbone_modul_role.id_role");
-            $this->db->join($this->schema_name . ".backbone_user_role", $this->schema_name . ".backbone_user_role.id_role = " . $this->schema_name . ".backbone_role.id_role");
-            $this->db->join($this->schema_name . ".backbone_user", $this->schema_name . ".backbone_user.id_user = " . $this->schema_name . ".backbone_user_role.id_user");
+            $this->db->join($this->get_schema_name("backbone_modul_role"), $this->get_schema_name("backbone_modul_role") . ".id_modul = " . $this->get_schema_name("backbone_modul") . ".id_modul");
+            $this->db->join($this->get_schema_name("backbone_role"), $this->get_schema_name("backbone_role") . ".id_role = " . $this->get_schema_name("backbone_modul_role") . ".id_role");
+            $this->db->join($this->get_schema_name("backbone_user_role"), $this->get_schema_name("backbone_user_role") . ".id_role = " . $this->get_schema_name("backbone_role") . ".id_role");
+            $this->db->join($this->get_schema_name("backbone_user"), $this->get_schema_name("backbone_user") . ".id_user = " . $this->get_schema_name("backbone_user_role") . ".id_user");
 
-            $this->db->where($this->schema_name . ".backbone_user.username = '" . $this->user_detail['username'] . "'");
+            $this->db->where($this->get_schema_name("backbone_user") . ".username = '" . $this->user_detail['username'] . "'");
         }
         
         $rs_modules = $this->get_all(array(), "show_on_menu = '1'", FALSE, TRUE, 1, TRUE, FALSE, FALSE, 'no_urut');
